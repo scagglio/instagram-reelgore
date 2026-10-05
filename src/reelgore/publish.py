@@ -79,11 +79,38 @@ class Instagram:
             if found:
                 listing = ", ".join(f"@{a.get('username')}={a['id']}" for a in found)
                 raise SystemExit(f"Several IG accounts on this token, none named @{self.want_handle}: {listing}")
+        self._diagnose()
         raise SystemExit(
             "Couldn't find an Instagram business account for this token. Check that @"
             f"{self.want_handle} is a Professional account linked to the Reel Gore Facebook Page, and that the "
             "token has instagram_basic, instagram_content_publish, pages_show_list, pages_read_engagement."
         )
+
+    def _diagnose(self):
+        """Print what the token can actually see, so setup problems are obvious in the log."""
+        def raw(path, **params):
+            params["access_token"] = self.token
+            try:
+                r = requests.get(f"{self.base}/{path}", params=params, timeout=60)
+                return r.json()
+            except Exception as e:
+                return {"error": str(e)}
+        me = raw("me", fields="id,name")
+        print(f"[diagnose] token belongs to: {me.get('name')} (error: {me.get('error', {}).get('message') if isinstance(me.get('error'), dict) else me.get('error')})")
+        perms = raw("me/permissions").get("data", [])
+        granted = sorted(p["permission"] for p in perms if p.get("status") == "granted")
+        print(f"[diagnose] granted permissions: {', '.join(granted) or 'none visible'}")
+        need = {"instagram_basic", "instagram_content_publish", "pages_show_list", "pages_read_engagement"}
+        if perms and need - set(granted):
+            print(f"[diagnose] MISSING permissions: {', '.join(sorted(need - set(granted)))}")
+        pages = raw("me/accounts", fields="name,instagram_business_account{id,username}", limit=100)
+        if "error" in pages:
+            print(f"[diagnose] me/accounts error: {pages['error']}")
+        for p in pages.get("data", []):
+            ig = p.get("instagram_business_account")
+            print(f"[diagnose] Page '{p.get('name')}' -> " + (f"@{ig.get('username')} ({ig['id']})" if ig else "NO linked Instagram account"))
+        if not pages.get("data"):
+            print("[diagnose] token can see no Pages. Re-authorize the app and tick the Reel Gore Page + @reelgore26.")
 
     def _post(self, path, **data):
         data["access_token"] = self.token
