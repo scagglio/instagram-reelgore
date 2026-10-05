@@ -12,6 +12,24 @@
       "headline": "20 Years Ago Today: Leatherface Begins",
       "media_id": "18130729096686546",
       "permalink": "https://www.instagram.com/p/DeHhSq6IF9x/"
+    },
+    {
+      "date": "2026-10-05",
+      "kind": "anniversary",
+      "movie_ids": [
+        20620
+      ],
+      "titles": [
+        "Seconds"
+      ],
+      "headline": "60 Years Ago Today: Seconds Arrived",
+      "media_id": "17905584246590943",
+      "permalink": "https://www.instagram.com/p/DeHk8dQHXkW/",
+      "reel": {
+        "media_id": "17924614638204233",
+        "permalink": "https://www.instagram.com/reel/DeHlCsVDgsR/",
+        "audio": null
+      }
     }
   ]
 }
