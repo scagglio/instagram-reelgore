@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import os
 import random
 from datetime import date, timedelta
 from pathlib import Path
@@ -121,8 +122,15 @@ def pick(tmdb: TMDB, cfg: dict, forced: str = "auto", today: date | None = None)
 def record(plan: dict, permalink: str | None, media_id: str | None, reel: dict | None = None,
            facebook: dict | None = None) -> None:
     h = load_history()
+    try:
+        from zoneinfo import ZoneInfo
+        from datetime import datetime
+        today = datetime.now(ZoneInfo("America/Chicago")).date().isoformat()
+    except Exception:
+        today = date.today().isoformat()
     h["posts"].append({
-        "date": date.today().isoformat(),
+        "date": today,
+        "trigger": os.environ.get("GITHUB_EVENT_NAME", "local"),
         "kind": plan["kind"],
         "movie_ids": [m["id"] for m in plan["movies"]],
         "titles": [m["title"] for m in plan["movies"]],
@@ -131,5 +139,7 @@ def record(plan: dict, permalink: str | None, media_id: str | None, reel: dict |
         "permalink": permalink,
         "reel": reel,
         "facebook": facebook,
+        "watch": plan.get("watch"),
+        "poster": (plan["movies"][0].get("poster") if plan.get("movies") else None),
     })
     save_history(h)

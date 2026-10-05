@@ -2,8 +2,13 @@ name: ReelGore daily post (Instagram + Facebook)
 
 on:
   schedule:
-    # 23:07 UTC = 6:07 PM Central (CDT) / 5:07 PM (CST). Off the top of the hour to dodge Actions congestion.
-    - cron: "7 23 * * *"
+    # GitHub doesn't guarantee scheduled runs (they can be late or dropped), so there are backups.
+    # The first one that runs posts; later ones see today's scheduled post in history and skip.
+    # Times in CDT (subtract 1 hour after the November time change):
+    - cron: "7 23 * * *"    # 6:07 PM
+    - cron: "37 23 * * *"   # 6:37 PM (backup)
+    - cron: "17 0 * * *"    # 7:17 PM (backup)
+    - cron: "47 1 * * *"    # 8:47 PM (last backup)
   workflow_dispatch:
     inputs:
       post_type:
@@ -39,24 +44,47 @@ jobs:
       IG_AUDIO_ID: ${{ vars.IG_AUDIO_ID }}   # optional; pin one Instagram track
       POST_FACEBOOK: ${{ vars.POST_FACEBOOK || 'true' }}
       FB_PAGE_ID: ${{ vars.FB_PAGE_ID }}     # optional; auto-detected from the linked Page
+      AMAZON_ASSOCIATE_TAG: ${{ vars.AMAZON_ASSOCIATE_TAG }}   # optional; e.g. reelgore-20
       DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
     steps:
       - uses: actions/checkout@v4
 
+      - name: Skip if today's scheduled post already went out
+        if: github.event_name == 'schedule'
+        run: |
+          python3 - <<'PY'
+          import json, os, datetime, zoneinfo
+          today = datetime.datetime.now(zoneinfo.ZoneInfo("America/Chicago")).date().isoformat()
+          try:
+              posts = json.load(open("data/history.json"))["posts"]
+          except Exception:
+              posts = []
+          done = any(p.get("date") == today and p.get("trigger") == "schedule" for p in posts)
+          print(f"Central date {today}: scheduled post already done = {done}")
+          if done:
+              with open(os.environ["GITHUB_ENV"], "a") as f:
+                  f.write("SKIP=true\n")
+          PY
+
       - uses: actions/setup-python@v5
+        if: env.SKIP != 'true'
         with:
           python-version: "3.12"
           cache: pip
 
       - run: pip install -r requirements.txt
+        if: env.SKIP != 'true'
 
       - name: Fetch headline font (Bebas Neue, OFL)
+        if: env.SKIP != 'true'
         run: curl -sSfL -o assets/fonts/BebasNeue-Regular.ttf https://github.com/google/fonts/raw/main/ofl/bebasneue/BebasNeue-Regular.ttf || echo "Bebas download failed; falling back to Inter Display Black"
 
       - name: Pick movies, write copy, render slides
+        if: env.SKIP != 'true'
         run: python -m reelgore.main plan --type "${{ inputs.post_type || 'auto' }}"
 
       - name: Save slides as a run artifact (for review)
+        if: env.SKIP != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: reelgore-${{ github.run_id }}
@@ -64,7 +92,7 @@ jobs:
 
       - name: Host slides on the media branch (Instagram needs public image URLs)
         id: host
-        if: env.DRY_RUN != 'true'
+        if: env.SKIP != 'true' && env.DRY_RUN != 'true'
         run: |
           set -e
           DIR="posts/$(date -u +%F)-${{ github.run_id }}"
@@ -90,13 +118,13 @@ jobs:
           sleep 10
 
       - name: Publish carousel to Instagram
-        if: env.DRY_RUN != 'true'
+        if: env.SKIP != 'true' && env.DRY_RUN != 'true'
         run: python -m reelgore.main publish --base-url "${{ steps.host.outputs.base }}"
 
       - name: Commit post history
-        if: env.DRY_RUN != 'true'
+        if: env.SKIP != 'true' && env.DRY_RUN != 'true'
         run: |
-          git add data/history.json
+          git add data/history.json docs/ 2>/dev/null || git add data/history.json
           git commit -m "history: $(date -u +%F) post" || exit 0
           git pull --rebase origin ${{ github.ref_name }}
           git push origin HEAD:${{ github.ref_name }}
