@@ -118,7 +118,8 @@ def pick(tmdb: TMDB, cfg: dict, forced: str = "auto", today: date | None = None)
     return {"kind": "classic", "theme": theme, "movies": [tmdb.details(m["id"])]}
 
 
-def record(plan: dict, permalink: str | None, media_id: str | None, reel: dict | None = None) -> None:
+def record(plan: dict, permalink: str | None, media_id: str | None, reel: dict | None = None,
+           facebook: dict | None = None) -> None:
     h = load_history()
     h["posts"].append({
         "date": date.today().isoformat(),
@@ -129,5 +130,6 @@ def record(plan: dict, permalink: str | None, media_id: str | None, reel: dict |
         "media_id": media_id,
         "permalink": permalink,
         "reel": reel,
+        "facebook": facebook,
     })
     save_history(h)

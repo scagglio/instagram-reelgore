@@ -91,9 +91,50 @@ def cmd_publish(args):
         except Exception as e:
             reel_error = e
             print(f"[publish] reel FAILED (carousel is already live): {e}")
-    record(plan, link, mid, reel=reel)
-    if reel_error:
+    fb, fb_error = crosspost_facebook(ig, plan, urls)
+    record(plan, link, mid, reel=reel, facebook=fb)
+    if reel_error or fb_error:
         raise SystemExit(1)
+
+
+def facebook_message(plan: dict, cfg: dict) -> str:
+    """Facebook favors fewer hashtags than Instagram: caption + IG plug + a handful of tags."""
+    fcfg = cfg.get("facebook", {})
+    tags = plan["copy"].get("hashtags", [])[: int(fcfg.get("max_hashtags", 4))]
+    plug = fcfg.get("instagram_plug", "").format(handle=cfg["account"]["handle"])
+    parts = [plan["copy"]["caption"].strip(), plug, "Movie data & images: TMDB.", " ".join(tags)]
+    return "\n\n".join(p for p in parts if p)
+
+
+def crosspost_facebook(ig, plan: dict, urls: list[str]):
+    cfg = load_cfg()
+    fcfg = cfg.get("facebook", {})
+    if os.environ.get("POST_FACEBOOK", "true").lower() == "false" or not fcfg.get("enabled", True):
+        return None, None
+    if "instagram.com" in ig.base:
+        print("[facebook] skipped: Facebook cross-posting needs a Facebook Login (EAA...) token")
+        return None, None
+    from .facebook import FacebookPage
+    result, error = {}, None
+    try:
+        page = FacebookPage(ig.token, ig.user, ig.base.rsplit("/", 1)[-1])
+        msg = facebook_message(plan, cfg)
+        if fcfg.get("post_photos", True):
+            try:
+                result["post_id"] = page.photos(urls, msg)
+            except Exception as e:
+                error = e
+                print(f"[facebook] photo post FAILED: {e}")
+        if fcfg.get("post_reel", True) and plan.get("reel") and (OUT / plan["reel"]).exists():
+            try:
+                result["reel_id"] = page.reel(OUT / plan["reel"], msg)
+            except Exception as e:
+                error = e
+                print(f"[facebook] reel FAILED: {e}")
+    except Exception as e:
+        error = e
+        print(f"[facebook] cross-post FAILED (Instagram posts are live): {e}")
+    return result or None, error
 
 
 def cmd_demo(args):
