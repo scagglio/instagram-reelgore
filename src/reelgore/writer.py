@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 import os
 
 TOOL = {
@@ -83,30 +84,74 @@ def write_copy(plan: dict, cfg: dict) -> dict:
         f"FACTS (the only facts you may state):\n{_facts(plan)}\n\nSubmit the result with the submit_carousel tool."
     )
     client = anthropic.Anthropic()
-    kwargs = dict(
-        max_tokens=4096,
-        system=cfg["voice"],
-        tools=[TOOL],
-        tool_choice={"type": "tool", "name": "submit_carousel"},
-        messages=[{"role": "user", "content": prompt}],
-    )
     wanted = os.environ.get("CLAUDE_MODEL", "").strip()
+    model = wanted or _pick_model(client)
+    base = dict(max_tokens=8000, system=cfg["voice"], tools=[TOOL],
+                messages=[{"role": "user", "content": prompt}])
+
+    def call(model):
+        try:
+            return client.messages.create(
+                model=model, tool_choice={"type": "tool", "name": "submit_carousel"}, **base)
+        except anthropic.BadRequestError as e:
+            if "tool_choice" not in str(e):
+                raise
+            # Some models (e.g. always-thinking ones) only allow tool_choice auto.
+            print(f"[writer] {model} doesn't support forced tool_choice; using auto")
+            return client.messages.create(model=model, **base)
+
     try:
-        msg = client.messages.create(model=wanted or _pick_model(client), **kwargs)
+        msg = call(model)
     except anthropic.NotFoundError:
-        # Configured model isn't available to this key (renamed/retired) -> use the newest Sonnet it can see.
-        fallback = _pick_model(client)
-        print(f"[writer] model '{wanted}' not found, falling back to '{fallback}'")
-        msg = client.messages.create(model=fallback, **kwargs)
-    block = next((b for b in msg.content if getattr(b, "type", "") == "tool_use"), None)
-    if block is None:
-        raise RuntimeError(f"Claude returned no carousel (stop_reason={msg.stop_reason})")
-    if msg.stop_reason == "max_tokens":
-        print("[writer] warning: response hit max_tokens; copy may be incomplete")
-    copy = dict(block.input)
-    if not copy.get("slides"):
-        raise RuntimeError("Claude returned a carousel with no slides")
+        model = _pick_model(client)
+        print(f"[writer] model '{wanted}' not found, falling back to '{model}'")
+        msg = call(model)
+
+    print(f"[writer] model={model} stop_reason={msg.stop_reason}")
+    copy = _extract(msg)
+    if not copy or not copy.get("slides"):
+        raise RuntimeError("Claude returned no usable carousel copy")
     return _clamp(copy, plan, cfg)
+
+
+def _extract(msg) -> dict | None:
+    """Prefer the tool_use payload; otherwise parse JSON out of the text leniently."""
+    for b in msg.content:
+        if getattr(b, "type", "") == "tool_use" and b.name == "submit_carousel":
+            return dict(b.input)
+    text = "".join(getattr(b, "text", "") for b in msg.content if getattr(b, "type", "") == "text")
+    return _loose_json(text)
+
+
+def _loose_json(text: str) -> dict | None:
+    text = re.sub(r"```(?:json)?", "", text)
+    start = text.find("{")
+    if start < 0:
+        return None
+    # Walk to the matching closing brace, respecting strings.
+    depth, in_str, esc, end = 0, False, False, None
+    for i, ch in enumerate(text[start:], start):
+        if in_str:
+            esc = (ch == "\\") and not esc
+            if ch == '"' and not esc:
+                in_str = False
+            continue
+        if ch == '"':
+            in_str = True
+        elif ch == "{":
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+            if depth == 0:
+                end = i + 1
+                break
+    blob = text[start:end] if end else text[start:]
+    blob = re.sub(r"(?m)^\s*//.*$", "", blob)          # whole-line // comments
+    blob = re.sub(r",\s*([}\]])", r"\1", blob)         # trailing commas
+    try:
+        return json.loads(blob)
+    except json.JSONDecodeError:
+        return None
 
 
 def _pick_model(client) -> str:
