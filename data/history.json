@@ -40,6 +40,28 @@
         "permalink": "https://www.instagram.com/reel/DeHl21UDPvo/",
         "audio": null
       }
+    },
+    {
+      "date": "2026-10-05",
+      "kind": "classic",
+      "movie_ids": [
+        136
+      ],
+      "titles": [
+        "Freaks"
+      ],
+      "headline": "FROM THE CRYPT: Freaks (1932)",
+      "media_id": "18113787359122018",
+      "permalink": "https://www.instagram.com/p/DeHn1XTlIGC/",
+      "reel": {
+        "media_id": "18157594729511605",
+        "permalink": "https://www.instagram.com/reel/DeHn9Htilrz/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1746568914136302",
+        "reel_id": "1622298959616755"
+      }
     }
   ]
 }
