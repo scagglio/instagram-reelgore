@@ -62,6 +62,31 @@
         "post_id": "143228379052099_1746568914136302",
         "reel_id": "1622298959616755"
       }
+    },
+    {
+      "date": "2026-10-05",
+      "trigger": "workflow_dispatch",
+      "kind": "anniversary",
+      "movie_ids": [
+        20620
+      ],
+      "titles": [
+        "Seconds"
+      ],
+      "headline": "SECONDS Turns 60 Years Old Today",
+      "media_id": "17994349661842723",
+      "permalink": "https://www.instagram.com/p/DeIbx0ana1z/",
+      "reel": {
+        "media_id": "18071769677772594",
+        "permalink": "https://www.instagram.com/reel/DeIb0gjjs2u/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1746888594104334",
+        "reel_id": "1120096013850428"
+      },
+      "watch": null,
+      "poster": "/5G3q3OvulFTnFdiouaZdD8wjtIc.jpg"
     }
   ]
 }
