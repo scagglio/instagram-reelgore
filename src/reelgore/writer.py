@@ -3,25 +3,37 @@ from __future__ import annotations
 
 import json
 import os
-import re
 
-SCHEMA = """Return ONLY a JSON object, no prose, with this shape:
-{
-  "headline": "cover hook, max 8 words, ALL CAPS friendly",
-  "subhead": "one short line under the hook, max 12 words",
-  "slides": [
-    {
-      "type": "movie" | "text" | "verdict" | "cta",
-      "movie_index": 0,            // which movie in FACTS this slide is about
-      "kicker": "tiny label above title, max 4 words (e.g. 'IN THEATERS OCT 17')",
-      "title": "max 6 words",
-      "body": "max 38 words",
-      "skulls": 0                  // verdict slides only: 1-5 skull rating
-    }
-  ],
-  "caption": "Instagram caption, 60-150 words, hook first line, ends with a question to drive comments",
-  "hashtags": ["#tag", "..."]      // 6-10 niche tags specific to these movies/sub-genre
-}"""
+TOOL = {
+    "name": "submit_carousel",
+    "description": "Submit the finished Instagram carousel copy.",
+    "input_schema": {
+        "type": "object",
+        "required": ["headline", "subhead", "slides", "caption", "hashtags"],
+        "properties": {
+            "headline": {"type": "string", "description": "Cover hook, max 8 words"},
+            "subhead": {"type": "string", "description": "One short line under the hook, max 12 words"},
+            "slides": {
+                "type": "array",
+                "description": "Body slides after the cover, in order",
+                "items": {
+                    "type": "object",
+                    "required": ["type", "movie_index", "kicker", "title", "body"],
+                    "properties": {
+                        "type": {"type": "string", "enum": ["movie", "text", "verdict", "cta"]},
+                        "movie_index": {"type": "integer", "description": "Index into FACTS of the movie this slide is about"},
+                        "kicker": {"type": "string", "description": "Tiny label above the title, max 4 words"},
+                        "title": {"type": "string", "description": "Max 6 words"},
+                        "body": {"type": "string", "description": "Max 38 words"},
+                        "skulls": {"type": "integer", "minimum": 0, "maximum": 5, "description": "Verdict slides only: 1-5"},
+                    },
+                },
+            },
+            "caption": {"type": "string", "description": "60-150 words, hook first line, ends with a question to drive comments"},
+            "hashtags": {"type": "array", "items": {"type": "string"}, "description": "6-10 niche tags for these movies/sub-genre"},
+        },
+    },
+}
 
 BRIEFS = {
     "upcoming_roundup": (
@@ -68,10 +80,16 @@ def write_copy(plan: dict, cfg: dict) -> dict:
     prompt = (
         f"{brief}\n\nTotal slides including cover must be between {s['count_min']} and {s['count_max']} "
         f"(the cover is generated from headline/subhead and is NOT in the slides array).\n\n"
-        f"FACTS (the only facts you may state):\n{_facts(plan)}\n\n{SCHEMA}"
+        f"FACTS (the only facts you may state):\n{_facts(plan)}\n\nSubmit the result with the submit_carousel tool."
     )
     client = anthropic.Anthropic()
-    kwargs = dict(max_tokens=2500, system=cfg["voice"], messages=[{"role": "user", "content": prompt}])
+    kwargs = dict(
+        max_tokens=4096,
+        system=cfg["voice"],
+        tools=[TOOL],
+        tool_choice={"type": "tool", "name": "submit_carousel"},
+        messages=[{"role": "user", "content": prompt}],
+    )
     wanted = os.environ.get("CLAUDE_MODEL", "").strip()
     try:
         msg = client.messages.create(model=wanted or _pick_model(client), **kwargs)
@@ -80,8 +98,14 @@ def write_copy(plan: dict, cfg: dict) -> dict:
         fallback = _pick_model(client)
         print(f"[writer] model '{wanted}' not found, falling back to '{fallback}'")
         msg = client.messages.create(model=fallback, **kwargs)
-    text = "".join(b.text for b in msg.content if getattr(b, "type", "") == "text")
-    copy = json.loads(re.search(r"\{.*\}", text, re.S).group(0))
+    block = next((b for b in msg.content if getattr(b, "type", "") == "tool_use"), None)
+    if block is None:
+        raise RuntimeError(f"Claude returned no carousel (stop_reason={msg.stop_reason})")
+    if msg.stop_reason == "max_tokens":
+        print("[writer] warning: response hit max_tokens; copy may be incomplete")
+    copy = dict(block.input)
+    if not copy.get("slides"):
+        raise RuntimeError("Claude returned a carousel with no slides")
     return _clamp(copy, plan, cfg)
 
 
