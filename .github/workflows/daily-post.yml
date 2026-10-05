@@ -66,20 +66,21 @@ jobs:
           DIR="posts/$(date -u +%F)-${{ github.run_id }}"
           git config user.name "reelgore-bot"
           git config user.email "reelgore-bot@users.noreply.github.com"
-          cp -r out /tmp/slides
-          git fetch origin media || true
-          if git show-ref --quiet refs/remotes/origin/media; then
-            git switch -c media origin/media
+          # Build the media branch in a separate worktree so the main checkout never changes branch.
+          MEDIA="$RUNNER_TEMP/media"
+          if git ls-remote --exit-code --heads origin media >/dev/null; then
+            git fetch origin media:refs/remotes/origin/media
+            git worktree add -B media "$MEDIA" origin/media
           else
-            git switch --orphan media
-            git rm -rf . >/dev/null 2>&1 || true
+            git worktree add --detach "$MEDIA"
+            git -C "$MEDIA" switch --orphan media
           fi
-          mkdir -p "$DIR"
-          cp /tmp/slides/*.jpg "$DIR/"
-          git add "$DIR"
-          git commit -m "media: $DIR"
-          git push origin media
-          git switch -
+          mkdir -p "$MEDIA/$DIR"
+          cp out/*.jpg "$MEDIA/$DIR/"
+          git -C "$MEDIA" add "$DIR"
+          git -C "$MEDIA" commit -m "media: $DIR"
+          git -C "$MEDIA" push origin media
+          git worktree remove --force "$MEDIA"
           echo "base=https://raw.githubusercontent.com/${{ github.repository }}/media/$DIR" >> "$GITHUB_OUTPUT"
           sleep 10
 
