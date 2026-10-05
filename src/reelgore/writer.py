@@ -71,15 +71,30 @@ def write_copy(plan: dict, cfg: dict) -> dict:
         f"FACTS (the only facts you may state):\n{_facts(plan)}\n\n{SCHEMA}"
     )
     client = anthropic.Anthropic()
-    msg = client.messages.create(
-        model=os.environ.get("CLAUDE_MODEL", "claude-sonnet-4-5"),
-        max_tokens=2500,
-        system=cfg["voice"],
-        messages=[{"role": "user", "content": prompt}],
-    )
+    kwargs = dict(max_tokens=2500, system=cfg["voice"], messages=[{"role": "user", "content": prompt}])
+    wanted = os.environ.get("CLAUDE_MODEL", "").strip()
+    try:
+        msg = client.messages.create(model=wanted or _pick_model(client), **kwargs)
+    except anthropic.NotFoundError:
+        # Configured model isn't available to this key (renamed/retired) -> use the newest Sonnet it can see.
+        fallback = _pick_model(client)
+        print(f"[writer] model '{wanted}' not found, falling back to '{fallback}'")
+        msg = client.messages.create(model=fallback, **kwargs)
     text = "".join(b.text for b in msg.content if getattr(b, "type", "") == "text")
     copy = json.loads(re.search(r"\{.*\}", text, re.S).group(0))
     return _clamp(copy, plan, cfg)
+
+
+def _pick_model(client) -> str:
+    """Newest Sonnet available to this API key (models.list returns newest first)."""
+    ids = [m.id for m in client.models.list(limit=100).data]
+    for family in ("sonnet", "opus", "haiku"):
+        for mid in ids:
+            if family in mid:
+                return mid
+    if not ids:
+        raise RuntimeError("No Claude models available to this API key")
+    return ids[0]
 
 
 def _clamp(copy: dict, plan: dict, cfg: dict) -> dict:
