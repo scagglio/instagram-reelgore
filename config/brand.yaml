@@ -80,3 +80,14 @@ hashtags:
     - "#upcominghorror"
     - "#horrornews"
   max_total: 15
+
+# Reel music. Picks a trending Instagram track whose title/artist matches a keyword;
+# if none is trending, takes the top result of the searches below. Set IG_AUDIO_ID (repo variable)
+# to force one specific track. Falls back to the generated soundtrack if Instagram rejects the track.
+music:
+  use_instagram_music: true
+  keywords: [horror, scary, creepy, spooky, halloween, haunted, dark, nightmare, terror, scream, ghost,
+             demon, evil, monster, thriller, suspense, killer, blood, witch, phonk]
+  searches: ["horror", "scary", "creepy", "halloween", "suspense", "dark ambient"]
+  no_repeat_days: 14
+  volume: 100

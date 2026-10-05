@@ -1,4 +1,4 @@
-name: ReelGore daily carousel
+name: ReelGore daily carousel + reel
 
 on:
   schedule:
@@ -26,7 +26,7 @@ concurrency:
 jobs:
   post:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     env:
       TMDB_TOKEN: ${{ secrets.TMDB_TOKEN }}
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -35,6 +35,8 @@ jobs:
       IG_USER_ID: ${{ secrets.IG_USER_ID }}
       IG_GRAPH_HOST: ${{ vars.IG_GRAPH_HOST }}   # optional; auto-detected from the token
       PYTHONPATH: src
+      POST_REEL: ${{ vars.POST_REEL || 'true' }}
+      IG_AUDIO_ID: ${{ vars.IG_AUDIO_ID }}   # optional; pin one Instagram track
       DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
     steps:
       - uses: actions/checkout@v4
@@ -77,6 +79,7 @@ jobs:
           fi
           mkdir -p "$MEDIA/$DIR"
           cp out/*.jpg "$MEDIA/$DIR/"
+          [ -f out/reel.mp4 ] && cp out/reel.mp4 "$MEDIA/$DIR/"
           git -C "$MEDIA" add "$DIR"
           git -C "$MEDIA" commit -m "media: $DIR"
           git -C "$MEDIA" push origin media

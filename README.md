@@ -2,7 +2,8 @@
 
 Headless Instagram agent for **@reelgore26** (Reel Gore, horror reviews since 2010).
 Every day a GitHub Action picks horror movies from TMDB, has Claude write the copy in the Reel Gore voice,
-renders a 1080×1350 carousel, and posts it to Instagram.
+renders a 1080×1350 carousel, and posts it to Instagram. It also posts the same slides as a 9:16 **Reel**
+set to a trending scary track from Instagram's music library (see *Music* below).
 
 ## What it posts
 
@@ -32,19 +33,39 @@ Tune everything in `config/brand.yaml`: voice, themes, milestone years, palette,
    - `IG_ACCESS_TOKEN`
    - `IG_USER_ID` (the Instagram professional account ID, not the handle)
 5. **Optional repo variables**:
-   - `CLAUDE_MODEL` (default `claude-sonnet-4-5`)
-   - `IG_GRAPH_HOST`: `graph.instagram.com` if you use Instagram Login, otherwise leave it as the default `graph.facebook.com`
+   - `CLAUDE_MODEL` (optional; leave unset to use the newest Sonnet your API key can access)
+   - `IG_GRAPH_HOST`: not needed. The host is picked from the token (`IGAA…` uses graph.instagram.com, `EAA…` uses graph.facebook.com)
 6. **Test**: go to Actions > *ReelGore daily carousel* > Run workflow, keep **dry_run** checked, and download the
    `reelgore-…` artifact to review the slides and caption. Run again with dry_run unchecked to post for real.
 
 The schedule runs daily at 6:07 PM Central (`cron: "7 23 * * *"`, UTC).
+
+## Music (Reels)
+
+Each Reel gets a **licensed Instagram track** through Meta's Instagram Audio API (`GET /ig_audio`, then
+`audio_configuration` on the Reel):
+
+1. It checks Instagram's **trending** audio for a track whose title or artist matches a horror keyword (scary, creepy, haunted, phonk…).
+2. If nothing trending fits, it uses the top result of the searches in `config/brand.yaml` → `music.searches`.
+3. Tracks aren't reused within 14 days (`no_repeat_days`), and the chosen track is logged in `data/history.json`.
+4. If Instagram rejects the track (not licensed for this account or region), the Reel posts with the agent's own
+   generated soundtrack instead, so a post is never lost.
+
+Controls:
+- Force a specific song: set the repo variable `IG_AUDIO_ID` to its audio ID (the log prints IDs of tracks it finds).
+- Always use the generated soundtrack: set `music.use_instagram_music: false`.
+- Turn Reels off completely: set the repo variable `POST_REEL` = `false`.
+
+Requirements: a Facebook Login token (`EAA…`, which you already use) with `instagram_basic` + `instagram_content_publish`.
+Meta notes the API library can differ from the app's. Business accounts in particular often get a smaller, more
+commercial-safe catalog than Creator accounts, so hit songs may not appear.
 
 ## Run locally
 
 ```bash
 pip install -r requirements.txt
 export PYTHONPATH=src
-python -m reelgore.main demo                        # offline design preview -> out/demo/
+python -m reelgore.main demo                        # offline preview: slides + reel.mp4 -> out/demo/
 TMDB_TOKEN=... ANTHROPIC_API_KEY=... python -m reelgore.main plan --type classic   # -> out/
 ```
 

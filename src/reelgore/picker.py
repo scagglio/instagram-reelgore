@@ -31,6 +31,12 @@ def recently_used(h: dict, days: int) -> set[int]:
     return ids
 
 
+def recently_used_audio(h: dict, days: int) -> set[str]:
+    cutoff = (date.today() - timedelta(days=days)).isoformat()
+    return {p["reel"]["audio"]["id"] for p in h["posts"]
+            if p["date"] >= cutoff and (p.get("reel") or {}).get("audio")}
+
+
 def find_anniversaries(tmdb: TMDB, cfg: dict, today: date) -> list[dict]:
     a = cfg["anniversary"]
     hits = []
@@ -112,7 +118,7 @@ def pick(tmdb: TMDB, cfg: dict, forced: str = "auto", today: date | None = None)
     return {"kind": "classic", "theme": theme, "movies": [tmdb.details(m["id"])]}
 
 
-def record(plan: dict, permalink: str | None, media_id: str | None) -> None:
+def record(plan: dict, permalink: str | None, media_id: str | None, reel: dict | None = None) -> None:
     h = load_history()
     h["posts"].append({
         "date": date.today().isoformat(),
@@ -122,5 +128,6 @@ def record(plan: dict, permalink: str | None, media_id: str | None) -> None:
         "headline": plan.get("copy", {}).get("headline"),
         "media_id": media_id,
         "permalink": permalink,
+        "reel": reel,
     })
     save_history(h)

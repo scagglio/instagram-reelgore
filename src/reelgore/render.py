@@ -113,7 +113,7 @@ class Renderer:
         d.text((self.W - 60 - d.textlength(cnt, font=fc), 76), cnt, font=fc, fill=self.bone)
         fh = self.body(24)
         d.text((60, self.H - 70), self.handle, font=fh, fill=(*self.bone,))
-        if idx < total:
+        if idx < total and getattr(self, "swipe", True):
             arrow = "SWIPE  →"
             d.text((self.W - 60 - d.textlength(arrow, font=fh), self.H - 70), arrow, font=fh, fill=self.bone)
         return im
@@ -239,7 +239,8 @@ class Renderer:
         self.skull(d, self.W - 160, self.H - 260, 70)
         return self.grain(self.chrome(im, idx, total))
 
-    def render_all(self, plan: dict, copy: dict, out_dir: Path) -> list[Path]:
+    def render_all(self, plan: dict, copy: dict, out_dir: Path, swipe: bool = True) -> list[Path]:
+        self.swipe = swipe
         out_dir.mkdir(parents=True, exist_ok=True)
         slides = copy["slides"]
         total = len(slides) + 1

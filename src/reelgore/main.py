@@ -42,8 +42,16 @@ def cmd_plan(args):
             return None
 
     OUT.mkdir(exist_ok=True)
-    paths = Renderer(cfg, fetch).render_all(plan, copy, OUT)
+    renderer = Renderer(cfg, fetch)
+    paths = renderer.render_all(plan, copy, OUT)
     plan["slides"] = [p.name for p in paths]
+
+    if os.environ.get("POST_REEL", "true").lower() != "false":
+        from .video import build_reel
+        reel_slides = renderer.render_all(plan, copy, OUT / "reel_frames", swipe=False)
+        seed = int(date.today().strftime("%Y%m%d"))
+        build_reel(reel_slides, copy, OUT / "reel.mp4", seed)
+        plan["reel"] = "reel.mp4"
     (OUT / "plan.json").write_text(json.dumps(plan, indent=2))
     (OUT / "caption.txt").write_text(plan["caption"])
     print(f"[plan] rendered {len(paths)} slides -> {OUT}/")
@@ -58,11 +66,34 @@ def cmd_publish(args):
     base = args.base_url.rstrip("/")
     urls = [f"{base}/{name}" for name in plan["slides"]]
     if args.dry_run:
-        print("[publish] dry run, would post:", *urls, sep="\n  ")
+        print("[publish] dry run, would post:", *urls, plan.get("reel", "(no reel)"), sep="\n  ")
         return
-    mid, link = Instagram().carousel(urls, plan["caption"])
-    print(f"[publish] posted media {mid} {link or ''}")
-    record(plan, link, mid)
+    ig = Instagram()
+    mid, link = ig.carousel(urls, plan["caption"])
+    print(f"[publish] carousel posted: {mid} {link or ''}")
+    reel = None
+    reel_error = None
+    if plan.get("reel") and (OUT / plan["reel"]).exists():
+        try:
+            music = None
+            mcfg = load_cfg().get("music", {})
+            if mcfg.get("use_instagram_music", True) and "instagram.com" not in ig.base:
+                from .picker import load_history, recently_used_audio
+                music = ig.pick_music(mcfg, recently_used_audio(load_history(), mcfg.get("no_repeat_days", 14)))
+                print(f"[music] " + (f"using '{music['title']}' by {music['artist'] or '?'} ({music['id']}, {music.get('source')})"
+                                     if music else "no Instagram track found; using generated soundtrack"))
+            rid, rlink = ig.reel(OUT / plan["reel"], plan["caption"], video_url=f"{base}/{plan['reel']}",
+                                 audio_id=music["id"] if music else None,
+                                 music_volume=int(mcfg.get("volume", 100)))
+            print(f"[publish] reel posted: {rid} {rlink or ''}")
+            reel = {"media_id": rid, "permalink": rlink,
+                    "audio": music if music and getattr(ig, "last_reel_music", False) else None}
+        except Exception as e:
+            reel_error = e
+            print(f"[publish] reel FAILED (carousel is already live): {e}")
+    record(plan, link, mid, reel=reel)
+    if reel_error:
+        raise SystemExit(1)
 
 
 def cmd_demo(args):
@@ -104,8 +135,12 @@ def cmd_demo(args):
              "body": "VHS at a sleepover? Late-night cable? Drop your origin story below."},
         ],
     }
-    paths = Renderer(cfg, fake).render_all(plan, copy, OUT / "demo")
+    r = Renderer(cfg, fake)
+    paths = r.render_all(plan, copy, OUT / "demo")
     print("\n".join(str(p) for p in paths))
+    from .video import build_reel
+    frames = r.render_all(plan, copy, OUT / "demo" / "reel_frames", swipe=False)
+    build_reel(frames, copy, OUT / "demo" / "reel.mp4", seed=20261005)
 
 
 def main():
