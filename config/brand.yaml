@@ -91,3 +91,12 @@ music:
   searches: ["horror", "scary", "creepy", "halloween", "suspense", "dark ambient"]
   no_repeat_days: 14
   volume: 100
+
+# Cross-post every day's content to the Reel Gore Facebook Page (same token; needs pages_manage_posts).
+# Facebook Reels can't use Instagram's licensed music, so the Facebook Reel keeps the generated soundtrack.
+facebook:
+  enabled: true
+  post_photos: true      # the slides as one multi-photo post
+  post_reel: true        # the Reel as a Facebook Reel
+  max_hashtags: 4
+  instagram_plug: "More horror daily on Instagram: {handle}"

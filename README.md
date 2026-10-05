@@ -60,6 +60,19 @@ Requirements: a Facebook Login token (`EAA…`, which you already use) with `ins
 Meta notes the API library can differ from the app's. Business accounts in particular often get a smaller, more
 commercial-safe catalog than Creator accounts, so hit songs may not appear.
 
+## Facebook cross-posting
+
+Every post also goes to the **Reel Gore Facebook Page**, using the same token:
+
+- The slides as one multi-photo post, and the Reel as a Facebook Reel.
+- The caption is trimmed for Facebook: 4 hashtags plus a plug for the Instagram account.
+- The Page is found automatically as the one linked to @reelgore26 (set `FB_PAGE_ID` to override).
+- The Facebook Reel keeps the generated soundtrack, because Instagram's licensed music doesn't carry over to Facebook.
+- If Facebook fails, the Instagram posts are still live; the run is marked failed so you notice.
+- Turn it off with the repo variable `POST_FACEBOOK` = `false`, or adjust it under `facebook:` in `config/brand.yaml`.
+
+The token also needs **`pages_manage_posts`** (plus `pages_show_list` and `pages_read_engagement`, which you already have).
+
 ## Run locally
 
 ```bash
