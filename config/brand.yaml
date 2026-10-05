@@ -1,0 +1,82 @@
+# ReelGore brand + content config. Edit freely — the agent reads this every run.
+account:
+  handle: "@reelgore26"
+  name: "Reel Gore"
+  tagline: "Where horror thrives."
+  site: "reelgore.net"
+  since: 2010
+
+voice: |
+  You write for Reel Gore, a horror movie review page that has been running since 2010.
+  The voice is a lifelong horror fan talking to other horror fans: knowledgeable, a little
+  macabre, playful, never snobby. Loves slashers, Universal monsters, 70s/80s grindhouse,
+  Italian horror, and overlooked indie and direct-to-video gems as much as big studio releases.
+  Celebrates practical effects and gore craft. Short punchy lines. Dark humor is welcome;
+  mean-spiritedness is not. No spoilers past the first act unless a slide is clearly
+  labeled "SPOILER". Sign-off phrase used sparingly: "Dance macabre with us."
+  Never invent facts: only use the facts provided (dates, cast, director, runtime, plot).
+  If a fact isn't provided, don't state it.
+
+# Rotation for the daily post. "auto" uses this order by day of year,
+# but a big milestone anniversary on today's date always wins.
+rotation: [upcoming, classic, anniversary]
+
+anniversary:
+  milestone_years: [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 90, 100]
+  window_days: 0          # 0 = exact release date only; raise to allow "this week" anniversaries
+  min_vote_count: 150     # skip obscure titles with too few TMDB votes for anniversaries
+
+classic:
+  max_year: 1999
+  min_vote_count: 200
+  # Sub-genre flavors to rotate through for "From the Crypt" classic picks
+  themes:
+    - slasher
+    - universal monsters
+    - italian giallo
+    - 80s practical effects
+    - zombie
+    - folk horror
+    - creature feature
+    - grindhouse and cult
+    - haunted house
+    - body horror
+
+upcoming:
+  days_ahead: 120
+  region: US
+
+slides:
+  count_min: 5
+  count_max: 8
+  width: 1080
+  height: 1350           # 4:5 portrait, the tallest carousel ratio Instagram allows
+  palette:
+    blood: "#B3121B"
+    bone: "#F2E6D0"
+    ink: "#0B0B0D"
+    rust: "#D9663B"
+  fonts:
+    # First file that exists wins. Bebas Neue is downloaded by the workflow; Inter ships in the repo.
+    headline: ["assets/fonts/BebasNeue-Regular.ttf", "assets/fonts/InterDisplay-Black.otf"]
+    body: "assets/fonts/Inter-Regular.otf"
+    body_bold: "assets/fonts/Inter-Bold.otf"
+
+hashtags:
+  always: ["#reelgore", "#horror", "#horrormovies", "#horrorcommunity"]
+  pool:
+    - "#horrorfan"
+    - "#horrorfilms"
+    - "#horroraddict"
+    - "#horrorjunkie"
+    - "#slasher"
+    - "#cultfilm"
+    - "#80shorror"
+    - "#classichorror"
+    - "#horrormovie"
+    - "#scarymovies"
+    - "#horrorfamily"
+    - "#practicaleffects"
+    - "#upcominghorror"
+    - "#horrornews"
+  max_total: 15

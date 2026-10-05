@@ -1,0 +1,96 @@
+name: ReelGore daily carousel
+
+on:
+  schedule:
+    # 23:07 UTC = 6:07 PM Central (CDT) / 5:07 PM (CST). Off the top of the hour to dodge Actions congestion.
+    - cron: "7 23 * * *"
+  workflow_dispatch:
+    inputs:
+      post_type:
+        description: "What to post"
+        type: choice
+        options: [auto, upcoming, classic, anniversary]
+        default: auto
+      dry_run:
+        description: "Render only, don't post to Instagram"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: reelgore-post
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      TMDB_TOKEN: ${{ secrets.TMDB_TOKEN }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL || 'claude-sonnet-4-5' }}
+      IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+      IG_USER_ID: ${{ secrets.IG_USER_ID }}
+      IG_GRAPH_HOST: ${{ vars.IG_GRAPH_HOST || 'graph.facebook.com' }}
+      PYTHONPATH: src
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Fetch headline font (Bebas Neue, OFL)
+        run: curl -sSfL -o assets/fonts/BebasNeue-Regular.ttf https://github.com/google/fonts/raw/main/ofl/bebasneue/BebasNeue-Regular.ttf || echo "Bebas download failed; falling back to Inter Display Black"
+
+      - name: Pick movies, write copy, render slides
+        run: python -m reelgore.main plan --type "${{ inputs.post_type || 'auto' }}"
+
+      - name: Save slides as a run artifact (for review)
+        uses: actions/upload-artifact@v4
+        with:
+          name: reelgore-${{ github.run_id }}
+          path: out/
+
+      - name: Host slides on the media branch (Instagram needs public image URLs)
+        id: host
+        if: env.DRY_RUN != 'true'
+        run: |
+          set -e
+          DIR="posts/$(date -u +%F)-${{ github.run_id }}"
+          git config user.name "reelgore-bot"
+          git config user.email "reelgore-bot@users.noreply.github.com"
+          cp -r out /tmp/slides
+          git fetch origin media || true
+          if git show-ref --quiet refs/remotes/origin/media; then
+            git switch -c media origin/media
+          else
+            git switch --orphan media
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p "$DIR"
+          cp /tmp/slides/*.jpg "$DIR/"
+          git add "$DIR"
+          git commit -m "media: $DIR"
+          git push origin media
+          git switch -
+          echo "base=https://raw.githubusercontent.com/${{ github.repository }}/media/$DIR" >> "$GITHUB_OUTPUT"
+          sleep 10
+
+      - name: Publish carousel to Instagram
+        if: env.DRY_RUN != 'true'
+        run: python -m reelgore.main publish --base-url "${{ steps.host.outputs.base }}"
+
+      - name: Commit post history
+        if: env.DRY_RUN != 'true'
+        run: |
+          git add data/history.json
+          git commit -m "history: $(date -u +%F) post" || exit 0
+          git pull --rebase origin ${{ github.ref_name }}
+          git push origin HEAD:${{ github.ref_name }}
