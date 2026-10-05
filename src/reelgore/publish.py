@@ -9,13 +9,22 @@ import requests
 
 class Instagram:
     def __init__(self):
-        self.token = os.environ["IG_ACCESS_TOKEN"]
-        self.user = os.environ["IG_USER_ID"]
-        # graph.facebook.com for a Business account linked to a FB Page (Facebook Login),
-        # graph.instagram.com for "Instagram API with Instagram Login".
-        host = os.environ.get("IG_GRAPH_HOST", "graph.facebook.com")
-        ver = os.environ.get("IG_GRAPH_VERSION", "v23.0")
+        # Clean up common copy/paste damage in secrets: whitespace, quotes, "Bearer " prefix.
+        tok = os.environ["IG_ACCESS_TOKEN"].strip().strip('"').strip("'").strip()
+        if tok.lower().startswith("bearer "):
+            tok = tok[7:].strip()
+        self.token = tok
+        self.user = os.environ["IG_USER_ID"].strip().strip('"').strip("'")
+        # IGAA... tokens = "Instagram API with Instagram Login" -> graph.instagram.com
+        # EAA...  tokens = Facebook Login (IG account linked to a Page) -> graph.facebook.com
+        auto = "graph.instagram.com" if tok.startswith("IG") else "graph.facebook.com"
+        host = (os.environ.get("IG_GRAPH_HOST") or "").strip() or auto
+        if host != auto:
+            print(f"[publish] note: IG_GRAPH_HOST={host} but token looks like it belongs to {auto}; using {auto}")
+            host = auto
+        ver = (os.environ.get("IG_GRAPH_VERSION") or "").strip() or "v23.0"
         self.base = f"https://{host}/{ver}"
+        print(f"[publish] host={host} token_prefix={tok[:4]}… token_len={len(tok)} user_id_len={len(self.user)}")
 
     def _post(self, path, **data):
         data["access_token"] = self.token
