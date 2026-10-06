@@ -87,6 +87,41 @@
       },
       "watch": null,
       "poster": "/5G3q3OvulFTnFdiouaZdD8wjtIc.jpg"
+    },
+    {
+      "date": "2026-10-05",
+      "trigger": "schedule",
+      "kind": "upcoming_roundup",
+      "movie_ids": [
+        718833,
+        1742441,
+        1773109,
+        1496696,
+        1379486,
+        1425859
+      ],
+      "titles": [
+        "Bokshi",
+        "V/H/S/Mixtape",
+        "Termination Point",
+        "Breeder",
+        "Victorian Psycho",
+        "Remain"
+      ],
+      "headline": "COMING TO HAUNT YOU",
+      "media_id": "18187263874411021",
+      "permalink": "https://www.instagram.com/p/DeIwwL7jXyn/",
+      "reel": {
+        "media_id": "18124632784928337",
+        "permalink": "https://www.instagram.com/reel/DeIw2zEkvt7/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1747010417425485",
+        "reel_id": "1543449424268415"
+      },
+      "watch": null,
+      "poster": "/iHYu4aCDIjnt6aa5WmKZvmDPJvh.jpg"
     }
   ]
 }
