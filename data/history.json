@@ -62,6 +62,101 @@
         "post_id": "143228379052099_1746568914136302",
         "reel_id": "1622298959616755"
       }
+    },
+    {
+      "date": "2026-10-05",
+      "trigger": "workflow_dispatch",
+      "kind": "anniversary",
+      "movie_ids": [
+        20620
+      ],
+      "titles": [
+        "Seconds"
+      ],
+      "headline": "SECONDS Turns 60 Years Old Today",
+      "media_id": "17994349661842723",
+      "permalink": "https://www.instagram.com/p/DeIbx0ana1z/",
+      "reel": {
+        "media_id": "18071769677772594",
+        "permalink": "https://www.instagram.com/reel/DeIb0gjjs2u/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1746888594104334",
+        "reel_id": "1120096013850428"
+      },
+      "watch": null,
+      "poster": "/5G3q3OvulFTnFdiouaZdD8wjtIc.jpg"
+    },
+    {
+      "date": "2026-10-05",
+      "trigger": "schedule",
+      "kind": "upcoming_roundup",
+      "movie_ids": [
+        718833,
+        1742441,
+        1773109,
+        1496696,
+        1379486,
+        1425859
+      ],
+      "titles": [
+        "Bokshi",
+        "V/H/S/Mixtape",
+        "Termination Point",
+        "Breeder",
+        "Victorian Psycho",
+        "Remain"
+      ],
+      "headline": "COMING TO HAUNT YOU",
+      "media_id": "18187263874411021",
+      "permalink": "https://www.instagram.com/p/DeIwwL7jXyn/",
+      "reel": {
+        "media_id": "18124632784928337",
+        "permalink": "https://www.instagram.com/reel/DeIw2zEkvt7/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1747010417425485",
+        "reel_id": "1543449424268415"
+      },
+      "watch": null,
+      "poster": "/iHYu4aCDIjnt6aa5WmKZvmDPJvh.jpg"
+    },
+    {
+      "date": "2026-10-06",
+      "trigger": "schedule",
+      "kind": "upcoming_roundup",
+      "movie_ids": [
+        1737740,
+        1771367,
+        1768768,
+        1125627,
+        1419019,
+        1442761
+      ],
+      "titles": [
+        "Fresh Meat",
+        "Pemuja Syaitan",
+        "Relict",
+        "DreamQuil",
+        "Dawn of Soengsang",
+        "Slayground"
+      ],
+      "headline": "COMING TO HAUNT YOU",
+      "media_id": "17989809050865471",
+      "permalink": "https://www.instagram.com/p/DeJIadwDJb6/",
+      "reel": {
+        "media_id": "18180170128425191",
+        "permalink": "https://www.instagram.com/reel/DeJIdbNgQu_/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1747150110744849",
+        "reel_id": "1607599114381871"
+      },
+      "watch": null,
+      "poster": "/pDO9mCRhWEtl6MRTksWZ1bPBrnZ.jpg"
     }
   ]
 }
