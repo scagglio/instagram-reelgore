@@ -100,3 +100,49 @@ facebook:
   post_reel: true        # the Reel as a Facebook Reel
   max_hashtags: 4
   instagram_plug: "More horror daily on Instagram: {handle}"
+
+# "Where to watch / own it" slide + affiliate links (classic and anniversary posts; upcoming films aren't out yet).
+# Instagram captions can't hold clickable links, so the slide says "link in bio" and the links live on the
+# link-in-bio page (docs/index.html via GitHub Pages) and in the Facebook post.
+affiliate:
+  enabled: true
+  post_types: [classic, anniversary]
+  region: US
+  max_services: 4
+  amazon_tag: ""            # or set the repo variable AMAZON_ASSOCIATE_TAG (e.g. reelgore-20)
+  # Affiliate URLs for streaming services you're approved for. {title} is filled in. Example:
+  # provider_links:
+  #   Shudder: "https://your-affiliate-network.example/shudder?ref=reelgore"
+  provider_links: {}
+  # Extra "own it" shops, e.g. a boutique label's affiliate search:
+  # extra_shops:
+  #   - label: "Vinegar Syndrome"
+  #     url: "https://vinegarsyndrome.com/search?q={title}"
+  extra_shops: []
+  # Always-on buttons at the top of the link page (your merch shop, etc.)
+  pinned_links: []
+  #   - label: "Reel Gore merch"
+  #     url: "https://www.etsy.com/shop/YOURSHOP"
+  ig_link_line: "Own it on 4K: link in bio"
+  disclosure: "#ad Affiliate links: we may earn a commission at no extra cost to you."
+  page_disclosure: "Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases."
+  page_items: 30
+
+# Seasonal series. While a series is active, every daily post becomes a numbered entry:
+# a "NIGHT 06/31" badge on the cover, the series hashtag first, and a caption that teases tomorrow.
+series:
+  - name: "31 Nights of Horror"
+    hashtag: "#31NightsOfHorror"
+    start: "10-01"        # MM-DD, inclusive
+    end: "10-31"
+    badge: "NIGHT {n:02d}/{total}"
+
+# Engagement: every caption ends with a pick-one debate question instead of an open "thoughts?".
+engagement:
+  cta_examples:
+    - "Original or remake? Pick one."
+    - "Masterpiece or overrated?"
+    - "Would you survive the night: yes or no?"
+    - "Rate it in skulls: 1 to 5."
+    - "Theater or wait for streaming?"
+    - "Scariest scene: the opening or the ending?"

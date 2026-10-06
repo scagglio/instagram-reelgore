@@ -78,8 +78,27 @@ def write_copy(plan: dict, cfg: dict) -> dict:
         release_date=plan["movies"][0].get("release_date", ""),
     )
     s = cfg["slides"]
+    examples = "; ".join(f"'{e}'" for e in cfg.get("engagement", {}).get("cta_examples", []))
+    rules = (
+        "\n\nENGAGEMENT RULES:\n"
+        "- The caption's LAST line must be a two-sided, pick-one debate question that readers can answer in "
+        f"one or two words. Examples of the style: {examples}. Never end with 'thoughts?', 'let us know', "
+        "or 'comment below'.\n"
+        "- The 'cta' slide title must be that same kind of pick-one question (max 6 words). Its body names "
+        "the two options, or asks for a 1-5 skull rating in one word.\n"
+        "- The caption's first line is a scroll-stopping hook, not a summary."
+    )
+    series = plan.get("series")
+    if series:
+        n, total = series["n"], series["total"]
+        tease = ("This is the FINALE: make the caption feel like a send-off and thank people for following "
+                 "the series." if n >= total else
+                 f"Before the closing question, tease tomorrow with one short line like 'Night {n + 1} drops "
+                 "tomorrow.' (don't name tomorrow's film).")
+        rules += (f"\n\nSERIES: This post is Night {n} of {total} in Reel Gore's '{series['name']}' series. "
+                  f"Work 'Night {n}' naturally into the caption's first line. {tease}")
     prompt = (
-        f"{brief}\n\nTotal slides including cover must be between {s['count_min']} and {s['count_max']} "
+        f"{brief}{rules}\n\nTotal slides including cover must be between {s['count_min']} and {s['count_max']} "
         f"(the cover is generated from headline/subhead and is NOT in the slides array).\n\n"
         f"FACTS (the only facts you may state):\n{_facts(plan)}\n\nSubmit the result with the submit_carousel tool."
     )
@@ -179,6 +198,7 @@ def _clamp(copy: dict, plan: dict, cfg: dict) -> dict:
     return copy
 
 
-def caption_text(copy: dict, plan: dict) -> str:
-    credit = "\n\nMovie data & images: TMDB."
-    return f"{copy['caption'].strip()}{credit}\n.\n.\n{' '.join(copy['hashtags'])}"[:2200]
+def caption_text(copy: dict, plan: dict, extra: str | None = None) -> str:
+    watch = f"\n\n{extra}" if extra else ""
+    credit = "\n\nMovie data & images: TMDB." + (" Streaming data: JustWatch." if extra else "")
+    return f"{copy['caption'].strip()}{watch}{credit}\n.\n.\n{' '.join(copy['hashtags'])}"[:2200]

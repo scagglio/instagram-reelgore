@@ -122,3 +122,33 @@ class TMDB:
         r = requests.get(self.image_url(path, size), timeout=60)
         r.raise_for_status()
         return r.content
+
+
+def watch_providers(tmdb: "TMDB", movie_id: int, region: str = "US") -> dict:
+    """Where to stream / rent / buy in a region (TMDB data powered by JustWatch)."""
+    res = tmdb.get(f"/movie/{movie_id}/watch/providers").get("results", {}).get(region, {})
+
+    import re
+
+    def base(name):
+        # "Shudder Amazon Channel", "Peacock Premium Plus", "Paramount+ with Showtime" -> one service
+        n = re.sub(r"\s+(amazon|apple tv|roku premium|youtube tv)\s+channels?$", "", name, flags=re.I)
+        n = re.sub(r"\s+(standard )?with ads$", "", n, flags=re.I)
+        return n.strip()
+
+    seen: set[str] = set()
+
+    def norm(key):
+        out = []
+        for p in sorted(res.get(key, []), key=lambda p: p.get("display_priority", 99)):
+            b = base(p["provider_name"])
+            if b.lower() in seen:
+                continue
+            seen.add(b.lower())
+            out.append({"name": b, "logo": p.get("logo_path")})
+        return out
+
+    stream = norm("flatrate") + norm("free") + norm("ads")
+    seen.clear()
+    return {"stream": stream,
+            "rent": norm("rent"), "buy": norm("buy"), "link": res.get("link")}

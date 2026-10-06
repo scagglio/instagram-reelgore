@@ -32,6 +32,38 @@ def recently_used(h: dict, days: int) -> set[int]:
     return ids
 
 
+def load_weights() -> dict | None:
+    """Rotation weights written by the weekly report (data/weights.json)."""
+    path = Path("data/weights.json")
+    try:
+        w = json.loads(path.read_text()).get("weights") or {}
+        return w if any(v != 1.0 for v in w.values()) else None
+    except Exception:
+        return None
+
+
+def weighted_kind(rotation: list[str], weights: dict, h: dict, today: date) -> str:
+    """Pick today's type in proportion to how well each type performs, without repeating
+    yesterday's type when there's an alternative (keeps the feed varied)."""
+    last = None
+    for p in reversed(h["posts"]):
+        if p.get("trigger") == "schedule" or p.get("trigger") is None:
+            last = "upcoming" if p["kind"].startswith("upcoming") else p["kind"]
+            break
+    w = {k: float(weights.get(k, 1.0)) for k in rotation}
+    if last in w and len(w) > 1:
+        w[last] *= 0.35
+    rng = random.Random(today.toordinal() * 7919)
+    total = sum(w.values())
+    x, acc = rng.uniform(0, total), 0.0
+    for k, v in w.items():
+        acc += v
+        if x <= acc:
+            print(f"[picker] weighted choice {k} from {w}")
+            return k
+    return rotation[-1]
+
+
 def recently_used_audio(h: dict, days: int) -> set[str]:
     cutoff = (date.today() - timedelta(days=days)).isoformat()
     return {p["reel"]["audio"]["id"] for p in h["posts"]
@@ -70,6 +102,9 @@ def pick(tmdb: TMDB, cfg: dict, forced: str = "auto", today: date | None = None)
     if forced == "auto":
         rotation = cfg["rotation"]
         kind = rotation[today.timetuple().tm_yday % len(rotation)]
+        weights = load_weights()
+        if weights:
+            kind = weighted_kind(rotation, weights, h, today)
         # A big milestone (25/50/75/100) on today's date always takes the slot.
         if anniversaries and anniversaries[0]["_years"] % 25 == 0:
             kind = "anniversary"

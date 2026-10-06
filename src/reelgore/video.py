@@ -24,6 +24,9 @@ def slide_durations(copy: dict) -> list[float]:
     """Cover 3s; other slides get time to read their words (3-6.5s)."""
     durs = [3.2]
     for sl in copy["slides"]:
+        if sl.get("type") == "watch":
+            durs.append(5.0)
+            continue
         words = len((sl.get("title", "") + " " + sl.get("body", "")).split())
         durs.append(min(6.5, max(3.2, 1.8 + words / 4.0)))
     return durs

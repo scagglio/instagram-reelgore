@@ -31,9 +31,17 @@ def cmd_plan(args):
     tmdb = TMDB()
     plan = pick(tmdb, cfg, forced=args.type)
     print(f"[plan] {plan['kind']}: {[m['title'] for m in plan['movies']]}")
+    plan["series"] = active_series(cfg)
+    if plan["series"]:
+        print(f"[series] {plan['series']['name']}: night {plan['series']['n']}/{plan['series']['total']}")
     copy = write_copy(plan, cfg)
+    if plan["series"]:
+        tag = plan["series"]["hashtag"]
+        copy["hashtags"] = [tag] + [h for h in copy["hashtags"] if h.lower() != tag.lower()]
+        copy["hashtags"] = copy["hashtags"][: cfg["hashtags"]["max_total"]]
+    add_watch_slide(tmdb, plan, copy, cfg)
     plan["copy"] = copy
-    plan["caption"] = caption_text(copy, plan)
+    plan["caption"] = caption_text(copy, plan, extra=plan.get("watch_line"))
 
     def fetch(path):
         try:
@@ -56,6 +64,49 @@ def cmd_plan(args):
     (OUT / "caption.txt").write_text(plan["caption"])
     print(f"[plan] rendered {len(paths)} slides -> {OUT}/")
     print(plan["caption"])
+
+
+def central_today() -> date:
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    return datetime.now(ZoneInfo("America/Chicago")).date()
+
+
+def active_series(cfg: dict, today: date | None = None) -> dict | None:
+    """Return the running seasonal series (e.g. 31 Nights of Horror) with today's night number."""
+    today = today or central_today()
+    for s in cfg.get("series", []) or []:
+        sm, sd = map(int, s["start"].split("-"))
+        em, ed = map(int, s["end"].split("-"))
+        start, end = date(today.year, sm, sd), date(today.year, em, ed)
+        if start <= today <= end:
+            return {"name": s["name"], "hashtag": s["hashtag"], "badge": s.get("badge", "NIGHT {n:02d}/{total}"),
+                    "n": (today - start).days + 1, "total": (end - start).days + 1}
+    return None
+
+
+def add_watch_slide(tmdb, plan: dict, copy: dict, cfg: dict) -> None:
+    """Insert a 'where to watch / own it' slide before the CTA for released films."""
+    acfg = cfg.get("affiliate", {})
+    if not acfg.get("enabled", True) or plan["kind"] not in acfg.get("post_types", ["classic", "anniversary"]):
+        return
+    from .affiliate import build_watch, ig_caption_line, watch_slide
+    watch = build_watch(tmdb, plan["movies"][0], cfg)
+    if not watch:
+        print("[affiliate] no streaming or shop links for this film; skipping the slide")
+        return
+    plan["watch"] = watch
+    plan["watch_line"] = ig_caption_line(watch, cfg)
+    slides = copy["slides"]
+    max_body = cfg["slides"]["count_max"] - 1
+    cta_at = next((i for i, sl in enumerate(slides) if sl.get("type") == "cta"), len(slides))
+    slides.insert(cta_at, watch_slide(watch))
+    while len(slides) > max_body:  # stay within the slide limit: drop a middle text slide
+        drop = next((i for i, sl in enumerate(slides) if sl.get("type") == "text"), None)
+        if drop is None:
+            break
+        slides.pop(drop)
+    print(f"[affiliate] watch slide added: stream={[p['name'] for p in watch['stream']]} own={len(watch['own'])} links")
 
 
 def cmd_publish(args):
@@ -93,6 +144,11 @@ def cmd_publish(args):
             print(f"[publish] reel FAILED (carousel is already live): {e}")
     fb, fb_error = crosspost_facebook(ig, plan, urls)
     record(plan, link, mid, reel=reel, facebook=fb)
+    try:
+        from .links import build_links_page
+        build_links_page(load_cfg())
+    except Exception as e:
+        print(f"[links] page build failed: {e}")
     if reel_error or fb_error:
         raise SystemExit(1)
 
@@ -102,7 +158,11 @@ def facebook_message(plan: dict, cfg: dict) -> str:
     fcfg = cfg.get("facebook", {})
     tags = plan["copy"].get("hashtags", [])[: int(fcfg.get("max_hashtags", 4))]
     plug = fcfg.get("instagram_plug", "").format(handle=cfg["account"]["handle"])
-    parts = [plan["copy"]["caption"].strip(), plug, "Movie data & images: TMDB.", " ".join(tags)]
+    links = ""
+    if plan.get("watch"):
+        from .affiliate import fb_links_block
+        links = fb_links_block(plan["watch"], cfg)
+    parts = [plan["copy"]["caption"].strip(), links, plug, "Movie data & images: TMDB.", " ".join(tags)]
     return "\n\n".join(p for p in parts if p)
 
 
@@ -135,6 +195,13 @@ def crosspost_facebook(ig, plan: dict, urls: list[str]):
         error = e
         print(f"[facebook] cross-post FAILED (Instagram posts are live): {e}")
     return result or None, error
+
+
+def cmd_report(args):
+    from .insights import run
+    from .publish import Instagram
+    out = run(Instagram())
+    print(f"[report] saved {out}")
 
 
 def cmd_demo(args):
@@ -196,6 +263,7 @@ def main():
     q.add_argument("--dry-run", action="store_true")
     q.set_defaults(fn=cmd_publish)
     sub.add_parser("demo").set_defaults(fn=cmd_demo)
+    sub.add_parser("report").set_defaults(fn=cmd_report)
     args = ap.parse_args()
     args.fn(args)
 

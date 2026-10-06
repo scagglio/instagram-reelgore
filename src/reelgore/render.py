@@ -156,7 +156,21 @@ class Renderer:
             d.text((60, y), line, font=f, fill=self.blood if i == len(lines) - 1 else self.bone)
             y += lh
         self.paragraph(d, 60, y + 30, subhead, size=38)
-        return self.grain(self.chrome(im, 1, total))
+        im = self.chrome(im, 1, total)
+        if getattr(self, "series", None):
+            self.series_badge(im)
+        return self.grain(im)
+
+    def series_badge(self, im):
+        """'NIGHT 06/31' tag under the wordmark, plus the series name."""
+        s = self.series
+        d = ImageDraw.Draw(im)
+        text = s["badge"].format(n=s["n"], total=s["total"])
+        f = self.head(64)
+        w = d.textlength(text, font=f)
+        d.rectangle([60, 140, 60 + w + 40, 140 + int(f.size * 1.05) + 10], fill=self.bone)
+        d.text((80, 146), text, font=f, fill=self.blood)
+        d.text((62, 150 + int(f.size * 1.05) + 16), s["name"].upper(), font=self.body(26, bold=True), fill=self.bone)
 
     def movie_slide(self, movie, sl, idx, total):
         im = self.background(movie["backdrops"][0] if movie["backdrops"] else movie["poster"], darken=0.8, blur=18)
@@ -239,14 +253,80 @@ class Renderer:
         self.skull(d, self.W - 160, self.H - 260, 70)
         return self.grain(self.chrome(im, idx, total))
 
+    def _logo_tile(self, path, size):
+        logo = self.img(path) if path else None
+        if logo is None:
+            return None
+        logo = ImageOps.fit(logo, (size, size), Image.LANCZOS)
+        mask = Image.new("L", (size, size), 0)
+        ImageDraw.Draw(mask).rounded_rectangle([0, 0, size - 1, size - 1], radius=size // 5, fill=255)
+        tile = Image.new("RGBA", (size, size))
+        tile.paste(logo, (0, 0), mask)
+        return tile
+
+    def watch_slide(self, movie, sl, idx, total):
+        """'Where to watch / own it' slide: streaming logos + an Own-it call-out."""
+        w = self.watch or {}
+        im = self.background(movie["poster"] or (movie["backdrops"] or [None])[0], darken=0.95, blur=28)
+        d = ImageDraw.Draw(im)
+        y = 200
+        y = self.kicker(d, 60, y, sl.get("kicker") or "WHERE TO WATCH") + 30
+        f, lines = self.fit_headline(d, sl.get("title") or movie["title"], self.W - 120, 2, start=110, min_size=60)
+        for line in lines:
+            d.text((60, y), line, font=f, fill=self.bone)
+            y += int(f.size * .95)
+        y += 50
+
+        stream = w.get("stream", [])
+        label = self.body(30, bold=True)
+        if stream:
+            d.text((60, y), "STREAM IT", font=label, fill=self.rust)
+            y += 56
+            size, gap = 150, 40
+            n = len(stream)
+            x = (self.W - (n * size + (n - 1) * gap)) // 2
+            name_f = self.body(24)
+            for p in stream:
+                tile = self._logo_tile(p.get("logo"), size)
+                if tile:
+                    im.paste(tile, (x, y), tile)
+                else:
+                    d.rounded_rectangle([x, y, x + size, y + size], radius=30, fill=(40, 30, 32))
+                name, maxw = p["name"], size + gap - 12
+                while d.textlength(name, font=name_f) > maxw and len(name) > 4:
+                    name = name[:-2].rstrip() + "…" if not name.endswith("…") else name[:-2].rstrip() + "…"
+                d.text((x + (size - d.textlength(name, font=name_f)) // 2, y + size + 14), name, font=name_f, fill=self.bone)
+                x += size + gap
+            y += size + 90
+        elif w.get("rent"):
+            d.text((60, y), "RENT IT", font=label, fill=self.rust)
+            y = self.paragraph(d, 60, y + 50, ", ".join(w["rent"]), size=40) + 50
+
+        if w.get("own"):
+            box_h = 190
+            d.rounded_rectangle([60, y, self.W - 60, y + box_h], radius=28, outline=self.blood, width=5)
+            fh = self.head(96)
+            d.text((100, y + 30), "OWN IT ON 4K", font=fh, fill=self.blood)
+            d.text((100, y + 30 + int(fh.size * .95) + 10), "Streaming catalogs change. Your shelf doesn't.",
+                   font=self.body(30), fill=self.bone)
+            y += box_h + 40
+            fl = self.head(70)
+            msg = "LINK IN BIO"
+            d.text(((self.W - d.textlength(msg, font=fl)) // 2, y), msg, font=fl, fill=self.bone)
+        d.text((60, self.H - 120), "Streaming data: JustWatch", font=self.body(22), fill=(150, 140, 130))
+        return self.grain(self.chrome(im, idx, total))
+
     def render_all(self, plan: dict, copy: dict, out_dir: Path, swipe: bool = True) -> list[Path]:
         self.swipe = swipe
+        self.watch = plan.get("watch")
+        self.series = plan.get("series")
         out_dir.mkdir(parents=True, exist_ok=True)
         slides = copy["slides"]
         total = len(slides) + 1
         lead = plan["movies"][0]
         images = [self.cover(lead, copy["headline"], copy.get("subhead", ""), total)]
-        fn = {"movie": self.movie_slide, "text": self.text_slide, "verdict": self.verdict_slide, "cta": self.cta_slide}
+        fn = {"movie": self.movie_slide, "text": self.text_slide, "verdict": self.verdict_slide, "cta": self.cta_slide,
+              "watch": self.watch_slide}
         for i, sl in enumerate(slides, start=2):
             m = plan["movies"][sl["movie_index"]]
             images.append(fn.get(sl.get("type"), self.text_slide)(m, sl, i, total))

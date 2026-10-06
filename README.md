@@ -38,7 +38,7 @@ Tune everything in `config/brand.yaml`: voice, themes, milestone years, palette,
 6. **Test**: go to Actions > *ReelGore daily carousel* > Run workflow, keep **dry_run** checked, and download the
    `reelgore-…` artifact to review the slides and caption. Run again with dry_run unchecked to post for real.
 
-The schedule runs daily at 6:07 PM Central (`cron: "7 23 * * *"`, UTC).
+The schedule runs daily at 6:07 PM Central, with backup attempts at 6:37, 7:17 and 8:47 PM, because GitHub sometimes delays or drops scheduled runs. Only the first one that runs posts; the rest see the scheduled post in `data/history.json` and skip. Manual runs never block the scheduled post.
 
 ## Music (Reels)
 
@@ -72,6 +72,48 @@ Every post also goes to the **Reel Gore Facebook Page**, using the same token:
 - Turn it off with the repo variable `POST_FACEBOOK` = `false`, or adjust it under `facebook:` in `config/brand.yaml`.
 
 The token also needs **`pages_manage_posts`** (plus `pages_show_list` and `pages_read_engagement`, which you already have).
+
+## Where to watch / own it (affiliate links)
+
+Classic and anniversary posts get a **Where to watch** slide before the final slide. It shows the streaming services
+(with logos) from TMDB's JustWatch data, plus an **Own it on 4K: link in bio** box. Upcoming films are skipped
+because they aren't out yet.
+
+Instagram captions can't hold clickable links, so the links go in two places:
+- **Link-in-bio page**: `docs/index.html` is rebuilt after every post, listing each featured film with streaming
+  services and your affiliate links. Host it free with GitHub Pages: repo **Settings → Pages → Deploy from a branch →
+  `main` / `/docs`**. Your link is `https://scagglio.github.io/instagram-reelgore/`; put it in the Instagram bio.
+- **Facebook post**: clickable "where to watch" and "own it" links, with an `#ad` disclosure.
+
+Setup:
+1. Join **Amazon Associates** (affiliate-program.amazon.com) and add your tag (like `reelgore-20`) as the repo variable
+   `AMAZON_ASSOCIATE_TAG`. Without a tag, the slide shows streaming services only, with no "own it" links.
+2. Optional, in `config/brand.yaml` → `affiliate:`:
+   - `provider_links`: affiliate URLs for streaming services you're approved for (e.g. Shudder).
+   - `extra_shops`: boutique labels (Vinegar Syndrome, Arrow, Shout! Factory) with affiliate programs.
+   - `pinned_links`: always-on buttons at the top of the page, like your Etsy merch shop.
+
+Disclosures are built in (`#ad` on Facebook, an Amazon Associates statement on the page). Amazon requires the
+statement wherever its links appear, and the FTC requires clear affiliate disclosure.
+
+## Engagement features
+
+**31 Nights of Horror (October).** From Oct 1–31, every daily post is a numbered entry: a **NIGHT 06/31** badge on
+the cover, `#31NightsOfHorror` as the first hashtag, "Night 6" in the caption's opening line, and a tease for
+tomorrow (Night 31 gets a send-off). Add or change series under `series:` in `config/brand.yaml`.
+
+**Pick-one questions.** Every caption ends with a two-sided debate question ("Original or remake? Pick one.") and
+the final slide asks the same kind of question. Open-ended "thoughts?" endings are banned. Edit the style
+examples under `engagement.cta_examples`.
+
+**Weekly report** (`.github/workflows/weekly-report.yml`, Mondays 9:07 AM Central, or run it by hand):
+- Pulls Instagram Insights (reach, shares, saves, comments, likes, Reel watch time) for the last 28 days of posts.
+- Scores each post: (shares×4 + saves×3 + comments×2 + likes) per 1,000 reached.
+- Writes `data/weights.json`. The daily rotation then picks better-performing types more often (0.5×–2×), and
+  avoids repeating yesterday's type. Types with fewer than 2 posts stay neutral.
+- Shows when your followers are online and suggests a posting time.
+- Saves the report to `reports/` and opens a GitHub issue with it, so GitHub emails it to you.
+- Needs the **`instagram_manage_insights`** permission on the token.
 
 ## Run locally
 
