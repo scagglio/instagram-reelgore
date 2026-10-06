@@ -122,6 +122,41 @@
       },
       "watch": null,
       "poster": "/iHYu4aCDIjnt6aa5WmKZvmDPJvh.jpg"
+    },
+    {
+      "date": "2026-10-06",
+      "trigger": "schedule",
+      "kind": "upcoming_roundup",
+      "movie_ids": [
+        1737740,
+        1771367,
+        1768768,
+        1125627,
+        1419019,
+        1442761
+      ],
+      "titles": [
+        "Fresh Meat",
+        "Pemuja Syaitan",
+        "Relict",
+        "DreamQuil",
+        "Dawn of Soengsang",
+        "Slayground"
+      ],
+      "headline": "COMING TO HAUNT YOU",
+      "media_id": "17989809050865471",
+      "permalink": "https://www.instagram.com/p/DeJIadwDJb6/",
+      "reel": {
+        "media_id": "18180170128425191",
+        "permalink": "https://www.instagram.com/reel/DeJIdbNgQu_/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1747150110744849",
+        "reel_id": "1607599114381871"
+      },
+      "watch": null,
+      "poster": "/pDO9mCRhWEtl6MRTksWZ1bPBrnZ.jpg"
     }
   ]
 }
