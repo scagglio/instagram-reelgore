@@ -157,6 +157,41 @@
       },
       "watch": null,
       "poster": "/pDO9mCRhWEtl6MRTksWZ1bPBrnZ.jpg"
+    },
+    {
+      "date": "2026-10-06",
+      "trigger": "workflow_dispatch",
+      "kind": "upcoming_roundup",
+      "movie_ids": [
+        1747310,
+        1760638,
+        1637705,
+        1642568,
+        1765774,
+        1763612
+      ],
+      "titles": [
+        "Ghosthing",
+        "You Can't Leave",
+        "#Cult",
+        "The Last Temptation of Becky",
+        "Montpellier",
+        "Orang Sebelah"
+      ],
+      "headline": "COMING TO HAUNT YOU",
+      "media_id": "18329017795263272",
+      "permalink": "https://www.instagram.com/p/DeKe74UHf4W/",
+      "reel": {
+        "media_id": "18344409748251884",
+        "permalink": "https://www.instagram.com/reel/DeKfCR2ETqF/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1747786410681219",
+        "reel_id": "1072179115649399"
+      },
+      "watch": null,
+      "poster": "/lXVuJMrofiodYM4jl88fiP7zjFs.jpg"
     }
   ]
 }
