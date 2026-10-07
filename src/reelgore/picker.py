@@ -12,10 +12,27 @@ from .tmdb import TMDB
 HISTORY = Path("data/history.json")
 
 
-def load_history() -> dict:
-    if HISTORY.exists():
-        return json.loads(HISTORY.read_text())
-    return {"posts": []}
+def load_history(path: Path | None = None) -> dict:
+    """Read post history. An empty, missing or damaged file never stops a post: it's treated as no history
+    (a damaged file is backed up first so nothing is lost)."""
+    path = path or HISTORY
+    if not path.exists():
+        return {"posts": []}
+    raw = path.read_text().strip()
+    if not raw:
+        print(f"[history] {path} is empty; starting a fresh history")
+        return {"posts": []}
+    try:
+        h = json.loads(raw)
+        if isinstance(h, list):          # tolerate a bare list of posts
+            h = {"posts": h}
+        h.setdefault("posts", [])
+        return h
+    except json.JSONDecodeError as e:
+        backup = path.with_name(path.name + ".broken")
+        backup.write_text(raw)
+        print(f"[history] {path} is damaged ({e}); saved a copy to {backup} and starting fresh")
+        return {"posts": []}
 
 
 def save_history(h: dict) -> None:

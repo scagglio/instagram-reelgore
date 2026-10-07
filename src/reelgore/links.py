@@ -17,7 +17,8 @@ def _e(s) -> str:
 def build_links_page(cfg: dict, history_path: Path = Path("data/history.json")) -> Path:
     acfg = cfg.get("affiliate", {})
     acct = cfg["account"]
-    posts = json.loads(history_path.read_text())["posts"] if history_path.exists() else []
+    from .picker import load_history
+    posts = load_history(history_path)["posts"]
     items = [p for p in reversed(posts) if p.get("watch")][: acfg.get("page_items", 30)]
 
     shop = "".join(

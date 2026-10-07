@@ -167,7 +167,8 @@ def build_report(ig, history: dict, days: int = 28) -> tuple[str, dict]:
 
 
 def run(ig, history_path=Path("data/history.json")) -> Path:
-    history = json.loads(history_path.read_text()) if history_path.exists() else {"posts": []}
+    from .picker import load_history
+    history = load_history(history_path)
     report, weights = build_report(ig, history)
     WEIGHTS.parent.mkdir(parents=True, exist_ok=True)
     WEIGHTS.write_text(json.dumps(weights, indent=2))
