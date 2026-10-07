@@ -14,6 +14,26 @@ WANT = ["production", "costume", "mask", "design", "location", "inspiration", "b
         "legacy", "influence", "controversy", "censorship", "home media", "trivia", "accolades"]
 
 
+WANT_PERSON = ["career", "horror", "scream queen", "acting", "film", "early life", "legacy", "influence",
+               "accolades", "awards", "reception", "public image", "work"]
+SKIP_PERSON = ("personal life", "filmography", "death", "health", "relationship", "family", "political",
+               "views", "legal", "controvers", "philanthropy", "religio")
+
+
+def _person_from_search(name: str) -> str | None:
+    try:
+        r = requests.get(API, headers=UA, timeout=20, params={
+            "action": "query", "list": "search", "format": "json", "srlimit": 5,
+            "srsearch": f'"{name}" actor OR actress OR filmmaker'})
+        hits = r.json().get("query", {}).get("search", [])
+    except Exception:
+        return None
+    for h in hits:
+        if h["title"].lower().startswith(name.lower()):
+            return h["title"]
+    return None
+
+
 def _title_from_wikidata(qid: str) -> str | None:
     try:
         r = requests.get(f"https://www.wikidata.org/wiki/Special:EntityData/{qid}.json", headers=UA, timeout=20)
@@ -49,11 +69,11 @@ def _extract(page: str) -> str | None:
         return None
 
 
-def trivia_notes(movie: dict, max_chars: int = 7000) -> str | None:
-    """Return the trivia-rich parts of the film's Wikipedia article, or None."""
+def trivia_notes(movie: dict, max_chars: int = 7000, person: bool = False) -> str | None:
+    """Return the trivia-rich parts of a film's (or, with person=True, a person's) Wikipedia article."""
     year = (movie.get("release_date") or "")[:4]
     page = (_title_from_wikidata(movie["wikidata_id"]) if movie.get("wikidata_id") else None) \
-        or _title_from_search(movie["title"], year)
+        or (_person_from_search(movie["title"]) if person else _title_from_search(movie["title"], year))
     if not page:
         return None
     text = _extract(page)
@@ -68,11 +88,21 @@ def trivia_notes(movie: dict, max_chars: int = 7000) -> str | None:
             sections.append((heading, body))
     skip = ("plot", "synopsis", "cast", "references", "see also", "external links", "notes", "further reading",
             "bibliography", "citations", "sources", "footnotes", "works cited")
-    usable = [(h, b) for h, b in sections if not any(h.lower().startswith(x) for x in skip)
-              or "casting" in h.lower()]
+    want = WANT_PERSON if person else WANT
+    if person:
+        usable = [(h, b) for h, b in sections if not any(h.lower().startswith(x) for x in skip)
+                  and not any(x in h.lower() for x in SKIP_PERSON)]
+        lead = parts[0].strip()
+        if lead:  # a bio's opening paragraphs summarize the career: keep them first
+            usable.insert(0, ("Overview", lead))
+    else:
+        usable = [(h, b) for h, b in sections if not any(h.lower().startswith(x) for x in skip)
+                  or "casting" in h.lower()]
     def priority(hb):
         h = hb[0].lower()
-        return next((i for i, w in enumerate(WANT) if w in h), len(WANT))
+        if h == "overview":
+            return -1
+        return next((i for i, w in enumerate(want) if w in h), len(want))
     picked = sorted(usable, key=priority)
     if not picked:  # no useful sections: use the lead paragraph(s)
         lead = parts[0].strip()

@@ -209,6 +209,26 @@ def pick_custom(tmdb: TMDB, titles: list[str], list_title: str = "", max_films: 
             "list_title": list_title.strip(), "max_slides": len(found) + 2}
 
 
+def pick_person(tmdb: TMDB, name: str) -> dict:
+    """Single-person horror spotlight (one actor, actress or filmmaker per post)."""
+    hit = tmdb.find_person(name)
+    if not hit:
+        raise SystemExit(f"Couldn't find '{name}' on TMDB. Check the spelling, or use their TMDB id like "
+                         "'tmdb-person:8944' (the number in their TMDB page address).")
+    person = tmdb.person_details(hit["id"])
+    print(f"[picker] '{name}' -> {person['name']} (tmdb-person:{person['id']}), "
+          f"{person['horror_count']} horror credits")
+    if not person["roles"]:
+        raise SystemExit(f"{person['name']} has no horror credits on TMDB, so there's nothing to spotlight "
+                         "for a horror account. Double-check it's the right person.")
+    h = load_history()
+    before = [p_["date"] for p_ in h["posts"] if p_.get("kind") == "person" and p_.get("person_id") == person["id"]]
+    if before:
+        print(f"[picker] heads-up: {person['name']} was already spotlighted on {', '.join(before)}")
+    # Roles double as the "movies" list so the existing slide types (movie slides etc.) can show them
+    return {"kind": "person", "person": person, "movies": person["roles"], "custom": True}
+
+
 def record(plan: dict, permalink: str | None, media_id: str | None, reel: dict | None = None,
            facebook: dict | None = None) -> None:
     h = load_history()
@@ -223,7 +243,8 @@ def record(plan: dict, permalink: str | None, media_id: str | None, reel: dict |
         "trigger": os.environ.get("GITHUB_EVENT_NAME", "local"),
         "kind": plan["kind"],
         "movie_ids": [m["id"] for m in plan["movies"]],
-        "titles": [m["title"] for m in plan["movies"]],
+        "titles": [plan["person"]["name"]] if plan.get("person") else [m["title"] for m in plan["movies"]],
+        "person_id": (plan.get("person") or {}).get("id"),
         "headline": plan.get("copy", {}).get("headline"),
         "media_id": media_id,
         "permalink": permalink,

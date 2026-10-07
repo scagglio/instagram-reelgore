@@ -21,6 +21,11 @@ on:
         type: string
         required: false
         default: ""
+      person:
+        description: "Optional: ONE actor, actress or filmmaker to spotlight (e.g. Jamie Lee Curtis). Overrides movies and 'What to post'."
+        type: string
+        required: false
+        default: ""
       list_title:
         description: "Optional: title for a multi-movie list (e.g. Slashers for a rainy night)"
         type: string
@@ -93,6 +98,7 @@ jobs:
         if: env.SKIP != 'true'
         env:
           MOVIES: ${{ inputs.movies }}
+          PERSON: ${{ inputs.person }}
           LIST_TITLE: ${{ inputs.list_title }}
           POST_TYPE_IN: ${{ inputs.post_type || 'auto' }}
         run: python -m reelgore.main plan --type "$POST_TYPE_IN"

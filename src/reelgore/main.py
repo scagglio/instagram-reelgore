@@ -22,15 +22,21 @@ def load_cfg() -> dict:
 
 
 def cmd_plan(args):
-    from .picker import parse_titles, pick, pick_custom
+    from .picker import parse_titles, pick, pick_custom, pick_person
     from .render import Renderer
     from .tmdb import TMDB
     from .writer import caption_text, write_copy
 
     cfg = load_cfg()
+    person_name = (os.environ.get("PERSON") or "").strip()
+    if any(sep in person_name for sep in (",", ";", " and ", " & ")):
+        raise SystemExit("The person box takes ONE name per post. Run once per person.")
     tmdb = TMDB()
     titles = parse_titles(os.environ.get("MOVIES", ""))
-    if titles:
+    if person_name:
+        print(f"[plan] person spotlight from the manual run: {person_name}")
+        plan = pick_person(tmdb, person_name)
+    elif titles:
         print(f"[plan] custom list from the manual run: {titles}")
         plan = pick_custom(tmdb, titles, os.environ.get("LIST_TITLE", ""))
         summary = os.environ.get("GITHUB_STEP_SUMMARY")
@@ -51,7 +57,12 @@ def cmd_plan(args):
     if plan["kind"] in TRIVIA_KINDS:
         from .wiki import trivia_notes
         try:
-            plan["trivia_notes"] = trivia_notes(plan["movies"][0])
+            if plan.get("person"):
+                pp = plan["person"]
+                plan["trivia_notes"] = trivia_notes({"title": pp["name"], "wikidata_id": pp.get("wikidata_id")},
+                                                    person=True)
+            else:
+                plan["trivia_notes"] = trivia_notes(plan["movies"][0])
         except Exception as e:
             print(f"[trivia] Wikipedia lookup failed: {e}")
         if not plan.get("trivia_notes"):

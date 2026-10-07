@@ -172,6 +172,44 @@ class Renderer:
         d.text((80, 146), text, font=f, fill=self.blood)
         d.text((62, 150 + int(f.size * 1.05) + 16), s["name"].upper(), font=self.body(26, bold=True), fill=self.bone)
 
+    def person_cover(self, person, fallback_movie, headline, subhead, total):
+        """Cover for a person spotlight: their portrait large on the right over a blurred horror still."""
+        bd = (fallback_movie.get("backdrops") or [fallback_movie.get("poster")])[0]
+        im = self.background(bd, darken=0.9, blur=22)
+        portrait = self.img(person.get("profile")) if person.get("profile") else None
+        if portrait:
+            ph = int(self.H * 0.68)
+            pw = int(portrait.width * ph / portrait.height)
+            portrait = portrait.resize((pw, ph), Image.LANCZOS)
+            # fade the portrait's left and bottom edges into the background
+            mask = Image.new("L", (pw, ph), 255)
+            md = ImageDraw.Draw(mask)
+            for x in range(int(pw * 0.35)):
+                md.line([(x, 0), (x, ph)], fill=int(255 * x / (pw * 0.35)))
+            fade = Image.new("L", (pw, ph), 255)
+            fd = ImageDraw.Draw(fade)
+            for y in range(int(ph * 0.65), ph):
+                fd.line([(0, y), (pw, y)], fill=int(255 * (ph - y) / (ph * 0.35)))
+            top = int(ph * 0.12)
+            for y in range(top):  # soft top edge
+                fd.line([(0, y), (pw, y)], fill=int(255 * y / top))
+            from PIL import ImageChops
+            mask = ImageChops.multiply(mask, fade)
+            im.paste(portrait, (self.W - pw, 130), mask)
+        d = ImageDraw.Draw(im)
+        self.kicker(d, 60, 160 if not getattr(self, "series", None) else 290, "HORROR ICON")
+        f, lines = self.fit_headline(d, headline, self.W - 120, 3, start=150)
+        lh = int(f.size * 0.95)
+        y = self.H - 230 - lh * len(lines) - 60
+        for i, line in enumerate(lines):
+            d.text((60, y), line, font=f, fill=self.blood if i == len(lines) - 1 else self.bone)
+            y += lh
+        self.paragraph(d, 60, y + 24, subhead, size=36)
+        im = self.chrome(im, 1, total)
+        if getattr(self, "series", None):
+            self.series_badge(im)
+        return self.grain(im)
+
     def movie_slide(self, movie, sl, idx, total):
         im = self.background(movie["backdrops"][0] if movie["backdrops"] else movie["poster"], darken=0.8, blur=18)
         d = ImageDraw.Draw(im)
@@ -353,7 +391,10 @@ class Renderer:
         slides = copy["slides"]
         total = len(slides) + 1
         lead = plan["movies"][0]
-        images = [self.cover(lead, copy["headline"], copy.get("subhead", ""), total)]
+        if plan.get("person"):
+            images = [self.person_cover(plan["person"], lead, copy["headline"], copy.get("subhead", ""), total)]
+        else:
+            images = [self.cover(lead, copy["headline"], copy.get("subhead", ""), total)]
         fn = {"movie": self.movie_slide, "text": self.text_slide, "verdict": self.verdict_slide, "cta": self.cta_slide, "trivia": self.trivia_slide,
               "watch": self.watch_slide}
         for i, sl in enumerate(slides, start=2):

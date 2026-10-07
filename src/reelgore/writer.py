@@ -69,6 +69,15 @@ BRIEFS = {
         "spoiler-free hook plus why it earns a spot on this list. Then exactly one 'cta' slide. "
         "The headline should sell the list as a whole{headline_hint}."
     ),
+    "person": (
+        "Make a 'HORROR ICON' spotlight carousel on ONE person: {person_name}. Slides, in order: "
+        "a 'text' slide on who they are and why horror fans know them (kicker like 'THE ICON'); "
+        "a 'trivia' slide; then one 'movie' slide for each of their 3 most notable horror roles from ROLES "
+        "(movie_index = that role's index in FACTS, kicker = the year, title = the film, body = who they played "
+        "and why the performance or film matters); a 'text' slide with kicker 'WHERE TO START' recommending "
+        "one of those films for newcomers; then a 'cta' whose title pits two of their roles against each other "
+        "(e.g. 'Laurie or Annie? Pick one.'). The headline names them."
+    ),
     "anniversary": (
         "Make a '{years} YEARS AGO TODAY' anniversary carousel. The film was released on {release_date}. "
         "Headline must mention the {years} years. Slides: what hit screens that day, a 'trivia' slide, "
@@ -78,12 +87,16 @@ BRIEFS = {
 }
 
 
-TRIVIA_KINDS = {"classic", "anniversary", "pick", "upcoming_spotlight"}
+TRIVIA_KINDS = {"classic", "anniversary", "pick", "upcoming_spotlight", "person"}
 
 
 def _trivia_rules(plan: dict) -> str:
     notes = plan.get("trivia_notes")
-    base = ("\n\nTRIVIA RULES (for the 'trivia' slide):\n"
+    person = plan.get("person")
+    respect = ("- This is a real person. Stick to their career and public work. No comments on looks, private "
+               "life, health, relationships or politics. If they have died (deathday), be respectful.\n"
+               if person else "")
+    base = ("\n\nTRIVIA RULES (for the 'trivia' slide):\n" + respect +
             "- kicker 'DID YOU KNOW?', a short punchy title, empty body, and exactly 2 'points'.\n"
             "- Pick the most surprising, fun behind-the-scenes facts: budget hacks, props, casting near-misses, "
             "shooting stories, censorship, box-office surprises. Skip dry facts like who wrote the score.\n"
@@ -95,7 +108,18 @@ def _trivia_rules(plan: dict) -> str:
                    "(budget, box office, runtime, release date, country, tagline). Never invent trivia.")
 
 
+def _person_facts(plan: dict) -> str:
+    p = plan["person"]
+    person = {k: p.get(k) for k in ("name", "birthday", "deathday", "place_of_birth", "known_for_department",
+                                    "biography", "horror_count") if p.get(k)}
+    roles = [{"index": i, "title": r["title"], "year": (r.get("release_date") or "")[:4], "role": r.get("role"),
+              "overview": r.get("overview")} for i, r in enumerate(plan["movies"])]
+    return json.dumps({"PERSON": person, "ROLES": roles}, indent=1)
+
+
 def _facts(plan: dict) -> str:
+    if plan.get("person"):
+        return _person_facts(plan)
     keep = ["title", "release_date", "runtime", "overview", "tagline", "genres", "countries",
             "directors", "writers", "makeup_fx", "composer", "cast", "budget", "revenue", "vote_average"]
     return json.dumps([{k: m.get(k) for k in keep if m.get(k)} for m in plan["movies"]], indent=1)
@@ -106,6 +130,7 @@ def write_copy(plan: dict, cfg: dict) -> dict:
 
     lt = plan.get("list_title", "")
     brief = BRIEFS[plan["kind"]].format(
+        person_name=(plan.get("person") or {}).get("name", ""),
         list_title=f" titled '{lt}'" if lt else "",
         headline_hint=f" (use or closely echo '{lt}')" if lt else "",
         theme=plan.get("theme", ""),

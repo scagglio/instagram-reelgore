@@ -109,6 +109,57 @@ class TMDB:
             return (exact, horror, closeness, r.get("vote_count", 0))
         return max(results[:10], key=rank)
 
+    # ---------- people ----------
+    def find_person(self, name: str) -> dict | None:
+        """Best TMDB match for a typed name ('Jamie Lee Curtis', or 'tmdb-person:8944')."""
+        import re
+        m = re.fullmatch(r"tmdb-person:(\d+)", name.strip(), re.I)
+        if m:
+            return {"id": int(m.group(1))}
+        results = self.get("/search/person", query=name.strip(), include_adult="false").get("results", [])
+        if not results:
+            return None
+
+        def rank(r):
+            exact = r.get("name", "").lower() == name.strip().lower()
+            horror_known = any(HORROR in (k.get("genre_ids") or []) for k in r.get("known_for", []))
+            return (exact, horror_known, r.get("popularity", 0))
+        return max(results[:10], key=rank)
+
+    def person_details(self, person_id: int, max_roles: int = 6) -> dict:
+        """Bio facts plus their most notable horror work (acting and directing), best-known first."""
+        p = self.get(f"/person/{person_id}", append_to_response="movie_credits,images,external_ids")
+        credits = p.get("movie_credits", {})
+        horror = {}
+        for c in credits.get("cast", []):
+            if HORROR in (c.get("genre_ids") or []) and c.get("release_date"):
+                horror.setdefault(c["id"], {**c, "role": c.get("character") or ""})
+        for c in credits.get("crew", []):
+            if HORROR in (c.get("genre_ids") or []) and c.get("release_date") and c.get("job") in ("Director", "Screenplay", "Writer"):
+                e = horror.setdefault(c["id"], {**c, "role": ""})
+                e["role"] = ", ".join(x for x in [e["role"], c["job"]] if x)
+        roles = sorted(horror.values(), key=lambda c: -(c.get("vote_count") or 0))[:max_roles]
+        profiles = [i["file_path"] for i in (p.get("images") or {}).get("profiles", [])[:4]]
+        return {
+            "id": p["id"],
+            "name": p.get("name"),
+            "birthday": p.get("birthday"),
+            "deathday": p.get("deathday"),
+            "place_of_birth": p.get("place_of_birth"),
+            "known_for_department": p.get("known_for_department"),
+            "biography": (p.get("biography") or "")[:1500],
+            "profile": p.get("profile_path"),
+            "profiles": profiles or ([p["profile_path"]] if p.get("profile_path") else []),
+            "wikidata_id": (p.get("external_ids") or {}).get("wikidata_id"),
+            "horror_count": len(horror),
+            "roles": [{
+                "id": r["id"], "title": r.get("title"), "release_date": r.get("release_date"),
+                "role": r.get("role"), "poster": r.get("poster_path"),
+                "backdrops": [r["backdrop_path"]] if r.get("backdrop_path") else [],
+                "overview": (r.get("overview") or "")[:300],
+            } for r in roles],
+        }
+
     # ---------- details ----------
     def details(self, movie_id: int) -> dict:
         m = self.get(f"/movie/{movie_id}", append_to_response="credits,images,videos,release_dates,external_ids",

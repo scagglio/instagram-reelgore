@@ -65,6 +65,19 @@ Halloween (1978), The Thing, Hereditary, Suspiria 1977
 - Titles that can't be found are skipped and listed in the run's summary. Use **dry_run** first to check.
 - The box overrides "What to post". Leave it empty for the normal automatic pick. Scheduled runs ignore it.
 
+## Spotlight one actor, actress or filmmaker (manual run)
+
+Type **one** name in the **person** box (e.g. `Jamie Lee Curtis`). One person per post; commas or "&" are rejected.
+
+The carousel: a **Horror Icon** cover with their portrait → who they are → a **Did you know?** trivia slide
+(from their Wikipedia career, early-life and awards sections; personal life is skipped) → their 3 most notable
+horror roles, one slide each → **Where to start** → a pick-one question pitting two roles against each other.
+
+- Only people with horror credits on TMDB qualify (it's a horror account). Directors and writers count too.
+- If two people share a name, use their TMDB id: `tmdb-person:8944` (the number in their TMDB page address).
+- The log warns if you've spotlighted the same person before.
+- The person box overrides the movies box and "What to post".
+
 ## Music (Reels)
 
 Each Reel gets a **licensed Instagram track** through Meta's Instagram Audio API (`GET /ig_audio`, then
