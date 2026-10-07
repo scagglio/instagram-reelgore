@@ -131,21 +131,34 @@ def pick(tmdb: TMDB, cfg: dict, forced: str = "auto", today: date | None = None)
         kind = forced
 
     if kind == "anniversary":
-        if not anniversaries:
+        for m in anniversaries[:6]:
+            d = tmdb.details(m["id"])
+            if d.get("english_title", True):
+                return {"kind": "anniversary", "years": m["_years"], "movies": [d]}
+            print(f"[picker] skipping '{d['title']}': no English title on TMDB")
+        if forced == "anniversary":
             raise SystemExit("No qualifying horror anniversaries today; try --type classic")
-        m = anniversaries[0]
-        return {"kind": "anniversary", "years": m["_years"], "movies": [tmdb.details(m["id"])]}
+        kind = "classic"
 
     if kind == "upcoming":
         up = tmdb.upcoming_horror(cfg["upcoming"]["days_ahead"], cfg["upcoming"]["region"])
         up = [m for m in up if m.get("poster_path") or m.get("backdrop_path")]
         recent = recently_used(h, 14)
         fresh = [m for m in up if m["id"] not in recent] or up
-        if len(fresh) >= 4:
-            chosen = sorted(fresh[:6], key=lambda m: m.get("release_date") or "9999")
-            return {"kind": "upcoming_roundup", "movies": [tmdb.details(m["id"]) for m in chosen]}
-        if fresh:
-            return {"kind": "upcoming_spotlight", "movies": [tmdb.details(fresh[0]["id"])]}
+        details = []
+        for m in fresh[:12]:
+            d = tmdb.details(m["id"])
+            if d.get("english_title", True):
+                details.append(d)
+            else:
+                print(f"[picker] skipping '{d['title']}': no English title on TMDB")
+            if len(details) == 6:
+                break
+        if len(details) >= 4:
+            return {"kind": "upcoming_roundup",
+                    "movies": sorted(details, key=lambda m: m.get("release_date") or "9999")}
+        if details:
+            return {"kind": "upcoming_spotlight", "movies": [details[0]]}
         kind = "classic"  # nothing upcoming; fall through
 
     # classic
@@ -167,8 +180,14 @@ def pick(tmdb: TMDB, cfg: dict, forced: str = "auto", today: date | None = None)
     pool = [m for m in pool if m["id"] not in used_year]
     if not pool:
         raise SystemExit("Classic pool exhausted; widen config.classic")
-    m = rng.choice(pool[:30])
-    return {"kind": "classic", "theme": theme, "movies": [tmdb.details(m["id"])]}
+    candidates = pool[:30]
+    rng.shuffle(candidates)
+    for m in candidates[:8]:
+        d = tmdb.details(m["id"])
+        if d.get("english_title", True):
+            return {"kind": "classic", "theme": theme, "movies": [d]}
+        print(f"[picker] skipping '{d['title']}': no English title on TMDB")
+    raise SystemExit("Couldn't find a classic with an English title; try again or widen config.classic")
 
 
 def parse_titles(raw: str) -> list[str]:

@@ -11,6 +11,16 @@ IMG = "https://image.tmdb.org/t/p"
 HORROR = 27
 
 
+def is_latin(text: str | None) -> bool:
+    """True if the title reads in the Latin alphabet (English, Italian, Spanish, French...)."""
+    import unicodedata
+    letters = [c for c in (text or "") if c.isalpha()]
+    if not letters:
+        return True
+    latin = sum(1 for c in letters if "LATIN" in unicodedata.name(c, ""))
+    return latin / len(letters) >= 0.8
+
+
 class TMDB:
     def __init__(self, token: str | None = None):
         # Accepts either a v4 "read access token" (long JWT) or a v3 API key.
@@ -162,16 +172,32 @@ class TMDB:
 
     # ---------- details ----------
     def details(self, movie_id: int) -> dict:
-        m = self.get(f"/movie/{movie_id}", append_to_response="credits,images,videos,release_dates,external_ids",
+        m = self.get(f"/movie/{movie_id}",
+                     append_to_response="credits,images,videos,release_dates,external_ids,alternative_titles,translations",
                      include_image_language="en,null")
+        title, original = m.get("title"), m.get("original_title")
+        if not is_latin(title):
+            # TMDB has no English title on the main record: look for an English alternate title or translation
+            alts = (m.get("alternative_titles") or {}).get("titles", [])
+            trans = (m.get("translations") or {}).get("translations", [])
+            english = [a.get("title") for a in alts if a.get("iso_3166_1") in ("US", "GB", "CA", "AU")] + \
+                      [x.get("data", {}).get("title") for x in trans if x.get("iso_639_1") == "en"] + \
+                      [a.get("title") for a in alts]
+            better = next((e for e in english if e and is_latin(e)), None)
+            if better:
+                print(f"[tmdb] using English title '{better}' for '{title}'")
+                title = better
         crew = m.get("credits", {}).get("crew", [])
         cast = m.get("credits", {}).get("cast", [])
         backdrops = [b["file_path"] for b in m.get("images", {}).get("backdrops", [])[:8]]
         posters = [b["file_path"] for b in m.get("images", {}).get("posters", [])[:3]]
         return {
             "id": m["id"],
-            "title": m.get("title"),
-            "original_title": m.get("original_title"),
+            "title": title,
+            "original_title": original,
+            # Shown in small type under the title when it differs (e.g. Deep Red / Profondo Rosso)
+            "aka": original if original and original.strip().lower() != (title or "").strip().lower() else None,
+            "english_title": is_latin(title),
             "release_date": m.get("release_date"),
             "runtime": m.get("runtime"),
             "overview": m.get("overview"),

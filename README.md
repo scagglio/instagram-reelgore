@@ -40,6 +40,14 @@ Tune everything in `config/brand.yaml`: voice, themes, milestone years, palette,
 
 The schedule runs daily at 6:07 PM Central, with backup attempts at 6:37, 7:17 and 8:47 PM, because GitHub sometimes delays or drops scheduled runs. Only the first one that runs posts; the rest see the scheduled post in `data/history.json` and skip. Manual runs never block the scheduled post.
 
+## International films and titles
+
+International horror is welcome. If TMDB's main title isn't in English (e.g. Russian or Korean script), the agent
+looks for an English alternate title or translation and uses it, with the original shown in small type under the
+title on slides ("ORIGINAL TITLE Profondo Rosso"). Automatic posts skip films that have no English title at all;
+movies you type in yourself are always kept. Original titles in Japanese, Korean, Chinese and similar scripts
+appear in captions only, since the slide font can't draw them.
+
 ## Did you know? (trivia slide)
 
 Deep-dive posts (classic, anniversary, your single-movie picks, upcoming spotlights) get a **Did you know?** slide

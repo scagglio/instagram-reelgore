@@ -118,6 +118,29 @@ class Renderer:
             d.text((self.W - 60 - d.textlength(arrow, font=fh), self.H - 70), arrow, font=fh, fill=self.bone)
         return im
 
+    @staticmethod
+    def _drawable(text: str) -> bool:
+        """Inter covers Latin, Cyrillic and Greek; skip scripts it can't draw (Japanese, Korean, Chinese, Thai...)."""
+        import unicodedata
+        for c in text:
+            if c.isalpha() and not any(k in unicodedata.name(c, "") for k in ("LATIN", "CYRILLIC", "GREEK")):
+                return False
+        return True
+
+    def aka_line(self, d, y, movie, x=60):
+        """Small 'Original title: …' line under a film title when the original differs."""
+        aka = movie.get("aka")
+        if not aka or not self._drawable(aka):
+            return y
+        f = self.body(26, bold=True)
+        label = f"ORIGINAL TITLE  {aka}"
+        while d.textlength(label, font=f) > self.W - 2 * x and len(aka) > 8:
+            aka = aka[:-2].rstrip() + "…" if not aka.endswith("…") else aka[:-2].rstrip() + "…"
+            label = f"ORIGINAL TITLE  {aka}"
+        d.text((x, y + 6), "ORIGINAL TITLE", font=f, fill=self.rust)
+        d.text((x + d.textlength("ORIGINAL TITLE  ", font=f), y + 6), aka, font=self.body(26), fill=self.bone)
+        return y + 44
+
     def kicker(self, d, x, y, text):
         f = self.body(28, bold=True)
         w = d.textlength(text.upper(), font=f)
@@ -233,6 +256,7 @@ class Renderer:
         for line in lines:
             d.text((60, y), line, font=f, fill=self.bone)
             y += int(f.size * .95)
+        y = self.aka_line(d, y, movie)
         self.paragraph(d, 60, y + 22, sl.get("body", ""), size=32)
         return self.grain(self.chrome(im, idx, total))
 
@@ -342,7 +366,7 @@ class Renderer:
         for line in lines:
             d.text((60, y), line, font=f, fill=self.bone)
             y += int(f.size * .95)
-        y += 50
+        y = self.aka_line(d, y, movie) + 50
 
         stream = w.get("stream", [])
         label = self.body(30, bold=True)

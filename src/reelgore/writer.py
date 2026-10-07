@@ -120,7 +120,7 @@ def _person_facts(plan: dict) -> str:
 def _facts(plan: dict) -> str:
     if plan.get("person"):
         return _person_facts(plan)
-    keep = ["title", "release_date", "runtime", "overview", "tagline", "genres", "countries",
+    keep = ["title", "aka", "release_date", "runtime", "overview", "tagline", "genres", "countries",
             "directors", "writers", "makeup_fx", "composer", "cast", "budget", "revenue", "vote_average"]
     return json.dumps([{k: m.get(k) for k in keep if m.get(k)} for m in plan["movies"]], indent=1)
 
@@ -150,7 +150,9 @@ def write_copy(plan: dict, cfg: dict) -> dict:
         "or 'comment below'.\n"
         "- The 'cta' slide title must be that same kind of pick-one question (max 6 words). Its body names "
         "the two options, or asks for a 1-5 skull rating in one word.\n"
-        "- The caption's first line is a scroll-stopping hook, not a summary."
+        "- The caption's first line is a scroll-stopping hook, not a summary.\n"
+        "- Always call films by their FACTS 'title' (the English title). If a film has an 'aka' (original title), "
+        "you may mention it once, e.g. 'Deep Red (Profondo Rosso)'."
     )
     series = plan.get("series")
     if series:
