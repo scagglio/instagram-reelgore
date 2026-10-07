@@ -57,6 +57,37 @@
         "justwatch": "https://www.themoviedb.org/movie/97051-would-you-rather/watch?locale=US"
       },
       "poster": "/7oXzvesOXH2UnSrd1Xflhqa1dBt.jpg"
+    },
+    {
+      "date": "2026-10-07",
+      "trigger": "workflow_dispatch",
+      "kind": "person",
+      "movie_ids": [
+        10779,
+        3600,
+        1694,
+        97051,
+        11377,
+        14510
+      ],
+      "titles": [
+        "Jeffrey Combs"
+      ],
+      "person_id": 27993,
+      "headline": "Jeffrey Combs: Horror's Mad Scientist King",
+      "media_id": "18037164395841599",
+      "permalink": "https://www.instagram.com/p/DeMesoVGDYk/",
+      "reel": {
+        "media_id": "18141834649621112",
+        "permalink": "https://www.instagram.com/reel/DeMe0eLAh7n/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1748560287270498",
+        "reel_id": "968620246283856"
+      },
+      "watch": null,
+      "poster": "/zcJbCMwFLJdn5OLjhYwMVaSB32R.jpg"
     }
   ]
 }
