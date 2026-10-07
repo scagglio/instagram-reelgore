@@ -154,6 +154,44 @@ def pick(tmdb: TMDB, cfg: dict, forced: str = "auto", today: date | None = None)
     return {"kind": "classic", "theme": theme, "movies": [tmdb.details(m["id"])]}
 
 
+def parse_titles(raw: str) -> list[str]:
+    """Split the manual-run box on commas (or semicolons / new lines), dropping blanks and duplicates."""
+    import re
+    parts = [x.strip().strip('"').strip("'").strip() for x in re.split(r"[,;\n]", raw or "")]
+    seen, out = set(), []
+    for x in parts:
+        if x and x.lower() not in seen:
+            seen.add(x.lower())
+            out.append(x)
+    return out
+
+
+def pick_custom(tmdb: TMDB, titles: list[str], list_title: str = "", max_films: int = 8) -> dict:
+    """Build a plan from movies you typed in. One film = deep dive; several = a 'Reel Gore Picks' list."""
+    found, missing = [], []
+    for t in titles[:max_films]:
+        hit = tmdb.find_movie(t)
+        if hit:
+            d = tmdb.details(hit["id"])
+            print(f"[picker] '{t}' -> {d['title']} ({(d.get('release_date') or '????')[:4]}) tmdb:{d['id']}")
+            found.append(d)
+        else:
+            missing.append(t)
+            print(f"[picker] couldn't find '{t}' on TMDB; skipping it")
+    if len(titles) > max_films:
+        print(f"[picker] only the first {max_films} titles fit in one carousel; ignoring {titles[max_films:]}")
+    if not found:
+        raise SystemExit(f"None of these matched a movie on TMDB: {titles}. Check spelling, or add the year, "
+                         "e.g. 'The Thing (1982)'.")
+    released = lambda m: bool(m.get("release_date")) and m["release_date"] <= date.today().isoformat()
+    if len(found) == 1:
+        m = found[0]
+        kind = "pick" if released(m) else "upcoming_spotlight"
+        return {"kind": kind, "movies": [m], "custom": True, "missing": missing}
+    return {"kind": "picks", "movies": found, "custom": True, "missing": missing,
+            "list_title": list_title.strip(), "max_slides": len(found) + 2}
+
+
 def record(plan: dict, permalink: str | None, media_id: str | None, reel: dict | None = None,
            facebook: dict | None = None) -> None:
     h = load_history()

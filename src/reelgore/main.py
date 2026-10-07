@@ -22,19 +22,42 @@ def load_cfg() -> dict:
 
 
 def cmd_plan(args):
-    from .picker import pick
+    from .picker import parse_titles, pick, pick_custom
     from .render import Renderer
     from .tmdb import TMDB
     from .writer import caption_text, write_copy
 
     cfg = load_cfg()
     tmdb = TMDB()
-    plan = pick(tmdb, cfg, forced=args.type)
+    titles = parse_titles(os.environ.get("MOVIES", ""))
+    if titles:
+        print(f"[plan] custom list from the manual run: {titles}")
+        plan = pick_custom(tmdb, titles, os.environ.get("LIST_TITLE", ""))
+        summary = os.environ.get("GITHUB_STEP_SUMMARY")
+        if summary:
+            with open(summary, "a") as f:
+                f.write("### Your movies\n\n" + "\n".join(
+                    f"- {m['title']} ({(m.get('release_date') or '????')[:4]})" for m in plan["movies"]) + "\n")
+                if plan["missing"]:
+                    f.write("\n> **Not found on TMDB, skipped:** " + ", ".join(plan["missing"]) +
+                            ". Check the spelling or add the year, e.g. `The Thing (1982)`.\n")
+    else:
+        plan = pick(tmdb, cfg, forced=args.type)
     print(f"[plan] {plan['kind']}: {[m['title'] for m in plan['movies']]}")
     plan["series"] = active_series(cfg)
     if plan["series"]:
         print(f"[series] {plan['series']['name']}: night {plan['series']['n']}/{plan['series']['total']}")
+    from .writer import TRIVIA_KINDS
+    if plan["kind"] in TRIVIA_KINDS:
+        from .wiki import trivia_notes
+        try:
+            plan["trivia_notes"] = trivia_notes(plan["movies"][0])
+        except Exception as e:
+            print(f"[trivia] Wikipedia lookup failed: {e}")
+        if not plan.get("trivia_notes"):
+            print("[trivia] no Wikipedia notes; trivia will use TMDB facts only")
     copy = write_copy(plan, cfg)
+    plan.pop("trivia_notes", None)  # don't store the article text in plan.json/history
     if plan["series"]:
         tag = plan["series"]["hashtag"]
         copy["hashtags"] = [tag] + [h for h in copy["hashtags"] if h.lower() != tag.lower()]
@@ -88,7 +111,8 @@ def active_series(cfg: dict, today: date | None = None) -> dict | None:
 def add_watch_slide(tmdb, plan: dict, copy: dict, cfg: dict) -> None:
     """Insert a 'where to watch / own it' slide before the CTA for released films."""
     acfg = cfg.get("affiliate", {})
-    if not acfg.get("enabled", True) or plan["kind"] not in acfg.get("post_types", ["classic", "anniversary"]):
+    types = acfg.get("post_types", ["classic", "anniversary"]) + ["pick"]
+    if not acfg.get("enabled", True) or plan["kind"] not in types:
         return
     from .affiliate import build_watch, ig_caption_line, watch_slide
     watch = build_watch(tmdb, plan["movies"][0], cfg)
@@ -98,7 +122,7 @@ def add_watch_slide(tmdb, plan: dict, copy: dict, cfg: dict) -> None:
     plan["watch"] = watch
     plan["watch_line"] = ig_caption_line(watch, cfg)
     slides = copy["slides"]
-    max_body = cfg["slides"]["count_max"] - 1
+    max_body = plan.get("_count_max", cfg["slides"]["count_max"]) - 1
     cta_at = next((i for i, sl in enumerate(slides) if sl.get("type") == "cta"), len(slides))
     slides.insert(cta_at, watch_slide(watch))
     while len(slides) > max_body:  # stay within the slide limit: drop a middle text slide

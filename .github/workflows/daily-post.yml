@@ -16,6 +16,16 @@ on:
         type: choice
         options: [auto, upcoming, classic, anniversary]
         default: auto
+      movies:
+        description: "Optional: your own movies, comma separated (e.g. Halloween (1978), The Thing, Hereditary). One = deep dive, several = a picks list. Overrides 'What to post'."
+        type: string
+        required: false
+        default: ""
+      list_title:
+        description: "Optional: title for a multi-movie list (e.g. Slashers for a rainy night)"
+        type: string
+        required: false
+        default: ""
       dry_run:
         description: "Render only, don't post to Instagram"
         type: boolean
@@ -81,7 +91,11 @@ jobs:
 
       - name: Pick movies, write copy, render slides
         if: env.SKIP != 'true'
-        run: python -m reelgore.main plan --type "${{ inputs.post_type || 'auto' }}"
+        env:
+          MOVIES: ${{ inputs.movies }}
+          LIST_TITLE: ${{ inputs.list_title }}
+          POST_TYPE_IN: ${{ inputs.post_type || 'auto' }}
+        run: python -m reelgore.main plan --type "$POST_TYPE_IN"
 
       - name: Save slides as a run artifact (for review)
         if: env.SKIP != 'true'

@@ -27,8 +27,9 @@ def slide_durations(copy: dict) -> list[float]:
         if sl.get("type") == "watch":
             durs.append(5.0)
             continue
-        words = len((sl.get("title", "") + " " + sl.get("body", "")).split())
-        durs.append(min(6.5, max(3.2, 1.8 + words / 4.0)))
+        words = len((sl.get("title", "") + " " + sl.get("body", "") + " " + " ".join(sl.get("points") or [])).split())
+        cap = 8.0 if sl.get("type") == "trivia" else 6.5   # two facts need a little longer to read
+        durs.append(min(cap, max(3.2, 1.8 + words / 4.0)))
     return durs
 
 

@@ -81,9 +81,37 @@ class TMDB:
         res = self.get("/search/keyword", query=text).get("results", [])
         return str(res[0]["id"]) if res else None
 
+    def find_movie(self, query: str) -> dict | None:
+        """Best TMDB match for a typed title. Accepts 'Title', 'Title (1978)', 'Title 1978' or 'tmdb:948'."""
+        import re
+        q = query.strip()
+        m = re.fullmatch(r"tmdb:(\d+)", q, re.I)
+        if m:
+            return {"id": int(m.group(1))}
+        year = None
+        m = re.fullmatch(r"(.+?)\s*[\(\[]?((?:19|20)\d{2})[\)\]]?", q)
+        if m:
+            q, year = m.group(1).strip(), int(m.group(2))
+        params = {"query": q, "include_adult": "false"}
+        if year:
+            params["year"] = year
+        results = self.get("/search/movie", **params).get("results", [])
+        if not results and year:  # year typed slightly off: retry without it
+            results = self.get("/search/movie", query=q, include_adult="false").get("results", [])
+        if not results:
+            return None
+
+        def rank(r):
+            exact = r.get("title", "").lower() == q.lower() or r.get("original_title", "").lower() == q.lower()
+            horror = HORROR in r.get("genre_ids", [])
+            ry = int((r.get("release_date") or "0")[:4] or 0)
+            closeness = -abs(ry - year) if year and ry else 0   # typed year slightly off: nearest wins
+            return (exact, horror, closeness, r.get("vote_count", 0))
+        return max(results[:10], key=rank)
+
     # ---------- details ----------
     def details(self, movie_id: int) -> dict:
-        m = self.get(f"/movie/{movie_id}", append_to_response="credits,images,videos,release_dates",
+        m = self.get(f"/movie/{movie_id}", append_to_response="credits,images,videos,release_dates,external_ids",
                      include_image_language="en,null")
         crew = m.get("credits", {}).get("crew", [])
         cast = m.get("credits", {}).get("cast", [])
@@ -112,6 +140,8 @@ class TMDB:
             "posters": posters,
             "backdrops": backdrops or ([m["backdrop_path"]] if m.get("backdrop_path") else []),
             "tmdb_url": f"https://www.themoviedb.org/movie/{m['id']}",
+            "wikidata_id": (m.get("external_ids") or {}).get("wikidata_id"),
+            "imdb_id": (m.get("external_ids") or {}).get("imdb_id") or m.get("imdb_id"),
         }
 
     @staticmethod

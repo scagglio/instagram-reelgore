@@ -40,6 +40,31 @@ Tune everything in `config/brand.yaml`: voice, themes, milestone years, palette,
 
 The schedule runs daily at 6:07 PM Central, with backup attempts at 6:37, 7:17 and 8:47 PM, because GitHub sometimes delays or drops scheduled runs. Only the first one that runs posts; the rest see the scheduled post in `data/history.json` and skip. Manual runs never block the scheduled post.
 
+## Did you know? (trivia slide)
+
+Deep-dive posts (classic, anniversary, your single-movie picks, upcoming spotlights) get a **Did you know?** slide
+with two behind-the-scenes facts instead of a cast-and-crew rundown. To keep the trivia real, the agent pulls the
+film's English Wikipedia article (production, costume, casting, filming, release, legacy sections) and Claude may
+only use facts found there, reworded. If a film has no article, the facts come from TMDB numbers only (budget, box
+office, runtime). List posts (upcoming roundups, picks lists) don't get a trivia slide.
+
+## Post your own movies (manual run)
+
+**Actions → ReelGore daily post → Run workflow** has a **movies** box. Type a comma-separated list:
+
+```
+Halloween (1978), The Thing, Hereditary, Suspiria 1977
+```
+
+- **One movie**: a "Reel Gore Pick" deep dive with a skull verdict and a Where to Watch slide. If it isn't out
+  yet, you get an upcoming spotlight instead.
+- **Several movies** (up to 8): a "Reel Gore Picks" list, one slide per film in your order. Fill in **list_title**
+  (e.g. *Slashers for a rainy night*) and the cover uses it.
+- Add the year for remakes and shared titles: `Halloween (1978)` vs `Halloween (2018)`. `tmdb:948` also works.
+  If the typed year is slightly off, the nearest one wins.
+- Titles that can't be found are skipped and listed in the run's summary. Use **dry_run** first to check.
+- The box overrides "What to post". Leave it empty for the normal automatic pick. Scheduled runs ignore it.
+
 ## Music (Reels)
 
 Each Reel gets a **licensed Instagram track** through Meta's Instagram Audio API (`GET /ig_audio`, then

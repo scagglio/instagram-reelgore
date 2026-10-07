@@ -21,12 +21,14 @@ TOOL = {
                     "type": "object",
                     "required": ["type", "movie_index", "kicker", "title", "body"],
                     "properties": {
-                        "type": {"type": "string", "enum": ["movie", "text", "verdict", "cta"]},
+                        "type": {"type": "string", "enum": ["movie", "text", "trivia", "verdict", "cta"]},
                         "movie_index": {"type": "integer", "description": "Index into FACTS of the movie this slide is about"},
                         "kicker": {"type": "string", "description": "Tiny label above the title, max 4 words"},
                         "title": {"type": "string", "description": "Max 6 words"},
                         "body": {"type": "string", "description": "Max 38 words"},
                         "skulls": {"type": "integer", "minimum": 0, "maximum": 5, "description": "Verdict slides only: 1-5"},
+                        "points": {"type": "array", "items": {"type": "string"},
+                                   "description": "Trivia slides only: exactly 2 surprising behind-the-scenes facts, max 26 words each"},
                     },
                 },
             },
@@ -44,23 +46,53 @@ BRIEFS = {
         "Finish with one 'cta' slide asking which one they're seeing first."
     ),
     "upcoming_spotlight": (
-        "Make a spotlight carousel on ONE upcoming horror release: a premise slide, a 'who's behind it' slide "
-        "(director/writers/cast from FACTS), a 'why we're hyped' slide, a 'what to watch before it' slide "
+        "Make a spotlight carousel on ONE upcoming horror release: a premise slide, a 'trivia' slide "
+        "(behind-the-scenes facts about the production), a 'why we're hyped' slide, a 'what to watch before it' slide "
         "(older horror films with a similar vibe — titles only, no invented facts about them), then a 'cta'."
     ),
     "classic": (
         "Make a 'FROM THE CRYPT' deep-dive carousel on a classic horror film (theme: {theme}). "
-        "Slides: the setup (no spoilers), the people who made it (from FACTS), why it still rules today, "
-        "the scene/craft that earned its place (keep it vague if FACTS don't describe it), "
+        "Slides: the setup (no spoilers), a 'trivia' slide, why it still rules today, "
+        "the scene/craft that earned its place (keep it vague if the sources don't describe it), "
         "a 'verdict' slide with a 1-5 skull rating and a one-line verdict, then a 'cta' asking for their rating."
+    ),
+    "pick": (
+        "Make a 'REEL GORE PICK' deep-dive carousel on a film the Reel Gore host hand-picked. "
+        "Slides: the setup (no spoilers), a 'trivia' slide, why it's worth your night, "
+        "the craft that makes it work (keep it vague if the sources don't describe it), a 'verdict' slide with a 1-5 "
+        "skull rating and a one-line verdict, then a 'cta'."
+    ),
+    "picks": (
+        "Make a 'REEL GORE PICKS' list carousel of films the host hand-picked{list_title}. "
+        "One 'movie' slide per film in FACTS order (movie_index 0, 1, 2...). Kicker = the release year "
+        "(or 'IN THEATERS MON DD' if release_date is in the future). Title = the film's title. Body = a "
+        "spoiler-free hook plus why it earns a spot on this list. Then exactly one 'cta' slide. "
+        "The headline should sell the list as a whole{headline_hint}."
     ),
     "anniversary": (
         "Make a '{years} YEARS AGO TODAY' anniversary carousel. The film was released on {release_date}. "
-        "Headline must mention the {years} years. Slides: what hit screens that day, who made it (FACTS), "
+        "Headline must mention the {years} years. Slides: what hit screens that day, a 'trivia' slide, "
         "its legacy for horror, a 'where it stands now' slide, a 'verdict' slide with skull rating, then a 'cta' "
         "asking where they first saw it."
     ),
 }
+
+
+TRIVIA_KINDS = {"classic", "anniversary", "pick", "upcoming_spotlight"}
+
+
+def _trivia_rules(plan: dict) -> str:
+    notes = plan.get("trivia_notes")
+    base = ("\n\nTRIVIA RULES (for the 'trivia' slide):\n"
+            "- kicker 'DID YOU KNOW?', a short punchy title, empty body, and exactly 2 'points'.\n"
+            "- Pick the most surprising, fun behind-the-scenes facts: budget hacks, props, casting near-misses, "
+            "shooting stories, censorship, box-office surprises. Skip dry facts like who wrote the score.\n"
+            "- Do NOT list cast and crew anywhere in the carousel. Mentioning the director once in passing is fine.\n")
+    if notes:
+        return base + ("- Every trivia point MUST come from SOURCE NOTES below, reworded in your own words. "
+                       "Never add details that aren't in the notes.\n\nSOURCE NOTES (Wikipedia):\n" + notes)
+    return base + ("- No source notes are available for this film, so build both points only from FACTS "
+                   "(budget, box office, runtime, release date, country, tagline). Never invent trivia.")
 
 
 def _facts(plan: dict) -> str:
@@ -72,12 +104,19 @@ def _facts(plan: dict) -> str:
 def write_copy(plan: dict, cfg: dict) -> dict:
     import anthropic
 
+    lt = plan.get("list_title", "")
     brief = BRIEFS[plan["kind"]].format(
+        list_title=f" titled '{lt}'" if lt else "",
+        headline_hint=f" (use or closely echo '{lt}')" if lt else "",
         theme=plan.get("theme", ""),
         years=plan.get("years", ""),
         release_date=plan["movies"][0].get("release_date", ""),
     )
-    s = cfg["slides"]
+    s = dict(cfg["slides"])
+    if plan.get("max_slides"):  # list posts: one slide per film + cover + cta (Instagram allows 10)
+        s["count_max"] = min(10, max(s["count_max"], plan["max_slides"]))
+        s["count_min"] = min(s["count_max"], plan["max_slides"])
+    plan["_count_max"] = s["count_max"]
     examples = "; ".join(f"'{e}'" for e in cfg.get("engagement", {}).get("cta_examples", []))
     rules = (
         "\n\nENGAGEMENT RULES:\n"
@@ -100,7 +139,8 @@ def write_copy(plan: dict, cfg: dict) -> dict:
     prompt = (
         f"{brief}{rules}\n\nTotal slides including cover must be between {s['count_min']} and {s['count_max']} "
         f"(the cover is generated from headline/subhead and is NOT in the slides array).\n\n"
-        f"FACTS (the only facts you may state):\n{_facts(plan)}\n\nSubmit the result with the submit_carousel tool."
+        f"FACTS (the only facts you may state, plus SOURCE NOTES if given):\n{_facts(plan)}"
+        f"{_trivia_rules(plan) if plan['kind'] in TRIVIA_KINDS else ''}\n\nSubmit the result with the submit_carousel tool."
     )
     client = anthropic.Anthropic()
     wanted = os.environ.get("CLAUDE_MODEL", "").strip()
@@ -187,11 +227,18 @@ def _pick_model(client) -> str:
 
 def _clamp(copy: dict, plan: dict, cfg: dict) -> dict:
     n = len(plan["movies"])
-    max_body = cfg["slides"]["count_max"] - 1
+    max_body = plan.get("_count_max", cfg["slides"]["count_max"]) - 1
     copy["slides"] = copy.get("slides", [])[:max_body]
     for sl in copy["slides"]:
         sl["movie_index"] = min(max(int(sl.get("movie_index", 0) or 0), 0), n - 1)
         sl["skulls"] = min(max(int(sl.get("skulls", 0) or 0), 0), 5)
+        if sl.get("type") == "trivia":
+            pts = [str(p).strip() for p in (sl.get("points") or []) if str(p).strip()]
+            if not pts and sl.get("body"):
+                pts = [sl["body"]]
+            sl["points"] = pts[:2]
+            if not sl["points"]:
+                sl["type"] = "text"
     tags = cfg["hashtags"]
     merged = list(dict.fromkeys(tags["always"] + [t if t.startswith("#") else f"#{t}" for t in copy.get("hashtags", [])] + tags["pool"]))
     copy["hashtags"] = merged[: tags["max_total"]]

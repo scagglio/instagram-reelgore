@@ -211,6 +211,35 @@ class Renderer:
         self.paragraph(d, 60, y + 26, sl.get("body", ""), size=38)
         return self.grain(self.chrome(im, idx, total))
 
+    def trivia_slide(self, movie, sl, idx, total):
+        """'Did you know?' slide: two numbered behind-the-scenes facts."""
+        bds = movie["backdrops"] or [movie["poster"]]
+        im = self.background(bds[(idx + 1) % len(bds)] if bds else None, darken=0.85, blur=10)
+        d = ImageDraw.Draw(im)
+        y = 190
+        y = self.kicker(d, 60, y, sl.get("kicker") or "DID YOU KNOW?") + 26
+        title = sl.get("title") or ""
+        if title:
+            f, lines = self.fit_headline(d, title, self.W - 120, 2, start=104, min_size=60)
+            for line in lines:
+                d.text((60, y), line, font=f, fill=self.bone)
+                y += int(f.size * .95)
+        y += 40
+        points = sl.get("points") or []
+        # shrink the body text until both points fit above the footer
+        for size in (40, 37, 34, 31, 28):
+            body = self.body(size)
+            heights = [len(self.wrap(d, p, body, self.W - 230)) * int(size * 1.35) for p in points]
+            if y + sum(heights) + 70 * len(points) < self.H - 160:
+                break
+        num_f = self.head(150)
+        for n, (p, h) in enumerate(zip(points, heights), start=1):
+            d.text((60, y - 26), str(n), font=num_f, fill=self.blood)
+            d.line([(170, y + 6), (170, y + max(h, 110) - 6)], fill=self.blood, width=4)
+            self.paragraph(d, 200, y, p, size=size, max_w=self.W - 260)
+            y += max(h, 110) + 70
+        return self.grain(self.chrome(im, idx, total))
+
     def verdict_slide(self, movie, sl, idx, total):
         im = self.background(movie["poster"] or (movie["backdrops"] or [None])[0], darken=0.9, blur=24)
         d = ImageDraw.Draw(im)
@@ -325,7 +354,7 @@ class Renderer:
         total = len(slides) + 1
         lead = plan["movies"][0]
         images = [self.cover(lead, copy["headline"], copy.get("subhead", ""), total)]
-        fn = {"movie": self.movie_slide, "text": self.text_slide, "verdict": self.verdict_slide, "cta": self.cta_slide,
+        fn = {"movie": self.movie_slide, "text": self.text_slide, "verdict": self.verdict_slide, "cta": self.cta_slide, "trivia": self.trivia_slide,
               "watch": self.watch_slide}
         for i, sl in enumerate(slides, start=2):
             m = plan["movies"][sl["movie_index"]]
