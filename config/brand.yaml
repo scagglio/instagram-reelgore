@@ -22,7 +22,7 @@ voice: |
 rotation: [upcoming, classic, anniversary]
 
 anniversary:
-  milestone_years: [2,3,5,10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 90, 100]
+  milestone_years: [2, 3, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 90, 100]
   window_days: 0          # 0 = exact release date only; raise to allow "this week" anniversaries
   min_vote_count: 150     # skip obscure titles with too few TMDB votes for anniversaries
 
