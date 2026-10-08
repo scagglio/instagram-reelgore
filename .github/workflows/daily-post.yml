@@ -58,6 +58,7 @@ jobs:
       POST_REEL: ${{ vars.POST_REEL || 'true' }}
       IG_AUDIO_ID: ${{ vars.IG_AUDIO_ID }}   # optional; pin one Instagram track
       POST_FACEBOOK: ${{ vars.POST_FACEBOOK || 'true' }}
+      POST_STORY: ${{ vars.POST_STORY || 'true' }}
       FB_PAGE_ID: ${{ vars.FB_PAGE_ID }}     # optional; auto-detected from the linked Page
       AMAZON_ASSOCIATE_TAG: ${{ vars.AMAZON_ASSOCIATE_TAG }}   # optional; e.g. reelgore-20
       DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}

@@ -106,6 +106,17 @@ Requirements: a Facebook Login token (`EAA…`, which you already use) with `ins
 Meta notes the API library can differ from the app's. Business accounts in particular often get a smaller, more
 commercial-safe catalog than Creator accounts, so hit songs may not appear.
 
+## Daily Story teaser
+
+After the main posts go out, the agent publishes a still-image **Story** (1080×1920) to Instagram and the Facebook
+Page: the day's cover, tilted like a dropped Polaroid, a **NEW POST** banner (plus the Night badge in October), and
+"Swipe through it on our profile". Everything sits inside Instagram's safe zones, clear of the username and reply bar.
+
+- The API can't add link, poll or question stickers, so the Story is a teaser. Add a sticker by hand in the app if you like.
+- A failed Story never fails the run (the posts are already live); the reason shows in the run summary.
+  Instagram's docs ask for a user token for Stories, so if a Page token is refused, the summary will say so.
+- Turn it off with the repo variable `POST_STORY` = `false`, or per platform under `stories:` in `config/brand.yaml`.
+
 ## Facebook cross-posting
 
 Every post also goes to the **Reel Gore Facebook Page**, using the same token:

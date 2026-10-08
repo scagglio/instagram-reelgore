@@ -59,6 +59,14 @@ class FacebookPage:
         print(f"[facebook] photo post published: {post['id']}")
         return post["id"]
 
+    def photo_story(self, image_url: str) -> str:
+        """Facebook Page Story from a still image: upload unpublished, then publish it as a story."""
+        photo = self._post(f"{self.page_id}/photos", url=image_url, published="false")
+        story = self._post(f"{self.page_id}/photo_stories", photo_id=photo["id"])
+        sid = story.get("post_id") or story.get("id") or photo["id"]
+        print(f"[facebook] story published: {sid}")
+        return sid
+
     def reel(self, video_path: Path, description: str) -> str:
         """Facebook Reels publishing: start -> upload bytes -> finish (publish)."""
         data = Path(video_path).read_bytes()

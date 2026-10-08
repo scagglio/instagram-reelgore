@@ -146,3 +146,10 @@ engagement:
     - "Rate it in skulls: 1 to 5."
     - "Theater or wait for streaming?"
     - "Scariest scene: the opening or the ending?"
+
+# Daily Story teaser (still image, 9:16): the day's cover with a NEW POST banner, posted after the main posts.
+# The API can't add link/poll stickers. A failed story is logged but never fails the run.
+stories:
+  enabled: true
+  instagram: true
+  facebook: true

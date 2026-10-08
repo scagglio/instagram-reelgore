@@ -94,6 +94,10 @@ def cmd_plan(args):
         seed = int(date.today().strftime("%Y%m%d"))
         build_reel(reel_slides, copy, OUT / "reel.mp4", seed)
         plan["reel"] = "reel.mp4"
+    if cfg.get("stories", {}).get("enabled", True) and os.environ.get("POST_STORY", "true").lower() != "false":
+        renderer.story_image(paths[0], plan, OUT / "story.jpg")
+        plan["story"] = "story.jpg"
+        print("[plan] story image rendered -> out/story.jpg")
     (OUT / "plan.json").write_text(json.dumps(plan, indent=2))
     (OUT / "caption.txt").write_text(plan["caption"])
     print(f"[plan] rendered {len(paths)} slides -> {OUT}/")
@@ -152,7 +156,8 @@ def cmd_publish(args):
     base = args.base_url.rstrip("/")
     urls = [f"{base}/{name}" for name in plan["slides"]]
     if args.dry_run:
-        print("[publish] dry run, would post:", *urls, plan.get("reel", "(no reel)"), sep="\n  ")
+        print("[publish] dry run, would post:", *urls, plan.get("reel", "(no reel)"),
+              f"story: {plan.get('story', '(no story)')}", sep="\n  ")
         return
     ig = Instagram()
     mid, link = ig.carousel(urls, plan["caption"])
@@ -178,7 +183,8 @@ def cmd_publish(args):
             reel_error = e
             print(f"[publish] reel FAILED (carousel is already live): {e}")
     fb, fb_error = crosspost_facebook(ig, plan, urls)
-    record(plan, link, mid, reel=reel, facebook=fb)
+    story = post_stories(ig, plan, base)
+    record(plan, link, mid, reel=reel, facebook=fb, story=story)
     try:
         from .links import build_links_page
         build_links_page(load_cfg())
@@ -186,6 +192,37 @@ def cmd_publish(args):
         print(f"[links] page build failed: {e}")
     if reel_error or fb_error:
         raise SystemExit(1)
+
+
+def post_stories(ig, plan: dict, base: str) -> dict | None:
+    """Teaser Story on Instagram and the Facebook Page. Stories are a bonus: a failure here is logged
+    (and shown in the run summary) but never fails the run, since the main posts are already live."""
+    if not plan.get("story"):
+        return None
+    scfg = load_cfg().get("stories", {})
+    url = f"{base}/{plan['story']}"
+    result, problems = {}, []
+    if scfg.get("instagram", True):
+        try:
+            result["instagram"] = ig.story(url)
+            print(f"[story] Instagram story published: {result['instagram']}")
+        except Exception as e:
+            problems.append(f"Instagram story: {e}")
+    if scfg.get("facebook", True) and os.environ.get("POST_FACEBOOK", "true").lower() != "false" \
+            and "instagram.com" not in ig.base:
+        try:
+            from .facebook import FacebookPage
+            page = FacebookPage(ig.token, ig.user, ig.base.rsplit("/", 1)[-1])
+            result["facebook"] = page.photo_story(url)
+        except Exception as e:
+            problems.append(f"Facebook story: {e}")
+    for p in problems:
+        print(f"[story] WARNING (posts are fine, only the story failed): {p}")
+    summary = os.environ.get("GITHUB_STEP_SUMMARY")
+    if problems and summary:
+        with open(summary, "a") as f:
+            f.write("\n> **Story not posted:** " + "; ".join(p[:300] for p in problems) + "\n")
+    return result or None
 
 
 def facebook_message(plan: dict, cfg: dict) -> str:

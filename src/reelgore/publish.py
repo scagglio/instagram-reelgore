@@ -236,6 +236,12 @@ class Instagram:
             link = None
         return mid, link
 
+    def story(self, image_url: str) -> str:
+        """Publish a still-image Instagram Story (stickers like links/polls can't be added through the API)."""
+        c = self._post(f"{self.user}/media", media_type="STORIES", image_url=image_url)
+        self._wait(c["id"])
+        return self._post(f"{self.user}/media_publish", creation_id=c["id"])["id"]
+
     def carousel(self, image_urls: list[str], caption: str) -> tuple[str, str | None]:
         if not 2 <= len(image_urls) <= 10:
             raise ValueError("Carousel needs 2-10 images")

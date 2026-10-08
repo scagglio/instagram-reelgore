@@ -407,6 +407,52 @@ class Renderer:
         d.text((60, self.H - 120), "Streaming data: JustWatch", font=self.body(22), fill=(150, 140, 130))
         return self.grain(self.chrome(im, idx, total))
 
+    def story_image(self, cover_path: Path, plan: dict, out_path: Path) -> Path:
+        """9:16 Story teaser: today's cover framed on a blurred backdrop, a NEW POST banner, a nudge to the post."""
+        W, H = 1080, 1920
+        cover = Image.open(cover_path).convert("RGB")
+        bg = ImageOps.fit(cover, (W, H), Image.BILINEAR).filter(ImageFilter.GaussianBlur(45))
+        bg = Image.blend(bg, Image.new("RGB", (W, H), self.ink), 0.55)
+        # the cover, slightly tilted like a dropped Polaroid
+        cw = 780   # keep clear of Instagram's top (username) and bottom (reply bar) overlays
+        card = cover.resize((cw, int(cover.height * cw / cover.width)), Image.LANCZOS)
+        framed = Image.new("RGB", (card.width + 24, card.height + 24), self.bone)
+        framed.paste(card, (12, 12))
+        framed = framed.convert("RGBA").rotate(-2.5, expand=True, resample=Image.BICUBIC)
+        shadow = Image.new("RGBA", framed.size, (0, 0, 0, 0))
+        shadow.paste((0, 0, 0, 170), mask=framed.split()[3])
+        shadow = shadow.filter(ImageFilter.GaussianBlur(25))
+        x, y = (W - framed.width) // 2, 455
+        bg.paste(shadow, (x + 10, y + 24), shadow)
+        bg.paste(framed, (x, y), framed)
+        d = ImageDraw.Draw(bg)
+        # top banner
+        f = self.head(120)
+        label = "NEW POST"
+        tw = d.textlength(label, font=f)
+        top = 250
+        d.rectangle([(W - tw) // 2 - 40, top, (W + tw) // 2 + 40, top + int(f.size * 1.05) + 20], fill=self.blood)
+        d.text(((W - tw) // 2, top + 10), label, font=f, fill=self.bone)
+        series = plan.get("series")
+        sub = series["badge"].format(n=series["n"], total=series["total"]) + "  ·  " + series["name"].upper() \
+            if series else self.name
+        fs = self.body(30, bold=True)
+        d.text(((W - d.textlength(sub, font=fs)) // 2, top + int(f.size * 1.05) + 40), sub, font=fs, fill=self.bone)
+        # bottom nudge
+        nudge = "SWIPE THROUGH IT ON OUR PROFILE"
+        for req in (96, 88, 80, 72, 64, 56, 50):
+            fb = self.head(req)
+            if d.textlength(nudge, font=fb) <= W - 120:
+                break
+        yb = H - 400   # stays above the reply bar
+        d.text(((W - d.textlength(nudge, font=fb)) // 2, yb), nudge, font=fb, fill=self.bone)
+        fh = self.body(34, bold=True)
+        d.text(((W - d.textlength(self.handle, font=fh)) // 2, yb + int(fb.size * 1.05) + 24), self.handle,
+               font=fh, fill=self.blood)
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        bg.save(out_path, "JPEG", quality=90, optimize=True)
+        return out_path
+
     def render_all(self, plan: dict, copy: dict, out_dir: Path, swipe: bool = True) -> list[Path]:
         self.swipe = swipe
         self.watch = plan.get("watch")

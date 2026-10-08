@@ -249,7 +249,7 @@ def pick_person(tmdb: TMDB, name: str) -> dict:
 
 
 def record(plan: dict, permalink: str | None, media_id: str | None, reel: dict | None = None,
-           facebook: dict | None = None) -> None:
+           facebook: dict | None = None, story: dict | None = None) -> None:
     h = load_history()
     try:
         from zoneinfo import ZoneInfo
@@ -269,6 +269,7 @@ def record(plan: dict, permalink: str | None, media_id: str | None, reel: dict |
         "permalink": permalink,
         "reel": reel,
         "facebook": facebook,
+        "story": story,
         "watch": plan.get("watch"),
         "poster": (plan["movies"][0].get("poster") if plan.get("movies") else None),
     })
