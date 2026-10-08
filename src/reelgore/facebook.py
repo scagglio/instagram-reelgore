@@ -7,6 +7,8 @@ from pathlib import Path
 
 import requests
 
+from .publish import backoff_wait, track
+
 
 class FacebookPage:
     def __init__(self, user_token: str, ig_user_id: str, ver: str = "v23.0"):
@@ -19,6 +21,7 @@ class FacebookPage:
     def _get(self, path, token, **params):
         params["access_token"] = token
         r = requests.get(f"{self.base}/{path}", params=params, timeout=60)
+        track(r)
         return r.json() if r.ok else {"error": r.text}
 
     def _resolve(self, token: str, ig_user_id: str):
@@ -42,6 +45,7 @@ class FacebookPage:
     def _post(self, path, **data):
         data["access_token"] = self.token
         r = requests.post(f"{self.base}/{path}", data=data, timeout=120)
+        track(r)
         if not r.ok:
             raise RuntimeError(f"FB {path} failed: {r.status_code} {r.text}")
         return r.json()
@@ -83,13 +87,17 @@ class FacebookPage:
         self._post(f"{self.page_id}/video_reels", upload_phase="finish", video_id=vid,
                    video_state="PUBLISHED", description=description)
         # Processing is async; wait briefly so the log shows whether it went live.
-        for _ in range(24):
+        def check():
             st = self._get(vid, self.token, fields="status").get("status", {})
             phase = (st.get("video_status") or "").lower()
             if phase in ("ready", "published"):
-                break
+                return True
             if phase == "error":
                 raise RuntimeError(f"FB reel processing error: {st}")
-            time.sleep(5)
+            return None
+        try:
+            backoff_wait(check, 120, "Facebook reel processing")
+        except TimeoutError:
+            print("[facebook] reel still processing; it was submitted and will appear when Facebook finishes")
         print(f"[facebook] reel published: {vid}")
         return vid

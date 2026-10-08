@@ -183,6 +183,16 @@ def cooldown_active() -> str | None:
         return None
 
 
+def report_usage() -> None:
+    from .publish import usage_report
+    line = usage_report()
+    print(f"[usage] {line}")
+    summary = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary:
+        with open(summary, "a") as f:
+            f.write(f"\n{line}\n")
+
+
 def cmd_publish(args):
     from .picker import record
     from .publish import Instagram
@@ -207,6 +217,7 @@ def cmd_publish(args):
     try:
         mid, link = ig.carousel(urls, plan["caption"])
     except RuntimeError as e:
+        report_usage()
         if is_action_block(e):
             start_cooldown(e)
             raise SystemExit(1)
@@ -242,6 +253,7 @@ def cmd_publish(args):
         build_links_page(load_cfg())
     except Exception as e:
         print(f"[links] page build failed: {e}")
+    report_usage()
     if reel_error or fb_error:
         raise SystemExit(1)
 

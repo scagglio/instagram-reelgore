@@ -6,6 +6,64 @@ import time
 
 import requests
 
+# ---------- Meta rate-limit tracking ----------
+# Meta reports how much of the app's hourly allowance is used (as percentages) in response headers.
+USAGE: dict[str, int] = {}
+_warned = False
+
+
+def track(r) -> None:
+    """Record the highest usage % Meta reports in X-App-Usage / X-Business-Use-Case-Usage headers."""
+    global _warned
+    import json as _json
+    for header in ("X-App-Usage", "X-Business-Use-Case-Usage", "X-Page-Usage", "X-Ad-Account-Usage"):
+        raw = r.headers.get(header) if hasattr(r, "headers") and r.headers else None
+        if not raw:
+            continue
+        try:
+            data = _json.loads(raw)
+        except Exception:
+            continue
+        entries = [data] if isinstance(data, dict) and "call_count" in data else \
+            [e for v in (data.values() if isinstance(data, dict) else []) for e in (v if isinstance(v, list) else [v])]
+        for e in entries:
+            for k in ("call_count", "total_cputime", "total_time"):
+                if isinstance(e.get(k), (int, float)):
+                    USAGE[k] = max(USAGE.get(k, 0), int(e[k]))
+            if e.get("estimated_time_to_regain_access"):
+                USAGE["regain_minutes"] = max(USAGE.get("regain_minutes", 0), int(e["estimated_time_to_regain_access"]))
+    peak = max([v for k, v in USAGE.items() if k != "regain_minutes"] or [0])
+    if peak >= 80 and not _warned:
+        _warned = True
+        print(f"[usage] WARNING: Meta reports {peak}% of this app's hourly API allowance used. "
+              "Avoid extra manual runs for the next hour.")
+
+
+def usage_report() -> str:
+    if not USAGE:
+        return "Meta API usage: not reported"
+    parts = [f"calls {USAGE.get('call_count', 0)}%", f"CPU {USAGE.get('total_cputime', 0)}%",
+             f"time {USAGE.get('total_time', 0)}%"]
+    if USAGE.get("regain_minutes"):
+        parts.append(f"locked out for ~{USAGE['regain_minutes']} min")
+    return "Meta API usage (peak, of hourly allowance): " + ", ".join(parts)
+
+
+def backoff_wait(check, max_seconds: int, label: str):
+    """Poll `check()` until it returns truthy, waiting 3s, 5s, 8s, 12s, then every 15s (far fewer calls than
+    polling every 5s). `check` returns a value to stop or None to keep waiting."""
+    delays, waited, i = [3, 5, 8, 12], 0, 0
+    while True:
+        result = check()
+        if result is not None:
+            return result
+        d = delays[i] if i < len(delays) else 15
+        if waited + d > max_seconds:
+            raise TimeoutError(f"{label} didn't finish within {max_seconds}s")
+        time.sleep(d)
+        waited += d
+        i += 1
+
 
 class Instagram:
     def __init__(self):
@@ -37,6 +95,7 @@ class Instagram:
     def _try_get(self, path, **params):
         params["access_token"] = self.token
         r = requests.get(f"{self.base}/{path}", params=params, timeout=60)
+        track(r)
         return r.json() if r.ok else None
 
     def _resolve_user(self) -> str:
@@ -92,6 +151,7 @@ class Instagram:
             params["access_token"] = self.token
             try:
                 r = requests.get(f"{self.base}/{path}", params=params, timeout=60)
+                track(r)
                 return r.json()
             except Exception as e:
                 return {"error": str(e)}
@@ -115,6 +175,7 @@ class Instagram:
     def _post(self, path, **data):
         data["access_token"] = self.token
         r = requests.post(f"{self.base}/{path}", data=data, timeout=60)
+        track(r)
         if not r.ok:
             raise RuntimeError(f"IG {path} failed: {r.status_code} {r.text}")
         return r.json()
@@ -122,18 +183,19 @@ class Instagram:
     def _get(self, path, **params):
         params["access_token"] = self.token
         r = requests.get(f"{self.base}/{path}", params=params, timeout=60)
+        track(r)
         r.raise_for_status()
         return r.json()
 
-    def _wait(self, cid, tries=30):
-        for _ in range(tries):
+    def _wait(self, cid, max_seconds=90):
+        def check():
             st = self._get(cid, fields="status_code").get("status_code")
             if st == "FINISHED":
-                return
+                return True
             if st in ("ERROR", "EXPIRED"):
                 raise RuntimeError(f"container {cid} status {st}")
-            time.sleep(5)
-        raise TimeoutError(f"container {cid} never finished")
+            return None
+        backoff_wait(check, max_seconds, f"container {cid}")
 
     # ---------- Instagram Audio API (licensed music for Reels) ----------
     def search_audio(self, query: str | None = None, audio_type: str = "music") -> list[dict]:
@@ -142,6 +204,7 @@ class Instagram:
         if query:
             params["search_query"] = query[:100]
         r = requests.get(f"{self.base}/ig_audio", params=params, timeout=60)
+        track(r)
         if not r.ok:
             raise RuntimeError(f"ig_audio failed: {r.status_code} {r.text}")
         body = r.json()
@@ -226,7 +289,7 @@ class Instagram:
                 raise
             print(f"[publish] resumable upload failed ({e}); trying video_url")
             cid = create(video_url=video_url)["id"]
-        self._wait(cid, tries=72)  # video processing can take a few minutes
+        self._wait(cid, max_seconds=420)  # video processing can take a few minutes
         pub = self._post(f"{self.user}/media_publish", creation_id=cid)
         mid = pub["id"]
         self.last_reel_music = bool(extra)
