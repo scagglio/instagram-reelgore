@@ -40,6 +40,13 @@ Tune everything in `config/brand.yaml`: voice, themes, milestone years, palette,
 
 The schedule runs daily at 6:07 PM Central, with backup attempts at 6:37, 7:17 and 8:47 PM, because GitHub sometimes delays or drops scheduled runs. Only the first one that runs posts; the rest see the scheduled post in `data/history.json` and skip. Manual runs never block the scheduled post.
 
+## If Instagram blocks posting
+
+If Instagram's anti-spam guard returns "Action is blocked" (error code 4 / subcode 2207051), usually after a burst of
+posts, the agent stops, writes `data/cooldown.json` and pauses all posting for 24 hours. Backup schedule times and
+manual runs are skipped until then, because retrying can extend a block. To override early, delete that file.
+The log also prints how many API posts Instagram counted in the last 24 hours.
+
 ## International films and titles
 
 International horror is welcome. If TMDB's main title isn't in English (e.g. Russian or Korean script), the agent

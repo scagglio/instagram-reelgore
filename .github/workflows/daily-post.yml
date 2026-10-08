@@ -77,6 +77,13 @@ jobs:
               posts = []
           done = any(p.get("date") == today and p.get("trigger") == "schedule" for p in posts)
           print(f"Central date {today}: scheduled post already done = {done}")
+          try:  # paused after an Instagram action block?
+              until = json.load(open("data/cooldown.json"))["until"]
+              if datetime.datetime.fromisoformat(until) > datetime.datetime.now(datetime.timezone.utc):
+                  print(f"Posting paused until {until} (Instagram action block). Skipping.")
+                  done = True
+          except Exception:
+              pass
           if done:
               with open(os.environ["GITHUB_ENV"], "a") as f:
                   f.write("SKIP=true\n")
@@ -143,7 +150,7 @@ jobs:
         run: python -m reelgore.main publish --base-url "${{ steps.host.outputs.base }}"
 
       - name: Commit post history
-        if: env.SKIP != 'true' && env.DRY_RUN != 'true'
+        if: ${{ !cancelled() && env.SKIP != 'true' && env.DRY_RUN != 'true' }}
         run: |
           git add data/ docs/ 2>/dev/null || git add data/
           git commit -m "history: $(date -u +%F) post" || exit 0

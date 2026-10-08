@@ -148,6 +148,41 @@ def add_watch_slide(tmdb, plan: dict, copy: dict, cfg: dict) -> None:
     print(f"[affiliate] watch slide added: stream={[p['name'] for p in watch['stream']]} own={len(watch['own'])} links")
 
 
+COOLDOWN = Path("data/cooldown.json")
+
+
+def is_action_block(err: Exception) -> bool:
+    """Instagram's anti-spam 'Action is blocked' (code 4 / subcode 2207051) or similar rate limits."""
+    t = str(err)
+    return any(k in t for k in ('"error_subcode":2207051', "Action is blocked", "Application request limit reached",
+                                '"code":4,', '"code":32,', '"code":613,'))
+
+
+def start_cooldown(err: Exception, hours: int = 24) -> None:
+    from datetime import datetime, timedelta, timezone
+    until = datetime.now(timezone.utc) + timedelta(hours=hours)
+    COOLDOWN.parent.mkdir(parents=True, exist_ok=True)
+    COOLDOWN.write_text(json.dumps({"until": until.isoformat(), "reason": str(err)[:500]}, indent=2))
+    msg = (f"Instagram blocked publishing (anti-spam limit). Pausing automatic posts until "
+           f"{until.astimezone(__import__('zoneinfo').ZoneInfo('America/Chicago')).strftime('%a %b %-d, %-I:%M %p')} Central. Don't re-run before then: retries can extend the block. "
+           "Open the Instagram app and check for an 'Action blocked' notice (tap 'Tell us' if it's a mistake).")
+    print(f"[cooldown] {msg}")
+    summary = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary:
+        with open(summary, "a") as f:
+            f.write(f"\n> **Posting paused for {hours}h.** {msg}\n")
+
+
+def cooldown_active() -> str | None:
+    from datetime import datetime, timezone
+    try:
+        c = json.loads(COOLDOWN.read_text())
+        until = datetime.fromisoformat(c["until"])
+        return c["until"] if until > datetime.now(timezone.utc) else None
+    except Exception:
+        return None
+
+
 def cmd_publish(args):
     from .picker import record
     from .publish import Instagram
@@ -159,8 +194,23 @@ def cmd_publish(args):
         print("[publish] dry run, would post:", *urls, plan.get("reel", "(no reel)"),
               f"story: {plan.get('story', '(no story)')}", sep="\n  ")
         return
+    until = cooldown_active()
+    if until and os.environ.get("IGNORE_COOLDOWN", "").lower() != "true":
+        raise SystemExit(f"[cooldown] Posting is paused until {until} after an Instagram action block. "
+                         "Wait it out (recommended), or delete data/cooldown.json to override.")
     ig = Instagram()
-    mid, link = ig.carousel(urls, plan["caption"])
+    usage = ig._try_get(f"{ig.user}/content_publishing_limit", fields="config,quota_usage")
+    if usage and usage.get("data"):
+        u = usage["data"][0]
+        print(f"[publish] Instagram API posts used in the last 24h: {u.get('quota_usage')} of "
+              f"{(u.get('config') or {}).get('quota_total', '?')}")
+    try:
+        mid, link = ig.carousel(urls, plan["caption"])
+    except RuntimeError as e:
+        if is_action_block(e):
+            start_cooldown(e)
+            raise SystemExit(1)
+        raise
     print(f"[publish] carousel posted: {mid} {link or ''}")
     reel = None
     reel_error = None
@@ -182,6 +232,8 @@ def cmd_publish(args):
         except Exception as e:
             reel_error = e
             print(f"[publish] reel FAILED (carousel is already live): {e}")
+            if is_action_block(e):
+                start_cooldown(e)
     fb, fb_error = crosspost_facebook(ig, plan, urls)
     story = post_stories(ig, plan, base)
     record(plan, link, mid, reel=reel, facebook=fb, story=story)
