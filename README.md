@@ -9,7 +9,7 @@ set to a trending scary track from Instagram's music library (see *Music* below)
 
 | Type | Format | When |
 |---|---|---|
-| **Upcoming** | "Coming to haunt you" roundup of 4–6 horror releases in the next 120 days (or a single-film spotlight if fewer are scheduled) | Rotation |
+| **Upcoming** | "Coming to haunt you" roundup of 4–6 horror releases in the next 120 days (or a single-film spotlight if fewer are scheduled) | Once per calendar month (the first upcoming slot); `upcoming.roundups_per_month` in the config |
 | **Classic** | "From the Crypt" deep dive on a pre-2000 horror film, with a rotating sub-genre theme (slasher, Universal monsters, giallo, 80s practical FX, etc.) and a 1–5 skull verdict | Rotation |
 | **Anniversary** | "X years ago today" for a horror film released on today's date at a milestone (10, 20, 25, 30… years) | Rotation, and **always** on 25/50/75/100-year milestones |
 

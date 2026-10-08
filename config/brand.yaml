@@ -45,6 +45,7 @@ classic:
 upcoming:
   days_ahead: 120
   region: US
+  roundups_per_month: 1   # "Coming to haunt you" roundups per calendar month (0 = none); other days post something else
 
 slides:
   count_min: 5

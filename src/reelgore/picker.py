@@ -49,6 +49,16 @@ def recently_used(h: dict, days: int) -> set[int]:
     return ids
 
 
+def roundup_limit_reached(h: dict, cfg: dict, today: date) -> bool:
+    """True if this calendar month already has as many upcoming roundups as `upcoming.roundups_per_month` allows."""
+    limit = int(cfg.get("upcoming", {}).get("roundups_per_month", 1))
+    if limit <= 0:
+        return True   # 0 = never post automatic roundups
+    month = today.isoformat()[:7]
+    done = sum(1 for p in h["posts"] if p.get("kind") == "upcoming_roundup" and str(p.get("date", "")).startswith(month))
+    return done >= limit
+
+
 def load_weights() -> dict | None:
     """Rotation weights written by the weekly report (data/weights.json)."""
     path = Path("data/weights.json")
@@ -125,6 +135,10 @@ def pick(tmdb: TMDB, cfg: dict, forced: str = "auto", today: date | None = None)
         # A big milestone (25/50/75/100) on today's date always takes the slot.
         if anniversaries and anniversaries[0]["_years"] % 25 == 0:
             kind = "anniversary"
+        # Upcoming roundups are capped (default: once per calendar month); other days get something else.
+        if kind == "upcoming" and roundup_limit_reached(h, cfg, today):
+            kind = "anniversary" if anniversaries else "classic"
+            print(f"[picker] this month's upcoming roundup already posted; posting {kind} instead")
         if kind == "anniversary" and not anniversaries:
             kind = "classic"
     else:
