@@ -80,7 +80,7 @@ hashtags:
     - "#practicaleffects"
     - "#upcominghorror"
     - "#horrornews"
-  max_total: 15
+  max_total: 8            # fewer hashtags = less spam-like (Instagram allows up to 30)
 
 # Reel music. Picks a trending Instagram track whose title/artist matches a keyword;
 # if none is trending, takes the top result of the searches below. Set IG_AUDIO_ID (repo variable)
