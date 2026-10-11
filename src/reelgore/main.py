@@ -28,6 +28,8 @@ def cmd_plan(args):
     from .writer import caption_text, write_copy
 
     cfg = load_cfg()
+    if os.environ.get("DRY_RUN", "false").lower() != "true":
+        require_no_cooldown()
     person_name = (os.environ.get("PERSON") or "").strip()
     if any(sep in person_name for sep in (",", ";", " and ", " & ")):
         raise SystemExit("The person box takes ONE name per post. Run once per person.")
@@ -158,19 +160,55 @@ def is_action_block(err: Exception) -> bool:
                                 '"code":4,', '"code":32,', '"code":613,'))
 
 
-def start_cooldown(err: Exception, hours: int = 24) -> None:
+def start_cooldown(err: Exception) -> None:
+    """Pause posting after an Instagram action block. Repeat blocks escalate the pause (1, 2, 4, then 7 days),
+    and every pause ends at 5 PM Central so the next evening's scheduled run gets a clean attempt."""
     from datetime import datetime, timedelta, timezone
-    until = datetime.now(timezone.utc) + timedelta(hours=hours)
+    from zoneinfo import ZoneInfo
+    central = ZoneInfo("America/Chicago")
+    now = datetime.now(timezone.utc)
+    strikes = 1
+    try:
+        prev = json.loads(COOLDOWN.read_text())
+        prev_until = datetime.fromisoformat(prev["until"])
+        if now - prev_until < timedelta(days=3):   # blocked again soon after the last pause ended
+            strikes = int(prev.get("strikes", 1)) + 1
+    except Exception:
+        pass
+    days = min(7, 2 ** (strikes - 1))
+    local = (now + timedelta(days=days)).astimezone(central)
+    until = local.replace(hour=17, minute=0, second=0, microsecond=0)
+    if until <= now.astimezone(central) + timedelta(hours=12):
+        until += timedelta(days=1)
     COOLDOWN.parent.mkdir(parents=True, exist_ok=True)
-    COOLDOWN.write_text(json.dumps({"until": until.isoformat(), "reason": str(err)[:500]}, indent=2))
-    msg = (f"Instagram blocked publishing (anti-spam limit). Pausing automatic posts until "
-           f"{until.astimezone(__import__('zoneinfo').ZoneInfo('America/Chicago')).strftime('%a %b %-d, %-I:%M %p')} Central. Don't re-run before then: retries can extend the block. "
-           "Open the Instagram app and check for an 'Action blocked' notice (tap 'Tell us' if it's a mistake).")
+    COOLDOWN.write_text(json.dumps({"until": until.astimezone(timezone.utc).isoformat(), "strikes": strikes,
+                                    "blocked_at": now.isoformat(), "reason": str(err)[:500]}, indent=2))
+    msg = (f"Instagram blocked publishing (block #{strikes} in a row). Pausing all posting until "
+           f"{until.strftime('%a %b %-d, %-I:%M %p')} Central. Don't re-run before then: retries can extend the block. "
+           "Open the Instagram app and check for an 'Action blocked' notice or Settings > Account status "
+           "(tap 'Tell us' if it's a mistake).")
     print(f"[cooldown] {msg}")
     summary = os.environ.get("GITHUB_STEP_SUMMARY")
     if summary:
         with open(summary, "a") as f:
-            f.write(f"\n> **Posting paused for {hours}h.** {msg}\n")
+            f.write(f"\n> **Posting paused ({days} day{'s' if days > 1 else ''}).** {msg}\n")
+
+
+def require_no_cooldown() -> None:
+    """Stop before doing any work if posting is paused (dry runs are allowed; they never touch Instagram)."""
+    until = cooldown_active()
+    if not until or os.environ.get("IGNORE_COOLDOWN", "").lower() == "true":
+        return
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    when = datetime.fromisoformat(until).astimezone(ZoneInfo("America/Chicago")).strftime("%a %b %-d, %-I:%M %p")
+    msg = (f"Posting is paused until {when} Central after an Instagram action block. Wait it out (recommended), "
+           "run with dry_run checked to preview, or delete data/cooldown.json to override.")
+    summary = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary:
+        with open(summary, "a") as f:
+            f.write(f"\n> **{msg}**\n")
+    raise SystemExit(f"[cooldown] {msg}")
 
 
 def cooldown_active() -> str | None:
@@ -204,10 +242,7 @@ def cmd_publish(args):
         print("[publish] dry run, would post:", *urls, plan.get("reel", "(no reel)"),
               f"story: {plan.get('story', '(no story)')}", sep="\n  ")
         return
-    until = cooldown_active()
-    if until and os.environ.get("IGNORE_COOLDOWN", "").lower() != "true":
-        raise SystemExit(f"[cooldown] Posting is paused until {until} after an Instagram action block. "
-                         "Wait it out (recommended), or delete data/cooldown.json to override.")
+    require_no_cooldown()
     ig = Instagram()
     usage = ig._try_get(f"{ig.user}/content_publishing_limit", fields="config,quota_usage")
     if usage and usage.get("data"):

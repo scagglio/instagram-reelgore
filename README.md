@@ -43,8 +43,10 @@ The schedule runs daily at 6:07 PM Central, with backup attempts at 6:37, 7:17 a
 ## If Instagram blocks posting
 
 If Instagram's anti-spam guard returns "Action is blocked" (error code 4 / subcode 2207051), usually after a burst of
-posts, the agent stops, writes `data/cooldown.json` and pauses all posting for 24 hours. Backup schedule times and
-manual runs are skipped until then, because retrying can extend a block. To override early, delete that file.
+posts, the agent stops, writes `data/cooldown.json` and pauses all posting. Repeat blocks escalate the pause
+(1, 2, 4, then 7 days); every pause ends at 5 PM Central so that evening's scheduled run gets a clean attempt, and
+a clean stretch resets it to 1 day. Scheduled and manual runs stop at the start while paused (dry runs still work),
+because retrying can extend a block. To override early, delete that file.
 The log also prints how many API posts Instagram counted in the last 24 hours, and the run summary shows how much
 of Meta's hourly API allowance the app used (with a warning above 80%). While waiting for Instagram to process
 media, the agent backs off (3s, 5s, 8s, 12s, then every 15s) instead of checking every 5 seconds.
