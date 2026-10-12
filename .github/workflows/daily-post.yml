@@ -77,13 +77,8 @@ jobs:
               posts = []
           done = any(p.get("date") == today and p.get("trigger") == "schedule" for p in posts)
           print(f"Central date {today}: scheduled post already done = {done}")
-          try:  # paused after an Instagram action block?
-              until = json.load(open("data/cooldown.json"))["until"]
-              if datetime.datetime.fromisoformat(until) > datetime.datetime.now(datetime.timezone.utc):
-                  print(f"Posting paused until {until} (Instagram action block). Skipping.")
-                  done = True
-          except Exception:
-              pass
+          # An Instagram cooldown (data/cooldown.json) no longer skips the run: the publish step
+          # skips Instagram only, and Facebook still gets today's post.
           if done:
               with open(os.environ["GITHUB_ENV"], "a") as f:
                   f.write("SKIP=true\n")

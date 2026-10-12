@@ -28,8 +28,8 @@ def cmd_plan(args):
     from .writer import caption_text, write_copy
 
     cfg = load_cfg()
-    if os.environ.get("DRY_RUN", "false").lower() != "true":
-        require_no_cooldown()
+    if os.environ.get("DRY_RUN", "false").lower() != "true" and cooldown_active() and not facebook_on(cfg):
+        require_no_cooldown()   # Instagram paused and Facebook off: nothing to post today
     person_name = (os.environ.get("PERSON") or "").strip()
     if any(sep in person_name for sep in (",", ";", " and ", " & ")):
         raise SystemExit("The person box takes ONE name per post. Run once per person.")
@@ -183,8 +183,8 @@ def start_cooldown(err: Exception) -> None:
     COOLDOWN.parent.mkdir(parents=True, exist_ok=True)
     COOLDOWN.write_text(json.dumps({"until": until.astimezone(timezone.utc).isoformat(), "strikes": strikes,
                                     "blocked_at": now.isoformat(), "reason": str(err)[:500]}, indent=2))
-    msg = (f"Instagram blocked publishing (block #{strikes} in a row). Pausing all posting until "
-           f"{until.strftime('%a %b %-d, %-I:%M %p')} Central. Don't re-run before then: retries can extend the block. "
+    msg = (f"Instagram blocked publishing (block #{strikes} in a row). Pausing Instagram posting until "
+           f"{until.strftime('%a %b %-d, %-I:%M %p')} Central. Facebook keeps posting daily in the meantime. Retries can extend the block. "
            "Open the Instagram app and check for an 'Action blocked' notice or Settings > Account status "
            "(tap 'Tell us' if it's a mistake).")
     print(f"[cooldown] {msg}")
@@ -209,6 +209,17 @@ def require_no_cooldown() -> None:
         with open(summary, "a") as f:
             f.write(f"\n> **{msg}**\n")
     raise SystemExit(f"[cooldown] {msg}")
+
+
+def facebook_on(cfg: dict) -> bool:
+    return os.environ.get("POST_FACEBOOK", "true").lower() != "false" and cfg.get("facebook", {}).get("enabled", True)
+
+
+def note_summary(text: str) -> None:
+    summary = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary:
+        with open(summary, "a") as f:
+            f.write(f"\n> **{text}**\n")
 
 
 def cooldown_active() -> str | None:
@@ -242,25 +253,31 @@ def cmd_publish(args):
         print("[publish] dry run, would post:", *urls, plan.get("reel", "(no reel)"),
               f"story: {plan.get('story', '(no story)')}", sep="\n  ")
         return
-    require_no_cooldown()
     ig = Instagram()
-    usage = ig._try_get(f"{ig.user}/content_publishing_limit", fields="config,quota_usage")
-    if usage and usage.get("data"):
-        u = usage["data"][0]
-        print(f"[publish] Instagram API posts used in the last 24h: {u.get('quota_usage')} of "
-              f"{(u.get('config') or {}).get('quota_total', '?')}")
-    try:
-        mid, link = ig.carousel(urls, plan["caption"])
-    except RuntimeError as e:
-        report_usage()
-        if is_action_block(e):
+    ig_paused = cooldown_active() if os.environ.get("IGNORE_COOLDOWN", "").lower() != "true" else None
+    if ig_paused and not facebook_on(load_cfg()):
+        require_no_cooldown()
+    mid = link = reel = reel_error = None
+    if ig_paused:
+        print(f"[publish] Instagram is paused until {ig_paused} (action block); posting to Facebook only today")
+        note_summary("Instagram skipped today (paused after an action block). Facebook still posted.")
+    else:
+        usage = ig._try_get(f"{ig.user}/content_publishing_limit", fields="config,quota_usage")
+        if usage and usage.get("data"):
+            u = usage["data"][0]
+            print(f"[publish] Instagram API posts used in the last 24h: {u.get('quota_usage')} of "
+                  f"{(u.get('config') or {}).get('quota_total', '?')}")
+        try:
+            mid, link = ig.carousel(urls, plan["caption"])
+            print(f"[publish] carousel posted: {mid} {link or ''}")
+        except RuntimeError as e:
+            if not is_action_block(e):
+                report_usage()
+                raise
             start_cooldown(e)
-            raise SystemExit(1)
-        raise
-    print(f"[publish] carousel posted: {mid} {link or ''}")
-    reel = None
-    reel_error = None
-    if plan.get("reel") and (OUT / plan["reel"]).exists():
+            ig_paused = True
+            print("[publish] Instagram blocked; continuing with Facebook")
+    if not ig_paused and plan.get("reel") and (OUT / plan["reel"]).exists():
         try:
             music = None
             mcfg = load_cfg().get("music", {})
@@ -280,9 +297,13 @@ def cmd_publish(args):
             print(f"[publish] reel FAILED (carousel is already live): {e}")
             if is_action_block(e):
                 start_cooldown(e)
+                ig_paused = True
     fb, fb_error = crosspost_facebook(ig, plan, urls)
-    story = post_stories(ig, plan, base)
-    record(plan, link, mid, reel=reel, facebook=fb, story=story)
+    story = post_stories(ig, plan, base, instagram=not ig_paused)
+    if not mid and not fb:
+        report_usage()
+        raise SystemExit("[publish] Nothing was posted: Instagram is paused and the Facebook post failed.")
+    record(plan, link, mid, reel=reel, facebook=fb, story=story, instagram_skipped=bool(ig_paused and not mid))
     try:
         from .links import build_links_page
         build_links_page(load_cfg())
@@ -293,7 +314,7 @@ def cmd_publish(args):
         raise SystemExit(1)
 
 
-def post_stories(ig, plan: dict, base: str) -> dict | None:
+def post_stories(ig, plan: dict, base: str, instagram: bool = True) -> dict | None:
     """Teaser Story on Instagram and the Facebook Page. Stories are a bonus: a failure here is logged
     (and shown in the run summary) but never fails the run, since the main posts are already live."""
     if not plan.get("story"):
@@ -301,7 +322,7 @@ def post_stories(ig, plan: dict, base: str) -> dict | None:
     scfg = load_cfg().get("stories", {})
     url = f"{base}/{plan['story']}"
     result, problems = {}, []
-    if scfg.get("instagram", True):
+    if instagram and scfg.get("instagram", True):
         try:
             result["instagram"] = ig.story(url)
             print(f"[story] Instagram story published: {result['instagram']}")
@@ -364,7 +385,7 @@ def crosspost_facebook(ig, plan: dict, urls: list[str]):
                 print(f"[facebook] reel FAILED: {e}")
     except Exception as e:
         error = e
-        print(f"[facebook] cross-post FAILED (Instagram posts are live): {e}")
+        print(f"[facebook] cross-post FAILED: {e}")
     return result or None, error
 
 
