@@ -88,6 +88,65 @@
       },
       "watch": null,
       "poster": "/zcJbCMwFLJdn5OLjhYwMVaSB32R.jpg"
+    },
+    {
+      "date": "2026-10-12",
+      "trigger": "workflow_dispatch",
+      "kind": "anniversary",
+      "movie_ids": [
+        10836
+      ],
+      "titles": [
+        "Dagon"
+      ],
+      "person_id": null,
+      "headline": "Dagon Turns 25 Years Old Today",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1754318976694629",
+        "reel_id": "1098141389755384"
+      },
+      "story": {
+        "facebook": "1115070254325857"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Dagon",
+        "year": "2001",
+        "stream": [
+          {
+            "name": "BFI Player",
+            "logo": "/lWzSEjT62Ob0XIHXdN7G4OQWCAr.png",
+            "url": null
+          },
+          {
+            "name": "MovieSphere+",
+            "logo": "/9GQLqBo5obK0r3nhZl24BadRKPq.png",
+            "url": null
+          },
+          {
+            "name": "The Roku Channel",
+            "logo": "/b7uhrYJtAe7b1ieJGg705vTbwrX.png",
+            "url": null
+          },
+          {
+            "name": "Plex",
+            "logo": "/blAEhvx3XX8sV0fFVFk88FFjubs.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/10836-dagon/watch?locale=US"
+      },
+      "poster": "/8S648eMKObi8ERFS7cSYDocxSaZ.jpg"
     }
   ]
 }
