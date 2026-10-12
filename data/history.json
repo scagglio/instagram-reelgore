@@ -147,6 +147,60 @@
         "justwatch": "https://www.themoviedb.org/movie/10836-dagon/watch?locale=US"
       },
       "poster": "/8S648eMKObi8ERFS7cSYDocxSaZ.jpg"
+    },
+    {
+      "date": "2026-10-12",
+      "trigger": "workflow_dispatch",
+      "kind": "anniversary",
+      "movie_ids": [
+        1975
+      ],
+      "titles": [
+        "The Grudge 2"
+      ],
+      "person_id": null,
+      "headline": "The Grudge 2 Turns 20 Years Old Today",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1754351130024747",
+        "reel_id": "4398167943660049"
+      },
+      "story": {
+        "facebook": "1945797230138206"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "The Grudge 2",
+        "year": "2006",
+        "stream": [
+          {
+            "name": "Amazon Prime Video",
+            "logo": "/gMZdpavHmxFNnLpMHwVxfqeux2g.png",
+            "url": null
+          },
+          {
+            "name": "Starz",
+            "logo": "/h25xjouKmiSmFiiqw0aDXbxGZo7.png",
+            "url": null
+          },
+          {
+            "name": "MovieSphere+",
+            "logo": "/9GQLqBo5obK0r3nhZl24BadRKPq.png",
+            "url": null
+          },
+          {
+            "name": "Howdy",
+            "logo": "/dI7GHS1st3jWH8eW21x5YnJdUFN.png",
+            "url": null
+          }
+        ],
+        "rent": [],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/1975-the-grudge-2/watch?locale=US"
+      },
+      "poster": "/6fWhibnDKEJvDEz33CuNyl4FQgj.jpg"
     }
   ]
 }
