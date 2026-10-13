@@ -314,6 +314,62 @@
         "justwatch": "https://www.themoviedb.org/movie/4232-scream/watch?locale=US"
       },
       "poster": "/lr9ZIrmuwVmZhpZuTCW8D9g0ZJe.jpg"
+    },
+    {
+      "date": "2026-10-13",
+      "trigger": "workflow_dispatch",
+      "kind": "pick",
+      "movie_ids": [
+        14510
+      ],
+      "titles": [
+        "From Beyond"
+      ],
+      "person_id": null,
+      "headline": "Reel Gore Pick: From Beyond",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1755036056622921",
+        "reel_id": "2115736265696353"
+      },
+      "story": {
+        "facebook": "1828251671683243"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "From Beyond",
+        "year": "1986",
+        "stream": [
+          {
+            "name": "fuboTV",
+            "logo": "/3wF8xISfVlcrc8X3jaa3uMUFGAr.png",
+            "url": null
+          },
+          {
+            "name": "MGM+",
+            "logo": "/gk7O3l9qHttE9F3hgDNnhbhlOs7.png",
+            "url": null
+          },
+          {
+            "name": "Philo",
+            "logo": "/mfbhzQwmQKjm7bLZPF5CTeu3Ilc.png",
+            "url": null
+          },
+          {
+            "name": "MGM Plus",
+            "logo": "/q63Uzpu7JAs566vA2G23Lk7LcID.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Fandango At Home"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/14510-from-beyond/watch?locale=US"
+      },
+      "poster": "/zwmyxaKzIRLD4iUqZAQW940omdm.jpg"
     }
   ]
 }
