@@ -201,6 +201,60 @@
         "justwatch": "https://www.themoviedb.org/movie/1975-the-grudge-2/watch?locale=US"
       },
       "poster": "/6fWhibnDKEJvDEz33CuNyl4FQgj.jpg"
+    },
+    {
+      "date": "2026-10-12",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        539
+      ],
+      "titles": [
+        "Psycho"
+      ],
+      "person_id": null,
+      "headline": "Psycho: Check In, Never Check Out",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1754618543331339",
+        "reel_id": "2220138378833415"
+      },
+      "story": {
+        "facebook": "1416292773484840"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Psycho",
+        "year": "1960",
+        "stream": [
+          {
+            "name": "Netflix",
+            "logo": "/rK1KljqmbvO9HQa1PBFLILWah72.png",
+            "url": null
+          },
+          {
+            "name": "Peacock Premium",
+            "logo": "/a1UIdq5BrkcAxnxcUhFsNbXnxeu.png",
+            "url": null
+          },
+          {
+            "name": "Peacock Premium Plus",
+            "logo": "/yrEwyMzEKdqAoGhaWUARtIxByol.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/539-psycho/watch?locale=US"
+      },
+      "poster": "/yz4QVqPx3h1hD1DfqqQkCq3rmxW.jpg"
     }
   ]
 }
