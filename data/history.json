@@ -255,6 +255,65 @@
         "justwatch": "https://www.themoviedb.org/movie/539-psycho/watch?locale=US"
       },
       "poster": "/yz4QVqPx3h1hD1DfqqQkCq3rmxW.jpg"
+    },
+    {
+      "date": "2026-10-13",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        4232
+      ],
+      "titles": [
+        "Scream"
+      ],
+      "person_id": null,
+      "headline": "Night 13: Scream Still Draws Blood",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1754741433319050",
+        "reel_id": "1822425982122818"
+      },
+      "story": {
+        "facebook": "1810049736687094"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Scream",
+        "year": "1996",
+        "stream": [
+          {
+            "name": "Hulu",
+            "logo": "/44uAnmSqvA4yBOdbPWN8YgQHjWm.png",
+            "url": null
+          },
+          {
+            "name": "fuboTV",
+            "logo": "/3wF8xISfVlcrc8X3jaa3uMUFGAr.png",
+            "url": null
+          },
+          {
+            "name": "Paramount Plus Premium",
+            "logo": "/4N4BMd0Mm0kHAmF7RZgL5lW3cwc.png",
+            "url": null
+          },
+          {
+            "name": "Paramount Plus Essential",
+            "logo": "/uPWQPyF4nqwtfPNmGcFcenU57HG.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "JustWatch TV",
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/4232-scream/watch?locale=US"
+      },
+      "poster": "/lr9ZIrmuwVmZhpZuTCW8D9g0ZJe.jpg"
     }
   ]
 }
