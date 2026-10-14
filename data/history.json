@@ -370,6 +370,63 @@
         "justwatch": "https://www.themoviedb.org/movie/14510-from-beyond/watch?locale=US"
       },
       "poster": "/zwmyxaKzIRLD4iUqZAQW940omdm.jpg"
+    },
+    {
+      "date": "2026-10-14",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        10728
+      ],
+      "titles": [
+        "Faust"
+      ],
+      "person_id": null,
+      "headline": "Faust Turns 100 Years Old Today",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1755839559875904",
+        "reel_id": "1765391531409476"
+      },
+      "story": {
+        "facebook": "1291046939784097"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Faust",
+        "year": "1926",
+        "stream": [
+          {
+            "name": "Kino Film Collection",
+            "logo": "/vzHdqyLVfEXK6dNIbsVYH28mn9k.png",
+            "url": null
+          },
+          {
+            "name": "JustWatch TV",
+            "logo": "/aJXLTvX11u4fBLMPRVJZVKkLYHP.png",
+            "url": null
+          },
+          {
+            "name": "Kanopy",
+            "logo": "/cltb8XKan9ierp23ItPmCOcVLRa.png",
+            "url": null
+          },
+          {
+            "name": "Darkroom",
+            "logo": "/naf5wQA91UCj0OetKOEYZgWZLqe.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/10728-faust-eine-deutsche-volkssage/watch?locale=US"
+      },
+      "poster": "/rN703hMFxmkZfyEzsXvFtuFhkXE.jpg"
     }
   ]
 }
