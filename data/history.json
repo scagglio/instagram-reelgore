@@ -427,6 +427,42 @@
         "justwatch": "https://www.themoviedb.org/movie/10728-faust-eine-deutsche-volkssage/watch?locale=US"
       },
       "poster": "/rN703hMFxmkZfyEzsXvFtuFhkXE.jpg"
+    },
+    {
+      "date": "2026-10-15",
+      "trigger": "schedule",
+      "kind": "upcoming_roundup",
+      "movie_ids": [
+        1400940,
+        1782625,
+        1381071,
+        1421903,
+        1419019,
+        1520592
+      ],
+      "titles": [
+        "Clayface",
+        "Orang Minyak",
+        "Godzilla Minus Zero",
+        "Werwulf",
+        "Dawn of Soengsang",
+        "River"
+      ],
+      "person_id": null,
+      "headline": "COMING TO HAUNT YOU",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1756931133100080",
+        "reel_id": "1798133434550383"
+      },
+      "story": {
+        "facebook": "1615414106720761"
+      },
+      "instagram_skipped": true,
+      "watch": null,
+      "poster": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
     }
   ]
 }
