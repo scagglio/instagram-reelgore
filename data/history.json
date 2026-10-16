@@ -463,6 +463,63 @@
       "instagram_skipped": true,
       "watch": null,
       "poster": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
+    },
+    {
+      "date": "2026-10-16",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        57283
+      ],
+      "titles": [
+        "H\u00e4xan"
+      ],
+      "person_id": null,
+      "headline": "H\u00e4xan: Satan's Silent Scrapbook",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1758019439657916",
+        "reel_id": "1107882958655244"
+      },
+      "story": {
+        "facebook": "1077006265335174"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "H\u00e4xan",
+        "year": "1922",
+        "stream": [
+          {
+            "name": "HBO Max",
+            "logo": "/64fLWeSyZ1KQZhIdvTdy4QHeWty.png",
+            "url": null
+          },
+          {
+            "name": "Brew",
+            "logo": "/mwGw3KrIZxnACdeojp2a5cO41hi.png",
+            "url": null
+          },
+          {
+            "name": "GuideDoc",
+            "logo": "/zlgqOma3er9QTv5r8g4nhkZCqeN.png",
+            "url": null
+          },
+          {
+            "name": "Eternal Family",
+            "logo": "/2IHcGZUPqxy4HhWWN57AGEIKcCW.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Apple TV Store",
+          "Fandango At Home"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/57283-haxan/watch?locale=US"
+      },
+      "poster": "/3LtaPLlwlA5HX2FjqAb8lsaBI8P.jpg"
     }
   ]
 }
