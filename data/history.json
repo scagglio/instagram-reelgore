@@ -520,6 +520,44 @@
         "justwatch": "https://www.themoviedb.org/movie/57283-haxan/watch?locale=US"
       },
       "poster": "/3LtaPLlwlA5HX2FjqAb8lsaBI8P.jpg"
+    },
+    {
+      "date": "2026-10-17",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        71672
+      ],
+      "titles": [
+        "Wrong Turn 4: Bloody Beginnings"
+      ],
+      "person_id": null,
+      "headline": "Wrong Turn 4 Turns 15 Years Old Today",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1759097919550068",
+        "reel_id": "2444557102620982"
+      },
+      "story": {
+        "facebook": "3644902912341639"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Wrong Turn 4: Bloody Beginnings",
+        "year": "2011",
+        "stream": [],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/71672-wrong-turn-4-bloody-beginnings/watch?locale=US"
+      },
+      "poster": "/l1vD4GY7tlT420KJ3xWTzyQ2Aa9.jpg"
     }
   ]
 }
