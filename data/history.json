@@ -558,6 +558,60 @@
         "justwatch": "https://www.themoviedb.org/movie/71672-wrong-turn-4-bloody-beginnings/watch?locale=US"
       },
       "poster": "/l1vD4GY7tlT420KJ3xWTzyQ2Aa9.jpg"
+    },
+    {
+      "date": "2026-10-18",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        13549
+      ],
+      "titles": [
+        "Burnt Offerings"
+      ],
+      "person_id": null,
+      "headline": "50 Years Ago Today: The House Hungered",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1760171359442724",
+        "reel_id": "29207967872224429"
+      },
+      "story": {
+        "facebook": "1501053812081312"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Burnt Offerings",
+        "year": "1976",
+        "stream": [
+          {
+            "name": "Amazon Prime Video",
+            "logo": "/gMZdpavHmxFNnLpMHwVxfqeux2g.png",
+            "url": null
+          },
+          {
+            "name": "fuboTV",
+            "logo": "/3wF8xISfVlcrc8X3jaa3uMUFGAr.png",
+            "url": null
+          },
+          {
+            "name": "MGM+",
+            "logo": "/gk7O3l9qHttE9F3hgDNnhbhlOs7.png",
+            "url": null
+          },
+          {
+            "name": "Philo",
+            "logo": "/mfbhzQwmQKjm7bLZPF5CTeu3Ilc.png",
+            "url": null
+          }
+        ],
+        "rent": [],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/13549-burnt-offerings/watch?locale=US"
+      },
+      "poster": "/2ipG69lXOjGMX7F7qxJQzUoiUsd.jpg"
     }
   ]
 }
