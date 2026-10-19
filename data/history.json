@@ -612,6 +612,44 @@
         "justwatch": "https://www.themoviedb.org/movie/13549-burnt-offerings/watch?locale=US"
       },
       "poster": "/2ipG69lXOjGMX7F7qxJQzUoiUsd.jpg"
+    },
+    {
+      "date": "2026-10-19",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        40149
+      ],
+      "titles": [
+        "Kuroneko"
+      ],
+      "person_id": null,
+      "headline": "Kuroneko: Beware the Bamboo Forest",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1761219922671201",
+        "reel_id": "1112985218047271"
+      },
+      "story": {
+        "facebook": "1585736812680416"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Kuroneko",
+        "year": "1968",
+        "stream": [],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/40149/watch?locale=US"
+      },
+      "poster": "/43LZYSBRMZoi9QdYntkGXhLSMeI.jpg"
     }
   ]
 }
