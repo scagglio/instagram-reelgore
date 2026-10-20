@@ -650,6 +650,50 @@
         "justwatch": "https://www.themoviedb.org/movie/40149/watch?locale=US"
       },
       "poster": "/43LZYSBRMZoi9QdYntkGXhLSMeI.jpg"
+    },
+    {
+      "date": "2026-10-20",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        335796
+      ],
+      "titles": [
+        "Ouija: Origin of Evil"
+      ],
+      "person_id": null,
+      "headline": "10 Years Ago: Ouija: Origin of Evil",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1762307162562477",
+        "reel_id": "29241355168829399"
+      },
+      "story": {
+        "facebook": "1125900553180805"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Ouija: Origin of Evil",
+        "year": "2016",
+        "stream": [
+          {
+            "name": "Netflix",
+            "logo": "/rK1KljqmbvO9HQa1PBFLILWah72.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/335796-ouija-origin-of-evil/watch?locale=US"
+      },
+      "poster": "/gwynHc2RrOFaplYMMpQRpr3TIA4.jpg"
     }
   ]
 }
