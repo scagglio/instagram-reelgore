@@ -694,6 +694,65 @@
         "justwatch": "https://www.themoviedb.org/movie/335796-ouija-origin-of-evil/watch?locale=US"
       },
       "poster": "/gwynHc2RrOFaplYMMpQRpr3TIA4.jpg"
+    },
+    {
+      "date": "2026-10-21",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        380124
+      ],
+      "titles": [
+        "Boo! A Madea Halloween"
+      ],
+      "person_id": null,
+      "headline": "10 Years Ago: Madea Crashed Halloween",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1763387762454417",
+        "reel_id": "2041650616487934"
+      },
+      "story": {
+        "facebook": "1418561000435654"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Boo! A Madea Halloween",
+        "year": "2016",
+        "stream": [
+          {
+            "name": "Peacock Premium",
+            "logo": "/a1UIdq5BrkcAxnxcUhFsNbXnxeu.png",
+            "url": null
+          },
+          {
+            "name": "MGM Plus",
+            "logo": "/surh9i8VYeeq9186fKHnUg5Q5dg.png",
+            "url": null
+          },
+          {
+            "name": "YouTube TV",
+            "logo": "/48bVXEIyCLSL9pZUQ7gB9ToyWto.png",
+            "url": null
+          },
+          {
+            "name": "Peacock Premium Plus",
+            "logo": "/yrEwyMzEKdqAoGhaWUARtIxByol.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube",
+          "Fandango At Home"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/380124-boo-a-madea-halloween/watch?locale=US"
+      },
+      "poster": "/82TLEZv1rOJNgllfYD22NkivGDH.jpg"
     }
   ]
 }
