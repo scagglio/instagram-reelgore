@@ -753,6 +753,65 @@
         "justwatch": "https://www.themoviedb.org/movie/380124-boo-a-madea-halloween/watch?locale=US"
       },
       "poster": "/82TLEZv1rOJNgllfYD22NkivGDH.jpg"
+    },
+    {
+      "date": "2026-10-22",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        31579
+      ],
+      "titles": [
+        "God Told Me To"
+      ],
+      "person_id": null,
+      "headline": "God Told Me To Turns 50 Today",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1764463219013538",
+        "reel_id": "1872134993990188"
+      },
+      "story": {
+        "facebook": "1144093568303209"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "God Told Me To",
+        "year": "1976",
+        "stream": [
+          {
+            "name": "Amazon Prime Video",
+            "logo": "/gMZdpavHmxFNnLpMHwVxfqeux2g.png",
+            "url": null
+          },
+          {
+            "name": "Night Flight Plus",
+            "logo": "/acUxuVlP96MVPbUdxdGu0pUHTht.png",
+            "url": null
+          },
+          {
+            "name": "Eternal Family",
+            "logo": "/2IHcGZUPqxy4HhWWN57AGEIKcCW.png",
+            "url": null
+          },
+          {
+            "name": "Artiflix",
+            "logo": "/hO4tZhtSJ7VrVnJusimkY3MltSx.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/31579-god-told-me-to/watch?locale=US"
+      },
+      "poster": "/nbUjhJGCuSiDiMaNJs2kCtTL7ag.jpg"
     }
   ]
 }
