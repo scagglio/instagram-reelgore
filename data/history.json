@@ -812,6 +812,65 @@
         "justwatch": "https://www.themoviedb.org/movie/31579-god-told-me-to/watch?locale=US"
       },
       "poster": "/nbUjhJGCuSiDiMaNJs2kCtTL7ag.jpg"
+    },
+    {
+      "date": "2026-10-23",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        28635
+      ],
+      "titles": [
+        "Wishmaster 3: Beyond the Gates of Hell"
+      ],
+      "person_id": null,
+      "headline": "Wishmaster 3 Turns 25 Years Old Today",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1765529115573615",
+        "reel_id": "1077624428425286"
+      },
+      "story": {
+        "facebook": "1440796781542427"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Wishmaster 3: Beyond the Gates of Hell",
+        "year": "2001",
+        "stream": [
+          {
+            "name": "MovieSphere+",
+            "logo": "/9GQLqBo5obK0r3nhZl24BadRKPq.png",
+            "url": null
+          },
+          {
+            "name": "Fawesome",
+            "logo": "/dNF4vWhF3TduWvOyfVxEyTqSNRl.png",
+            "url": null
+          },
+          {
+            "name": "Philo",
+            "logo": "/mfbhzQwmQKjm7bLZPF5CTeu3Ilc.png",
+            "url": null
+          },
+          {
+            "name": "Tubi TV",
+            "logo": "/9dEuvA8wg5TSeFBZlPxSVxFdimJ.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/28635-wishmaster-3-beyond-the-gates-of-hell/watch?locale=US"
+      },
+      "poster": "/aQaOymRoRpNBFOaFRnoxXj6dwJv.jpg"
     }
   ]
 }
