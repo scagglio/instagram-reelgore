@@ -871,6 +871,65 @@
         "justwatch": "https://www.themoviedb.org/movie/28635-wishmaster-3-beyond-the-gates-of-hell/watch?locale=US"
       },
       "poster": "/aQaOymRoRpNBFOaFRnoxXj6dwJv.jpg"
+    },
+    {
+      "date": "2026-10-23",
+      "trigger": "workflow_dispatch",
+      "kind": "classic",
+      "movie_ids": [
+        30497
+      ],
+      "titles": [
+        "The Texas Chain Saw Massacre"
+      ],
+      "person_id": null,
+      "headline": "The Chain Saw Still Screams",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1766265108833349",
+        "reel_id": "1930085351708466"
+      },
+      "story": {
+        "facebook": "1137894289177979"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "The Texas Chain Saw Massacre",
+        "year": "1974",
+        "stream": [
+          {
+            "name": "Netflix",
+            "logo": "/rK1KljqmbvO9HQa1PBFLILWah72.png",
+            "url": null
+          },
+          {
+            "name": "Amazon Prime Video",
+            "logo": "/gMZdpavHmxFNnLpMHwVxfqeux2g.png",
+            "url": null
+          },
+          {
+            "name": "Peacock Premium",
+            "logo": "/a1UIdq5BrkcAxnxcUhFsNbXnxeu.png",
+            "url": null
+          },
+          {
+            "name": "Philo",
+            "logo": "/mfbhzQwmQKjm7bLZPF5CTeu3Ilc.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/30497-the-texas-chain-saw-massacre/watch?locale=US"
+      },
+      "poster": "/mpgkRPH1GNkMCgdPk2OMyHzAks7.jpg"
     }
   ]
 }
