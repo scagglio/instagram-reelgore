@@ -930,6 +930,54 @@
         "justwatch": "https://www.themoviedb.org/movie/30497-the-texas-chain-saw-massacre/watch?locale=US"
       },
       "poster": "/mpgkRPH1GNkMCgdPk2OMyHzAks7.jpg"
+    },
+    {
+      "date": "2026-10-24",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        11380
+      ],
+      "titles": [
+        "Bones"
+      ],
+      "person_id": null,
+      "headline": "BONES turns 25 years old today",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1766640578795802"
+      },
+      "story": {
+        "facebook": "2962316660797525"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Bones",
+        "year": "2001",
+        "stream": [
+          {
+            "name": "Philo",
+            "logo": "/mfbhzQwmQKjm7bLZPF5CTeu3Ilc.png",
+            "url": null
+          },
+          {
+            "name": "Starz",
+            "logo": "/adymMNlhhLlJl5xccRCrsh3OehD.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/11380-bones/watch?locale=US"
+      },
+      "poster": "/2Fsm30AcKiBbQPfYV8mm6Q7Axdh.jpg"
     }
   ]
 }
