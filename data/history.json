@@ -978,6 +978,44 @@
         "justwatch": "https://www.themoviedb.org/movie/11380-bones/watch?locale=US"
       },
       "poster": "/2Fsm30AcKiBbQPfYV8mm6Q7Axdh.jpg"
+    },
+    {
+      "date": "2026-10-25",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        9378
+      ],
+      "titles": [
+        "Thir13en Ghosts"
+      ],
+      "person_id": null,
+      "headline": "25 Years Ago: Thir13en Ghosts Opened the Eye",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1767703045356222",
+        "reel_id": "1765039888114901"
+      },
+      "story": {
+        "facebook": "2107061943252828"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Thir13en Ghosts",
+        "year": "2001",
+        "stream": [],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "YouTube",
+          "Plex"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/9378-thir13en-ghosts/watch?locale=US"
+      },
+      "poster": "/6yrrddjIjx0ElCRZp5pTZeqrj3k.jpg"
     }
   ]
 }
