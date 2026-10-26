@@ -1016,6 +1016,50 @@
         "justwatch": "https://www.themoviedb.org/movie/9378-thir13en-ghosts/watch?locale=US"
       },
       "poster": "/6yrrddjIjx0ElCRZp5pTZeqrj3k.jpg"
+    },
+    {
+      "date": "2026-10-26",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        214
+      ],
+      "titles": [
+        "Saw III"
+      ],
+      "person_id": null,
+      "headline": "20 Years Ago Today: Saw III Hit Screens",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1768798561913337",
+        "reel_id": "1146539824912978"
+      },
+      "story": {
+        "facebook": "891262273982153"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Saw III",
+        "year": "2006",
+        "stream": [
+          {
+            "name": "MovieSphere+",
+            "logo": "/9GQLqBo5obK0r3nhZl24BadRKPq.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/214-saw-iii/watch?locale=US"
+      },
+      "poster": "/4iO9n24Rb10peXV0JH2EldIOrAp.jpg"
     }
   ]
 }
