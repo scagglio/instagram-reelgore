@@ -1060,6 +1060,45 @@
         "justwatch": "https://www.themoviedb.org/movie/214-saw-iii/watch?locale=US"
       },
       "poster": "/4iO9n24Rb10peXV0JH2EldIOrAp.jpg"
+    },
+    {
+      "date": "2026-10-27",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        864873
+      ],
+      "titles": [
+        "Hypnotic"
+      ],
+      "person_id": null,
+      "headline": "Hypnotic Turns 5 Years Old Today",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1769848765141650",
+        "reel_id": "1219695417415774"
+      },
+      "story": {
+        "facebook": "1793022958573573"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Hypnotic",
+        "year": "2021",
+        "stream": [
+          {
+            "name": "Netflix",
+            "logo": "/rK1KljqmbvO9HQa1PBFLILWah72.png",
+            "url": null
+          }
+        ],
+        "rent": [],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/864873-hypnotic/watch?locale=US"
+      },
+      "poster": "/miEj4kNc4efZ5WbPJqWl1UXWrvS.jpg"
     }
   ]
 }
