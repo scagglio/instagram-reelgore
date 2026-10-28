@@ -1099,6 +1099,65 @@
         "justwatch": "https://www.themoviedb.org/movie/864873-hypnotic/watch?locale=US"
       },
       "poster": "/miEj4kNc4efZ5WbPJqWl1UXWrvS.jpg"
+    },
+    {
+      "date": "2026-10-28",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        11618
+      ],
+      "titles": [
+        "The Haunting"
+      ],
+      "person_id": null,
+      "headline": "Some Houses Are Born Bad",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1771161365010390",
+        "reel_id": "1444246151131485"
+      },
+      "story": {
+        "facebook": "1822912482693470"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "The Haunting",
+        "year": "1999",
+        "stream": [
+          {
+            "name": "fuboTV",
+            "logo": "/3wF8xISfVlcrc8X3jaa3uMUFGAr.png",
+            "url": null
+          },
+          {
+            "name": "MGM+",
+            "logo": "/gk7O3l9qHttE9F3hgDNnhbhlOs7.png",
+            "url": null
+          },
+          {
+            "name": "Paramount Plus Premium",
+            "logo": "/4N4BMd0Mm0kHAmF7RZgL5lW3cwc.png",
+            "url": null
+          },
+          {
+            "name": "Paramount Plus Essential",
+            "logo": "/uPWQPyF4nqwtfPNmGcFcenU57HG.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/11618-the-haunting/watch?locale=US"
+      },
+      "poster": "/xwLldS5JnB4441iS50ha9ZrkaA8.jpg"
     }
   ]
 }
