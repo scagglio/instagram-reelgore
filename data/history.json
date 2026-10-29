@@ -1158,6 +1158,62 @@
         "justwatch": "https://www.themoviedb.org/movie/11618-the-haunting/watch?locale=US"
       },
       "poster": "/xwLldS5JnB4441iS50ha9ZrkaA8.jpg"
+    },
+    {
+      "date": "2026-10-29",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        12720
+      ],
+      "titles": [
+        "Suicide Club"
+      ],
+      "person_id": null,
+      "headline": "Suicide Club: 25 Years Ago Today",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1772388874887639",
+        "reel_id": "1675434797482467"
+      },
+      "story": {
+        "facebook": "1423038999433255"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Suicide Club",
+        "year": "2001",
+        "stream": [
+          {
+            "name": "Screambox",
+            "logo": "/zRn4rBGPYDeZvTeZEBySDdqHzS8.png",
+            "url": null
+          },
+          {
+            "name": "Midnight Pulp",
+            "logo": "/c1dWUx3AwvoZ13meOTQSDEBonZD.png",
+            "url": null
+          },
+          {
+            "name": "Cineverse",
+            "logo": "/mkikn40hHk3K3Xis19dnzyRnHBB.png",
+            "url": null
+          },
+          {
+            "name": "Fawesome",
+            "logo": "/dNF4vWhF3TduWvOyfVxEyTqSNRl.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Apple TV Store"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/12720/watch?locale=US"
+      },
+      "poster": "/oMjWlKHzR9cwhf3oCUy9j57o67O.jpg"
     }
   ]
 }
