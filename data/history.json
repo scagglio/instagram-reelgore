@@ -1214,6 +1214,65 @@
         "justwatch": "https://www.themoviedb.org/movie/12720/watch?locale=US"
       },
       "poster": "/oMjWlKHzR9cwhf3oCUy9j57o67O.jpg"
+    },
+    {
+      "date": "2026-10-30",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        11281
+      ],
+      "titles": [
+        "Halloween II"
+      ],
+      "person_id": null,
+      "headline": "Halloween II Turns 45 Years Old Today",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1773600698099790",
+        "reel_id": "1120841143660937"
+      },
+      "story": {
+        "facebook": "2019726882683796"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Halloween II",
+        "year": "1981",
+        "stream": [
+          {
+            "name": "Amazon Prime Video",
+            "logo": "/gMZdpavHmxFNnLpMHwVxfqeux2g.png",
+            "url": null
+          },
+          {
+            "name": "Peacock Premium",
+            "logo": "/a1UIdq5BrkcAxnxcUhFsNbXnxeu.png",
+            "url": null
+          },
+          {
+            "name": "Philo",
+            "logo": "/mfbhzQwmQKjm7bLZPF5CTeu3Ilc.png",
+            "url": null
+          },
+          {
+            "name": "AMC Plus",
+            "logo": "/wLl5LRLVC6UOSaUlsmuzY0H9LS1.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/11281-halloween-ii/watch?locale=US"
+      },
+      "poster": "/3nX5HHGgOKaVMxXwMLT9DHO1Ne6.jpg"
     }
   ]
 }
