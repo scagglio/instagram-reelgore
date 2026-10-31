@@ -1273,6 +1273,65 @@
         "justwatch": "https://www.themoviedb.org/movie/11281-halloween-ii/watch?locale=US"
       },
       "poster": "/3nX5HHGgOKaVMxXwMLT9DHO1Ne6.jpg"
+    },
+    {
+      "date": "2026-10-31",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        9276
+      ],
+      "titles": [
+        "The Faculty"
+      ],
+      "person_id": null,
+      "headline": "Your Teachers Aren't Themselves Today",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1774803884646138",
+        "reel_id": "1742705973487596"
+      },
+      "story": {
+        "facebook": "1774591550493983"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "The Faculty",
+        "year": "1998",
+        "stream": [
+          {
+            "name": "fuboTV",
+            "logo": "/3wF8xISfVlcrc8X3jaa3uMUFGAr.png",
+            "url": null
+          },
+          {
+            "name": "Paramount Plus Premium",
+            "logo": "/4N4BMd0Mm0kHAmF7RZgL5lW3cwc.png",
+            "url": null
+          },
+          {
+            "name": "Paramount Plus Essential",
+            "logo": "/uPWQPyF4nqwtfPNmGcFcenU57HG.png",
+            "url": null
+          },
+          {
+            "name": "Philo",
+            "logo": "/mfbhzQwmQKjm7bLZPF5CTeu3Ilc.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/9276-the-faculty/watch?locale=US"
+      },
+      "poster": "/5XetJwmAiDC0EtH23NIXaqFn3Wl.jpg"
     }
   ]
 }
