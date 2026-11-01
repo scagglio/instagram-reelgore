@@ -1332,6 +1332,63 @@
         "justwatch": "https://www.themoviedb.org/movie/9276-the-faculty/watch?locale=US"
       },
       "poster": "/5XetJwmAiDC0EtH23NIXaqFn3Wl.jpg"
+    },
+    {
+      "date": "2026-11-01",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        27601
+      ],
+      "titles": [
+        "Citizen Toxie: The Toxic Avenger IV"
+      ],
+      "person_id": null,
+      "headline": "Citizen Toxie Turns 25 Years Old Today",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1776003714526155",
+        "reel_id": "3042078592842942"
+      },
+      "story": {
+        "facebook": "26799238559773278"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Citizen Toxie: The Toxic Avenger IV",
+        "year": "2001",
+        "stream": [
+          {
+            "name": "Amazon Prime Video",
+            "logo": "/gMZdpavHmxFNnLpMHwVxfqeux2g.png",
+            "url": null
+          },
+          {
+            "name": "Philo",
+            "logo": "/mfbhzQwmQKjm7bLZPF5CTeu3Ilc.png",
+            "url": null
+          },
+          {
+            "name": "AMC Plus",
+            "logo": "/wLl5LRLVC6UOSaUlsmuzY0H9LS1.png",
+            "url": null
+          },
+          {
+            "name": "AMC+",
+            "logo": "/tg5ufQ1GkYDCMxSSxemfeKWcvRe.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Fandango At Home"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/27601-citizen-toxie-the-toxic-avenger-iv/watch?locale=US"
+      },
+      "poster": "/wR4VvqrRd2r9M4GYXPnoV02aUNG.jpg"
     }
   ]
 }
