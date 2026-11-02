@@ -1389,6 +1389,42 @@
         "justwatch": "https://www.themoviedb.org/movie/27601-citizen-toxie-the-toxic-avenger-iv/watch?locale=US"
       },
       "poster": "/wR4VvqrRd2r9M4GYXPnoV02aUNG.jpg"
+    },
+    {
+      "date": "2026-11-02",
+      "trigger": "schedule",
+      "kind": "upcoming_roundup",
+      "movie_ids": [
+        1381071,
+        1379486,
+        718833,
+        1421903,
+        1268053,
+        1442761
+      ],
+      "titles": [
+        "Godzilla Minus Zero",
+        "Victorian Psycho",
+        "Bokshi",
+        "Werwulf",
+        "Winnie the Pooh: Blood and Honey: The Lost Years",
+        "Slayground"
+      ],
+      "person_id": null,
+      "headline": "Coming to Haunt You",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1777150594411467",
+        "reel_id": "2162935020969637"
+      },
+      "story": {
+        "facebook": "2218745275690838"
+      },
+      "instagram_skipped": true,
+      "watch": null,
+      "poster": "/hSmIJluOJmTWvJs4d7kHRxjc8s8.jpg"
     }
   ]
 }
