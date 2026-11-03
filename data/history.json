@@ -1425,6 +1425,55 @@
       "instagram_skipped": true,
       "watch": null,
       "poster": "/hSmIJluOJmTWvJs4d7kHRxjc8s8.jpg"
+    },
+    {
+      "date": "2026-11-03",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        7340
+      ],
+      "titles": [
+        "Carrie"
+      ],
+      "person_id": null,
+      "headline": "50 Years Ago Today, Carrie Went to Prom",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1778302940962899",
+        "reel_id": "1421737359607042"
+      },
+      "story": {
+        "facebook": "1128280883079757"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Carrie",
+        "year": "1976",
+        "stream": [
+          {
+            "name": "Amazon Prime Video",
+            "logo": "/gMZdpavHmxFNnLpMHwVxfqeux2g.png",
+            "url": null
+          },
+          {
+            "name": "HBO Max",
+            "logo": "/64fLWeSyZ1KQZhIdvTdy4QHeWty.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Fandango At Home",
+          "Plex"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/7340-carrie/watch?locale=US"
+      },
+      "poster": "/8tT1rqlsTguyfUBMrbHR9cv1rxM.jpg"
     }
   ]
 }
