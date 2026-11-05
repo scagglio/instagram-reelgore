@@ -1518,6 +1518,65 @@
         "justwatch": "https://www.themoviedb.org/movie/15021-la-habitacion-del-nino/watch?locale=US"
       },
       "poster": "/t5BtCJyju9ltoVUV0VmwKUt5N0S.jpg"
+    },
+    {
+      "date": "2026-11-05",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        16307
+      ],
+      "titles": [
+        "The Wicker Man"
+      ],
+      "person_id": null,
+      "headline": "The Wicker Man: Folk Horror's Burning Crown",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1780703920722801",
+        "reel_id": "4537980956520012"
+      },
+      "story": {
+        "facebook": "1920990876010473"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "The Wicker Man",
+        "year": "1973",
+        "stream": [
+          {
+            "name": "Amazon Prime Video",
+            "logo": "/gMZdpavHmxFNnLpMHwVxfqeux2g.png",
+            "url": null
+          },
+          {
+            "name": "BFI Player",
+            "logo": "/lWzSEjT62Ob0XIHXdN7G4OQWCAr.png",
+            "url": null
+          },
+          {
+            "name": "MovieSphere+",
+            "logo": "/9GQLqBo5obK0r3nhZl24BadRKPq.png",
+            "url": null
+          },
+          {
+            "name": "Howdy",
+            "logo": "/dI7GHS1st3jWH8eW21x5YnJdUFN.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/16307-the-wicker-man/watch?locale=US"
+      },
+      "poster": "/wwtrXRL8SiOWxhwLEvw7iBgYh0g.jpg"
     }
   ]
 }
