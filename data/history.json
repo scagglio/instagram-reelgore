@@ -1577,6 +1577,64 @@
         "justwatch": "https://www.themoviedb.org/movie/16307-the-wicker-man/watch?locale=US"
       },
       "poster": "/wwtrXRL8SiOWxhwLEvw7iBgYh0g.jpg"
+    },
+    {
+      "date": "2026-11-06",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        29437
+      ],
+      "titles": [
+        "Rabid"
+      ],
+      "person_id": null,
+      "headline": "She Wanted Surgery. She Got a Thirst.",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1781931647266695",
+        "reel_id": "1692777439089067"
+      },
+      "story": {
+        "facebook": "1518352346866283"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Rabid",
+        "year": "1977",
+        "stream": [
+          {
+            "name": "Amazon Prime Video",
+            "logo": "/gMZdpavHmxFNnLpMHwVxfqeux2g.png",
+            "url": null
+          },
+          {
+            "name": "Philo",
+            "logo": "/mfbhzQwmQKjm7bLZPF5CTeu3Ilc.png",
+            "url": null
+          },
+          {
+            "name": "AMC Plus",
+            "logo": "/wLl5LRLVC6UOSaUlsmuzY0H9LS1.png",
+            "url": null
+          },
+          {
+            "name": "AMC+",
+            "logo": "/tg5ufQ1GkYDCMxSSxemfeKWcvRe.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Fandango At Home"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/29437-rabid/watch?locale=US"
+      },
+      "poster": "/gIsuIWnvDozlQP4ya6OZEXqDecj.jpg"
     }
   ]
 }
