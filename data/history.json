@@ -1635,6 +1635,65 @@
         "justwatch": "https://www.themoviedb.org/movie/29437-rabid/watch?locale=US"
       },
       "poster": "/gIsuIWnvDozlQP4ya6OZEXqDecj.jpg"
+    },
+    {
+      "date": "2026-11-07",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        40095
+      ],
+      "titles": [
+        "Dead Heat"
+      ],
+      "person_id": null,
+      "headline": "The Zombie Cop Critics Couldn't Kill",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1783243807135479",
+        "reel_id": "1446618814277790"
+      },
+      "story": {
+        "facebook": "1087193800981908"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Dead Heat",
+        "year": "1988",
+        "stream": [
+          {
+            "name": "Amazon Prime Video",
+            "logo": "/gMZdpavHmxFNnLpMHwVxfqeux2g.png",
+            "url": null
+          },
+          {
+            "name": "Shout! Factory",
+            "logo": "/ydhPmamP2uIMipgq8qIEfmcw2hT.png",
+            "url": null
+          },
+          {
+            "name": "Howdy",
+            "logo": "/dI7GHS1st3jWH8eW21x5YnJdUFN.png",
+            "url": null
+          },
+          {
+            "name": "Hoopla",
+            "logo": "/gtjNBzAoGgUtYzt0UKXmwG34WWL.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/40095-dead-heat/watch?locale=US"
+      },
+      "poster": "/xHWJRIyo24AkqR54Y7ajSnvubFo.jpg"
     }
   ]
 }
