@@ -1694,6 +1694,64 @@
         "justwatch": "https://www.themoviedb.org/movie/40095-dead-heat/watch?locale=US"
       },
       "poster": "/xHWJRIyo24AkqR54Y7ajSnvubFo.jpg"
+    },
+    {
+      "date": "2026-11-08",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        1678
+      ],
+      "titles": [
+        "Godzilla"
+      ],
+      "person_id": null,
+      "headline": "FROM THE CRYPT: Godzilla (1954)",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1784527843673742",
+        "reel_id": "2133912703899735"
+      },
+      "story": {
+        "facebook": "2528547507652438"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Godzilla",
+        "year": "1954",
+        "stream": [
+          {
+            "name": "HBO Max",
+            "logo": "/64fLWeSyZ1KQZhIdvTdy4QHeWty.png",
+            "url": null
+          },
+          {
+            "name": "Criterion Channel",
+            "logo": "/32XVilXkVbrwV96O3N5i0rtuyd6.png",
+            "url": null
+          },
+          {
+            "name": "Cinemax",
+            "logo": "/vJBXVX2REOqNrWlwgnBuQX4pQK6.png",
+            "url": null
+          },
+          {
+            "name": "TCM",
+            "logo": "/7LA3wg2A01nyV3PCLN01WNOVhcT.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Fandango At Home"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/1678/watch?locale=US"
+      },
+      "poster": "/2W0Yw0qrgVMgdsSCZRKtfvaAh0i.jpg"
     }
   ]
 }
