@@ -1752,6 +1752,55 @@
         "justwatch": "https://www.themoviedb.org/movie/1678/watch?locale=US"
       },
       "poster": "/2W0Yw0qrgVMgdsSCZRKtfvaAh0i.jpg"
+    },
+    {
+      "date": "2026-11-09",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        11470
+      ],
+      "titles": [
+        "Jason X"
+      ],
+      "person_id": null,
+      "headline": "Jason X Turns 25: Evil Got Upgraded",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1785729963553530",
+        "reel_id": "1456065883389481"
+      },
+      "story": {
+        "facebook": "2768703203526042"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "Jason X",
+        "year": "2001",
+        "stream": [
+          {
+            "name": "AMC+",
+            "logo": "/xMyod7PSWlER7Q8FLDqVckKeyyB.png",
+            "url": null
+          },
+          {
+            "name": "AMC",
+            "logo": "/4lMb5R5cpg7o2GZOxI7CgxoU9Jr.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/11470-jason-x/watch?locale=US"
+      },
+      "poster": "/ggOND0hfoE0f3K857joSzEeIchb.jpg"
     }
   ]
 }
