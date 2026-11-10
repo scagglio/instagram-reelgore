@@ -1801,6 +1801,54 @@
         "justwatch": "https://www.themoviedb.org/movie/11470-jason-x/watch?locale=US"
       },
       "poster": "/ggOND0hfoE0f3K857joSzEeIchb.jpg"
+    },
+    {
+      "date": "2026-11-10",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        10093
+      ],
+      "titles": [
+        "The Return"
+      ],
+      "person_id": null,
+      "headline": "20 Years Ago Today: The Return Arrived",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1786982933428233",
+        "reel_id": "1452995293462099"
+      },
+      "story": {
+        "facebook": "1086549007710964"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "The Return",
+        "year": "2006",
+        "stream": [
+          {
+            "name": "Acorn TV",
+            "logo": "/3aWmgZsNAqdOt8ClxIFT4pnmHrM.png",
+            "url": null
+          },
+          {
+            "name": "History Vault",
+            "logo": "/5VGoQun874KipwsAgtc8eagtIkc.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Fandango At Home"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/10093-the-return/watch?locale=US"
+      },
+      "poster": "/ywBeNqMJKBowfwrv274blsVXCB5.jpg"
     }
   ]
 }
