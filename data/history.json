@@ -1849,6 +1849,65 @@
         "justwatch": "https://www.themoviedb.org/movie/10093-the-return/watch?locale=US"
       },
       "poster": "/ywBeNqMJKBowfwrv274blsVXCB5.jpg"
+    },
+    {
+      "date": "2026-11-11",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        374052
+      ],
+      "titles": [
+        "The Love Witch"
+      ],
+      "person_id": null,
+      "headline": "10 Years Ago Today: The Love Witch",
+      "media_id": null,
+      "permalink": null,
+      "reel": null,
+      "facebook": {
+        "post_id": "143228379052099_1788219136637946",
+        "reel_id": "1105533838961487"
+      },
+      "story": {
+        "facebook": "1642966763993987"
+      },
+      "instagram_skipped": true,
+      "watch": {
+        "title": "The Love Witch",
+        "year": "2016",
+        "stream": [
+          {
+            "name": "JustWatch TV Plus",
+            "logo": "/bSAgNVOaVZcmdts8TZSp0nYxsD3.png",
+            "url": null
+          },
+          {
+            "name": "Peacock Premium",
+            "logo": "/a1UIdq5BrkcAxnxcUhFsNbXnxeu.png",
+            "url": null
+          },
+          {
+            "name": "Night Flight Plus",
+            "logo": "/acUxuVlP96MVPbUdxdGu0pUHTht.png",
+            "url": null
+          },
+          {
+            "name": "Fandor",
+            "logo": "/pqV8nzIxmOKVDsDrQ5wCPYuSM5P.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/374052-the-love-witch/watch?locale=US"
+      },
+      "poster": "/q6mZjCwGn9KCTrStTRM88pui0is.jpg"
     }
   ]
 }
