@@ -1908,6 +1908,68 @@
         "justwatch": "https://www.themoviedb.org/movie/374052-the-love-witch/watch?locale=US"
       },
       "poster": "/q6mZjCwGn9KCTrStTRM88pui0is.jpg"
+    },
+    {
+      "date": "2026-11-12",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        57230
+      ],
+      "titles": [
+        "Viy"
+      ],
+      "person_id": null,
+      "headline": "Viy: Soviet Horror Born From a Folk Tale",
+      "media_id": "18389473288225507",
+      "permalink": "https://www.instagram.com/p/DfofoXWmyAT/",
+      "reel": {
+        "media_id": "17915151525505598",
+        "permalink": "https://www.instagram.com/reel/Dfofvc2DNvE/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1789577403168786",
+        "reel_id": "1458045443170464"
+      },
+      "story": {
+        "instagram": "18114154754233370",
+        "facebook": "2750841045330585"
+      },
+      "instagram_skipped": null,
+      "watch": {
+        "title": "Viy",
+        "year": "1967",
+        "stream": [
+          {
+            "name": "Night Flight Plus",
+            "logo": "/acUxuVlP96MVPbUdxdGu0pUHTht.png",
+            "url": null
+          },
+          {
+            "name": "Screambox",
+            "logo": "/zRn4rBGPYDeZvTeZEBySDdqHzS8.png",
+            "url": null
+          },
+          {
+            "name": "Eternal Family",
+            "logo": "/2IHcGZUPqxy4HhWWN57AGEIKcCW.png",
+            "url": null
+          },
+          {
+            "name": "Klassiki",
+            "logo": "/cgfAUbWv7QcVkf9LZw07FjnuFv7.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/57230/watch?locale=US"
+      },
+      "poster": "/rgkp4X9C1NNobH8bq55zcMTQFCl.jpg"
     }
   ]
 }
