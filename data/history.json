@@ -1970,6 +1970,70 @@
         "justwatch": "https://www.themoviedb.org/movie/57230/watch?locale=US"
       },
       "poster": "/rgkp4X9C1NNobH8bq55zcMTQFCl.jpg"
+    },
+    {
+      "date": "2026-11-13",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        23761
+      ],
+      "titles": [
+        "Alice, Sweet Alice"
+      ],
+      "person_id": null,
+      "headline": "50 Years Ago Today: Alice, Sweet Alice",
+      "media_id": "18075799217774525",
+      "permalink": "https://www.instagram.com/p/DfrBeXVDRnK/",
+      "reel": {
+        "media_id": "18128327275906860",
+        "permalink": "https://www.instagram.com/reel/DfrBl6qmXAa/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1790852806374579",
+        "reel_id": "1925344002172375"
+      },
+      "story": {
+        "instagram": "18434600473145188",
+        "facebook": "3538502506311561"
+      },
+      "instagram_skipped": null,
+      "watch": {
+        "title": "Alice, Sweet Alice",
+        "year": "1976",
+        "stream": [
+          {
+            "name": "Amazon Prime Video",
+            "logo": "/gMZdpavHmxFNnLpMHwVxfqeux2g.png",
+            "url": null
+          },
+          {
+            "name": "fuboTV",
+            "logo": "/3wF8xISfVlcrc8X3jaa3uMUFGAr.png",
+            "url": null
+          },
+          {
+            "name": "FlixFling",
+            "logo": "/hkw2s2Su8EyifB9EbbQP64Fj1xA.png",
+            "url": null
+          },
+          {
+            "name": "Cultpix",
+            "logo": "/hBR1NB5z52BHMqowq0TgZqMcDBv.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/23761-alice-sweet-alice/watch?locale=US"
+      },
+      "poster": "/izawwwy80RH7U7YKkdV1OpdPohZ.jpg"
     }
   ]
 }
