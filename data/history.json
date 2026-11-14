@@ -2034,6 +2034,67 @@
         "justwatch": "https://www.themoviedb.org/movie/23761-alice-sweet-alice/watch?locale=US"
       },
       "poster": "/izawwwy80RH7U7YKkdV1OpdPohZ.jpg"
+    },
+    {
+      "date": "2026-11-14",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        28941
+      ],
+      "titles": [
+        "Chopping Mall"
+      ],
+      "person_id": null,
+      "headline": "40 Years Ago: Killbots Hit the Mall",
+      "media_id": "17900848353407968",
+      "permalink": "https://www.instagram.com/p/DftjvGxl48s/",
+      "reel": {
+        "media_id": "18070086710789907",
+        "permalink": "https://www.instagram.com/reel/Dftj3tEmdRS/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1792223399570853",
+        "reel_id": "1675551550941508"
+      },
+      "story": {
+        "instagram": "17988164565088709",
+        "facebook": "1445005954405405"
+      },
+      "instagram_skipped": null,
+      "watch": {
+        "title": "Chopping Mall",
+        "year": "1986",
+        "stream": [
+          {
+            "name": "Amazon Prime Video",
+            "logo": "/gMZdpavHmxFNnLpMHwVxfqeux2g.png",
+            "url": null
+          },
+          {
+            "name": "fuboTV",
+            "logo": "/3wF8xISfVlcrc8X3jaa3uMUFGAr.png",
+            "url": null
+          },
+          {
+            "name": "AMC Plus",
+            "logo": "/wLl5LRLVC6UOSaUlsmuzY0H9LS1.png",
+            "url": null
+          },
+          {
+            "name": "AMC+",
+            "logo": "/tg5ufQ1GkYDCMxSSxemfeKWcvRe.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/28941-chopping-mall/watch?locale=US"
+      },
+      "poster": "/ggHbJPYJsjiJnEwHi4xUyJxWpmS.jpg"
     }
   ]
 }
