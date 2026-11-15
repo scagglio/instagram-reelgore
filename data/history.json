@@ -2095,6 +2095,49 @@
         "justwatch": "https://www.themoviedb.org/movie/28941-chopping-mall/watch?locale=US"
       },
       "poster": "/ggHbJPYJsjiJnEwHi4xUyJxWpmS.jpg"
+    },
+    {
+      "date": "2026-11-15",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        13151
+      ],
+      "titles": [
+        "Scooby-Doo on Zombie Island"
+      ],
+      "person_id": null,
+      "headline": "FROM THE CRYPT: The Monsters Are Real",
+      "media_id": "17891684835686646",
+      "permalink": "https://www.instagram.com/p/DfwJnksDVCF/",
+      "reel": {
+        "media_id": "18102781817541822",
+        "permalink": "https://www.instagram.com/reel/DfwJuiBHEer/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1793501322776394",
+        "reel_id": "1162013876791856"
+      },
+      "story": {
+        "instagram": "18098648033693508",
+        "facebook": "4652023651747621"
+      },
+      "instagram_skipped": null,
+      "watch": {
+        "title": "Scooby-Doo on Zombie Island",
+        "year": "1998",
+        "stream": [],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/13151-scooby-doo-on-zombie-island/watch?locale=US"
+      },
+      "poster": "/7EdvFUGvT5Pn8rUFRKCrdUzNthf.jpg"
     }
   ]
 }
