@@ -2138,6 +2138,70 @@
         "justwatch": "https://www.themoviedb.org/movie/13151-scooby-doo-on-zombie-island/watch?locale=US"
       },
       "poster": "/7EdvFUGvT5Pn8rUFRKCrdUzNthf.jpg"
+    },
+    {
+      "date": "2026-11-16",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        1071215
+      ],
+      "titles": [
+        "Thanksgiving"
+      ],
+      "person_id": null,
+      "headline": "Thanksgiving Turns 3 Years Old Today",
+      "media_id": "17868748152678524",
+      "permalink": "https://www.instagram.com/p/DfyuFKGjajh/",
+      "reel": {
+        "media_id": "17962033974012402",
+        "permalink": "https://www.instagram.com/reel/DfyuMlPDUUL/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1794979909295202",
+        "reel_id": "1027824470369798"
+      },
+      "story": {
+        "instagram": "18077713013737589",
+        "facebook": "1633015871908818"
+      },
+      "instagram_skipped": null,
+      "watch": {
+        "title": "Thanksgiving",
+        "year": "2023",
+        "stream": [
+          {
+            "name": "Hulu",
+            "logo": "/44uAnmSqvA4yBOdbPWN8YgQHjWm.png",
+            "url": null
+          },
+          {
+            "name": "fuboTV",
+            "logo": "/3wF8xISfVlcrc8X3jaa3uMUFGAr.png",
+            "url": null
+          },
+          {
+            "name": "HBO Max",
+            "logo": "/64fLWeSyZ1KQZhIdvTdy4QHeWty.png",
+            "url": null
+          },
+          {
+            "name": "YouTube TV",
+            "logo": "/48bVXEIyCLSL9pZUQ7gB9ToyWto.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/1071215-thanksgiving/watch?locale=US"
+      },
+      "poster": "/f5f3TEVst1nHHyqgn7Z3tlwnBIH.jpg"
     }
   ]
 }
