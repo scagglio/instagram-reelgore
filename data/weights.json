@@ -1,10 +1,10 @@
 {
-  "updated": "2026-11-09",
+  "updated": "2026-11-16",
   "window_days": 28,
   "weights": {
     "upcoming": 1.0,
-    "classic": 1.0,
-    "anniversary": 1.0
+    "classic": 2.0,
+    "anniversary": 0.5
   },
   "stats": {
     "upcoming": {
@@ -13,14 +13,14 @@
       "avg_reach": 0
     },
     "classic": {
-      "posts": 0,
-      "avg_score": 0,
-      "avg_reach": 0
+      "posts": 2,
+      "avg_score": 32.1,
+      "avg_reach": 111
     },
     "anniversary": {
-      "posts": 0,
-      "avg_score": 0,
-      "avg_reach": 0
+      "posts": 3,
+      "avg_score": 0.0,
+      "avg_reach": 55
     }
   }
 }
