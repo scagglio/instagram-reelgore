@@ -2202,6 +2202,69 @@
         "justwatch": "https://www.themoviedb.org/movie/1071215-thanksgiving/watch?locale=US"
       },
       "poster": "/f5f3TEVst1nHHyqgn7Z3tlwnBIH.jpg"
+    },
+    {
+      "date": "2026-11-17",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        31417
+      ],
+      "titles": [
+        "Eyes Without a Face"
+      ],
+      "person_id": null,
+      "headline": "A Face Is a Terrible Thing to Steal",
+      "media_id": "18132270293478048",
+      "permalink": "https://www.instagram.com/p/Df1cmtKiaGZ/",
+      "reel": {
+        "media_id": "18452923924135051",
+        "permalink": "https://www.instagram.com/reel/Df1cpAokUmC/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1796425915817268",
+        "reel_id": "1150152407464576"
+      },
+      "story": {
+        "instagram": "18196458028392210",
+        "facebook": "1022840414181571"
+      },
+      "instagram_skipped": null,
+      "watch": {
+        "title": "Eyes Without a Face",
+        "year": "1960",
+        "stream": [
+          {
+            "name": "HBO Max",
+            "logo": "/64fLWeSyZ1KQZhIdvTdy4QHeWty.png",
+            "url": null
+          },
+          {
+            "name": "TCM",
+            "logo": "/7LA3wg2A01nyV3PCLN01WNOVhcT.png",
+            "url": null
+          },
+          {
+            "name": "Kanopy",
+            "logo": "/cltb8XKan9ierp23ItPmCOcVLRa.png",
+            "url": null
+          },
+          {
+            "name": "Shout! Factory TV",
+            "logo": "/ezTLm8lPMse9QRKTYInPOBD2jUM.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Fandango At Home"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/31417-les-yeux-sans-visage/watch?locale=US"
+      },
+      "poster": "/8y7Z9Gvcq52uOlJlUWyn2epGGRd.jpg"
     }
   ]
 }
