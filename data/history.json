@@ -2265,6 +2265,62 @@
         "justwatch": "https://www.themoviedb.org/movie/31417-les-yeux-sans-visage/watch?locale=US"
       },
       "poster": "/8y7Z9Gvcq52uOlJlUWyn2epGGRd.jpg"
+    },
+    {
+      "date": "2026-11-18",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        421467
+      ],
+      "titles": [
+        "The Return of Godzilla"
+      ],
+      "person_id": null,
+      "headline": "Godzilla Returns Darker Than Ever",
+      "media_id": "18653911327052575",
+      "permalink": "https://www.instagram.com/p/Df3-WjjFCNR/",
+      "reel": {
+        "media_id": "18134657320763637",
+        "permalink": "https://www.instagram.com/reel/Df3-ZFIiGom/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1797673512359175",
+        "reel_id": "1140740715523388"
+      },
+      "story": {
+        "instagram": "18084510332344996",
+        "facebook": "1486074930106814"
+      },
+      "instagram_skipped": null,
+      "watch": {
+        "title": "The Return of Godzilla",
+        "year": "1984",
+        "stream": [
+          {
+            "name": "HBO Max",
+            "logo": "/64fLWeSyZ1KQZhIdvTdy4QHeWty.png",
+            "url": null
+          },
+          {
+            "name": "Criterion Channel",
+            "logo": "/32XVilXkVbrwV96O3N5i0rtuyd6.png",
+            "url": null
+          },
+          {
+            "name": "Cinemax",
+            "logo": "/vJBXVX2REOqNrWlwgnBuQX4pQK6.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/421467-gojira/watch?locale=US"
+      },
+      "poster": "/j6jPBig1P30VZmFTZJdLzFk3hrL.jpg"
     }
   ]
 }
