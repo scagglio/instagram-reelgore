@@ -2321,6 +2321,55 @@
         "justwatch": "https://www.themoviedb.org/movie/421467-gojira/watch?locale=US"
       },
       "poster": "/j6jPBig1P30VZmFTZJdLzFk3hrL.jpg"
+    },
+    {
+      "date": "2026-11-19",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        15495
+      ],
+      "titles": [
+        "The Hamiltons"
+      ],
+      "person_id": null,
+      "headline": "The Hamiltons: 20 Years Ago Today",
+      "media_id": "18016170083988654",
+      "permalink": "https://www.instagram.com/p/Df6it8GjVP0/",
+      "reel": {
+        "media_id": "17997559836022348",
+        "permalink": "https://www.instagram.com/reel/Df6iw0KkvXo/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1798798595580000",
+        "reel_id": "1919238592172464"
+      },
+      "story": {
+        "instagram": "18185115787434622",
+        "facebook": "1128187066734339"
+      },
+      "instagram_skipped": null,
+      "watch": {
+        "title": "The Hamiltons",
+        "year": "2006",
+        "stream": [
+          {
+            "name": "MovieSphere+",
+            "logo": "/9GQLqBo5obK0r3nhZl24BadRKPq.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/15495-the-hamiltons/watch?locale=US"
+      },
+      "poster": "/womFanfTvwZ9nr594vZc1R0fWqL.jpg"
     }
   ]
 }
