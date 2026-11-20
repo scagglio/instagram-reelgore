@@ -2370,6 +2370,70 @@
         "justwatch": "https://www.themoviedb.org/movie/15495-the-hamiltons/watch?locale=US"
       },
       "poster": "/womFanfTvwZ9nr594vZc1R0fWqL.jpg"
+    },
+    {
+      "date": "2026-11-20",
+      "trigger": "schedule",
+      "kind": "anniversary",
+      "movie_ids": [
+        67740
+      ],
+      "titles": [
+        "Butcher, Baker, Nightmare Maker"
+      ],
+      "person_id": null,
+      "headline": "45 Years Ago Today: Aunt Cheryl Hits Oregon",
+      "media_id": "18158228218525075",
+      "permalink": "https://www.instagram.com/p/Df9GYHAE-_7/",
+      "reel": {
+        "media_id": "18115951247144124",
+        "permalink": "https://www.instagram.com/reel/Df9Ga5zieQT/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1800015608791632",
+        "reel_id": "1460150422850822"
+      },
+      "story": {
+        "instagram": "18024467996953871",
+        "facebook": "1607135700716733"
+      },
+      "instagram_skipped": null,
+      "watch": {
+        "title": "Butcher, Baker, Nightmare Maker",
+        "year": "1981",
+        "stream": [
+          {
+            "name": "AMC Plus",
+            "logo": "/wLl5LRLVC6UOSaUlsmuzY0H9LS1.png",
+            "url": null
+          },
+          {
+            "name": "AMC+",
+            "logo": "/tg5ufQ1GkYDCMxSSxemfeKWcvRe.png",
+            "url": null
+          },
+          {
+            "name": "Shudder",
+            "logo": "/58O6yqUFM6qoOiBNAddJs7xNKc.png",
+            "url": null
+          },
+          {
+            "name": "Night Flight Plus",
+            "logo": "/acUxuVlP96MVPbUdxdGu0pUHTht.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Google Play Movies",
+          "YouTube",
+          "Fandango At Home"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/67740-butcher-baker-nightmare-maker/watch?locale=US"
+      },
+      "poster": "/a1EpGJRGSxsM8HKOSFpSJYbbZOI.jpg"
     }
   ]
 }
