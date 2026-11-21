@@ -2434,6 +2434,70 @@
         "justwatch": "https://www.themoviedb.org/movie/67740-butcher-baker-nightmare-maker/watch?locale=US"
       },
       "poster": "/a1EpGJRGSxsM8HKOSFpSJYbbZOI.jpg"
+    },
+    {
+      "date": "2026-11-21",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        20126
+      ],
+      "titles": [
+        "Deep Red"
+      ],
+      "person_id": null,
+      "headline": "Deep Red: Hands-On Horror Before the 80s",
+      "media_id": "18657122242024982",
+      "permalink": "https://www.instagram.com/p/Df_qQFeEmv7/",
+      "reel": {
+        "media_id": "18137686012586331",
+        "permalink": "https://www.instagram.com/reel/Df_qSyVEVJy/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1801267835333076",
+        "reel_id": "2389559835177562"
+      },
+      "story": {
+        "instagram": "18090041903320483",
+        "facebook": "1472590464753199"
+      },
+      "instagram_skipped": null,
+      "watch": {
+        "title": "Deep Red",
+        "year": "1975",
+        "stream": [
+          {
+            "name": "MUBI",
+            "logo": "/k7iSlvgWzZuO4zU5PcBjhABMuia.png",
+            "url": null
+          },
+          {
+            "name": "Shudder",
+            "logo": "/yb4PbHPVpvJ2JizOuZoJSLXsjcG.png",
+            "url": null
+          },
+          {
+            "name": "Fandor",
+            "logo": "/pqV8nzIxmOKVDsDrQ5wCPYuSM5P.png",
+            "url": null
+          },
+          {
+            "name": "Screambox",
+            "logo": "/zRn4rBGPYDeZvTeZEBySDdqHzS8.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/20126-profondo-rosso/watch?locale=US"
+      },
+      "poster": "/wq7RxV5gMvgO0EKeWpNhegnpJBh.jpg"
     }
   ]
 }
