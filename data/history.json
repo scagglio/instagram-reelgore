@@ -2498,6 +2498,65 @@
         "justwatch": "https://www.themoviedb.org/movie/20126-profondo-rosso/watch?locale=US"
       },
       "poster": "/wq7RxV5gMvgO0EKeWpNhegnpJBh.jpg"
+    },
+    {
+      "date": "2026-11-22",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        765
+      ],
+      "titles": [
+        "Evil Dead II"
+      ],
+      "person_id": null,
+      "headline": "Evil Dead II: Kiss Your Nerves Goodbye",
+      "media_id": "17874779511642914",
+      "permalink": "https://www.instagram.com/p/DgCM3K3jf9S/",
+      "reel": {
+        "media_id": "17925551409451683",
+        "permalink": "https://www.instagram.com/reel/DgCM5n4iUDC/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1802441141882412",
+        "reel_id": "2230410147875520"
+      },
+      "story": {
+        "instagram": "18402164242160208",
+        "facebook": "1417501856805902"
+      },
+      "instagram_skipped": null,
+      "watch": {
+        "title": "Evil Dead II",
+        "year": "1987",
+        "stream": [
+          {
+            "name": "HBO Max",
+            "logo": "/64fLWeSyZ1KQZhIdvTdy4QHeWty.png",
+            "url": null
+          },
+          {
+            "name": "IndieFlix Shorts",
+            "logo": "/10011zizrQEpO955oxor51BM0IP.png",
+            "url": null
+          },
+          {
+            "name": "Kanopy",
+            "logo": "/cltb8XKan9ierp23ItPmCOcVLRa.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/765-evil-dead-ii/watch?locale=US"
+      },
+      "poster": "/4zqCKJVHUolGs6C5AZwAZqLWixW.jpg"
     }
   ]
 }
