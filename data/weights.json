@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-16",
+  "updated": "2026-11-24",
   "window_days": 28,
   "weights": {
     "upcoming": 1.0,
@@ -13,14 +13,14 @@
       "avg_reach": 0
     },
     "classic": {
-      "posts": 2,
-      "avg_score": 32.1,
-      "avg_reach": 111
+      "posts": 6,
+      "avg_score": 27.7,
+      "avg_reach": 102
     },
     "anniversary": {
-      "posts": 3,
+      "posts": 6,
       "avg_score": 0.0,
-      "avg_reach": 55
+      "avg_reach": 48
     }
   }
 }
