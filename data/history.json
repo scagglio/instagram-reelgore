@@ -2621,6 +2621,70 @@
         "justwatch": "https://www.themoviedb.org/movie/1032948-v-h-s-85/watch?locale=US"
       },
       "poster": "/aM3wnZTKEuPLDwxuMWcHDibOkiw.jpg"
+    },
+    {
+      "date": "2026-11-24",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        28260
+      ],
+      "titles": [
+        "Return of the Living Dead III"
+      ],
+      "person_id": null,
+      "headline": "True Love Never Rots. Or Does It?",
+      "media_id": "18007432311002083",
+      "permalink": "https://www.instagram.com/p/DgHXU_El4LE/",
+      "reel": {
+        "media_id": "18240939244318242",
+        "permalink": "https://www.instagram.com/reel/DgHXXgQgZsS/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1804813468311846",
+        "reel_id": "2145035289449395"
+      },
+      "story": {
+        "instagram": "18250004848310719",
+        "facebook": "2920606878312026"
+      },
+      "instagram_skipped": null,
+      "watch": {
+        "title": "Return of the Living Dead III",
+        "year": "1993",
+        "stream": [
+          {
+            "name": "Amazon Prime Video",
+            "logo": "/gMZdpavHmxFNnLpMHwVxfqeux2g.png",
+            "url": null
+          },
+          {
+            "name": "MovieSphere+",
+            "logo": "/9GQLqBo5obK0r3nhZl24BadRKPq.png",
+            "url": null
+          },
+          {
+            "name": "Fawesome",
+            "logo": "/dNF4vWhF3TduWvOyfVxEyTqSNRl.png",
+            "url": null
+          },
+          {
+            "name": "The Roku Channel",
+            "logo": "/b7uhrYJtAe7b1ieJGg705vTbwrX.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/28260-return-of-the-living-dead-iii/watch?locale=US"
+      },
+      "poster": "/lu4Eit7pR5I8hGHJmy3K9Re8FPo.jpg"
     }
   ]
 }
