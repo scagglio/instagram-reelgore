@@ -2685,6 +2685,55 @@
         "justwatch": "https://www.themoviedb.org/movie/28260-return-of-the-living-dead-iii/watch?locale=US"
       },
       "poster": "/lu4Eit7pR5I8hGHJmy3K9Re8FPo.jpg"
+    },
+    {
+      "date": "2026-11-25",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        11932
+      ],
+      "titles": [
+        "Bride of Chucky"
+      ],
+      "person_id": null,
+      "headline": "Chucky Got Married. Bodies Dropped.",
+      "media_id": "17878775139585827",
+      "permalink": "https://www.instagram.com/p/DgKHWy-Dcp7/",
+      "reel": {
+        "media_id": "18170833972486494",
+        "permalink": "https://www.instagram.com/reel/DgKHdoOBsLo/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1806153618177831",
+        "reel_id": "1202610802434669"
+      },
+      "story": {
+        "instagram": "18119119037043005",
+        "facebook": "2592382157921199"
+      },
+      "instagram_skipped": null,
+      "watch": {
+        "title": "Bride of Chucky",
+        "year": "1998",
+        "stream": [
+          {
+            "name": "YouTube Free",
+            "logo": "/gqaJWT5oFiJyVDojVLYRSFPbhQ1.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/11932-bride-of-chucky/watch?locale=US"
+      },
+      "poster": "/yaIPNOcC7ZRuwH3maNwP9qzIo5G.jpg"
     }
   ]
 }
