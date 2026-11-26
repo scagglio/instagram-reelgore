@@ -2734,6 +2734,67 @@
         "justwatch": "https://www.themoviedb.org/movie/11932-bride-of-chucky/watch?locale=US"
       },
       "poster": "/yaIPNOcC7ZRuwH3maNwP9qzIo5G.jpg"
+    },
+    {
+      "date": "2026-11-26",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        27503
+      ],
+      "titles": [
+        "The Unknown"
+      ],
+      "person_id": null,
+      "headline": "FROM THE CRYPT: The Unknown (1927)",
+      "media_id": "18004443186008701",
+      "permalink": "https://www.instagram.com/p/DgMqO8LoOBk/",
+      "reel": {
+        "media_id": "18126034534821940",
+        "permalink": "https://www.instagram.com/reel/DgMqRE0MYwG/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1807399548053238",
+        "reel_id": "1130650959882180"
+      },
+      "story": {
+        "instagram": "18021382712958159",
+        "facebook": "1394043489318697"
+      },
+      "instagram_skipped": null,
+      "watch": {
+        "title": "The Unknown",
+        "year": "1927",
+        "stream": [
+          {
+            "name": "Criterion Channel",
+            "logo": "/32XVilXkVbrwV96O3N5i0rtuyd6.png",
+            "url": null
+          },
+          {
+            "name": "Bloodstream",
+            "logo": "/grSWrznc2QaymD5bM0MxMmcdrQl.png",
+            "url": null
+          },
+          {
+            "name": "Darkroom",
+            "logo": "/naf5wQA91UCj0OetKOEYZgWZLqe.png",
+            "url": null
+          },
+          {
+            "name": "Fawesome",
+            "logo": "/dNF4vWhF3TduWvOyfVxEyTqSNRl.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/27503-the-unknown/watch?locale=US"
+      },
+      "poster": "/c9R1wE1vMJWMZNdmqXUV8oTaCPQ.jpg"
     }
   ]
 }
