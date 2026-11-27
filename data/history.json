@@ -2795,6 +2795,69 @@
         "justwatch": "https://www.themoviedb.org/movie/27503-the-unknown/watch?locale=US"
       },
       "poster": "/c9R1wE1vMJWMZNdmqXUV8oTaCPQ.jpg"
+    },
+    {
+      "date": "2026-11-27",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        25623
+      ],
+      "titles": [
+        "House"
+      ],
+      "person_id": null,
+      "headline": "The Haunted House That Eats Girls",
+      "media_id": "17987223801103743",
+      "permalink": "https://www.instagram.com/p/DgPQ3QnjQw4/",
+      "reel": {
+        "media_id": "18120656303116231",
+        "permalink": "https://www.instagram.com/reel/DgPQ6zxCxkg/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1808659131260613",
+        "reel_id": "1135574669078683"
+      },
+      "story": {
+        "instagram": "18115378655624688",
+        "facebook": "1498615752207395"
+      },
+      "instagram_skipped": null,
+      "watch": {
+        "title": "House",
+        "year": "1977",
+        "stream": [
+          {
+            "name": "HBO Max",
+            "logo": "/64fLWeSyZ1KQZhIdvTdy4QHeWty.png",
+            "url": null
+          },
+          {
+            "name": "Criterion Channel",
+            "logo": "/32XVilXkVbrwV96O3N5i0rtuyd6.png",
+            "url": null
+          },
+          {
+            "name": "TCM",
+            "logo": "/7LA3wg2A01nyV3PCLN01WNOVhcT.png",
+            "url": null
+          },
+          {
+            "name": "Shout! Factory TV",
+            "logo": "/ezTLm8lPMse9QRKTYInPOBD2jUM.png",
+            "url": null
+          }
+        ],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Fandango At Home"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/25623-hausu/watch?locale=US"
+      },
+      "poster": "/myMnHnG6kxYaQYknnW76VCHBpYT.jpg"
     }
   ]
 }
