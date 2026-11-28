@@ -2858,6 +2858,49 @@
         "justwatch": "https://www.themoviedb.org/movie/25623-hausu/watch?locale=US"
       },
       "poster": "/myMnHnG6kxYaQYknnW76VCHBpYT.jpg"
+    },
+    {
+      "date": "2026-11-28",
+      "trigger": "schedule",
+      "kind": "classic",
+      "movie_ids": [
+        27130
+      ],
+      "titles": [
+        "I Walked with a Zombie"
+      ],
+      "person_id": null,
+      "headline": "FROM THE CRYPT: I Walked with a Zombie",
+      "media_id": "17957179599293762",
+      "permalink": "https://www.instagram.com/p/DgRwldFDkdH/",
+      "reel": {
+        "media_id": "18109557185353896",
+        "permalink": "https://www.instagram.com/reel/DgRwxmWRN37/",
+        "audio": null
+      },
+      "facebook": {
+        "post_id": "143228379052099_1809859957807197",
+        "reel_id": "1839039837431461"
+      },
+      "story": {
+        "instagram": "17957518998322083",
+        "facebook": "3496713787199368"
+      },
+      "instagram_skipped": null,
+      "watch": {
+        "title": "I Walked with a Zombie",
+        "year": "1943",
+        "stream": [],
+        "rent": [
+          "Amazon Video",
+          "Apple TV Store",
+          "Google Play Movies",
+          "YouTube"
+        ],
+        "own": [],
+        "justwatch": "https://www.themoviedb.org/movie/27130-i-walked-with-a-zombie/watch?locale=US"
+      },
+      "poster": "/uoyBR8XNxPQRojujtczfG1qJezY.jpg"
     }
   ]
 }
